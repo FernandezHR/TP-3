@@ -14,6 +14,8 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private Modelo modelo;
 	private VentanaPrincipal vPrincipal;
 	
+	private ListaDeNombres listaDeNombres;
+	
 	private ArrayList<Empleado> empleados;
 	
 	public CtrlVentanaPrincipal(Modelo modelo, VentanaPrincipal vPrincipal) 
@@ -21,15 +23,19 @@ public class CtrlVentanaPrincipal implements ActionListener
 		this.modelo = modelo;
 		this.vPrincipal = vPrincipal;
 		
+		listaDeNombres = new ListaDeNombres();
+		
 		empleados = new ArrayList<Empleado>();
 		
 		this.vPrincipal.btnCargar.addActionListener(this);
+		this.vPrincipal.btnGenerar.addActionListener(this);
 		this.vPrincipal.btnEliminar.addActionListener(this);
 	}
 	
 	public void iniciar() 
 	{
 		vPrincipal.setVisible(true);
+		vPrincipal.lblCantNombres.setToolTipText("Es posible generar " + listaDeNombres.cantidad() + " empleados.");
 	}
 
 	@Override
@@ -38,24 +44,56 @@ public class CtrlVentanaPrincipal implements ActionListener
 		if(arg0.getSource() == vPrincipal.btnCargar)
 			cargarEmpleado();
 		
+		if(arg0.getSource() == vPrincipal.btnGenerar)
+			generarEmpleados();
+		
 		if(arg0.getSource() == vPrincipal.btnEliminar)
 			eliminarEmpleado();
 		
 	}
 
-
 	private void cargarEmpleado() 
 	{
 		if(camposEstanLlenos()) 
 		{
-			crearEmpleado();
-			actualizarTablaDeEmpleados();
-			resetearCampos();						
+			String nombre = vPrincipal.txtNombre.getText() + " " + vPrincipal.txtApellido.getText();
+			String puesto = vPrincipal.cmboxPuestos.getSelectedItem().toString();
+			
+			if(!existeEmpleado(nombre)) 
+			{
+				crearEmpleado(nombre, puesto);
+				actualizarTablaDeEmpleados();
+				listaDeNombres.eliminarSiExiste(nombre);
+				
+				vPrincipal.btnEliminar.setEnabled(true);
+			}
+			else
+				JOptionPane.showMessageDialog(null, "El empleado ya existe.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+			resetearCampos();	
 		}
 		else
 			JOptionPane.showMessageDialog(null, "Rellene todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 	}
 	
+	private void generarEmpleados() 
+	{
+		if(cantidadEsValida()) 
+		{
+			crearEmpleados((int) vPrincipal.cantLiderDeProyecto.getValue(), "Lider de Proyecto");
+			crearEmpleados((int) vPrincipal.cantArquitecto.getValue(), "Arquitecto");
+			crearEmpleados((int) vPrincipal.cantProgramador.getValue(), "Programador");
+			crearEmpleados((int) vPrincipal.cantTester.getValue(), "Tester");
+		
+			actualizarTablaDeEmpleados();
+			
+			vPrincipal.btnEliminar.setEnabled(true);
+		}
+		else
+			JOptionPane.showMessageDialog(null, "No es posible generar esa cantidad de empleados.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		
+	}
+
 	private void eliminarEmpleado() 
 	{
 		if(seleccionoAlguno()) 
@@ -78,23 +116,19 @@ public class CtrlVentanaPrincipal implements ActionListener
 				vPrincipal.btnEliminar.setEnabled(false);
 		}
 		else
-			JOptionPane.showMessageDialog(null, "No has seleccionado ninguno", "Advertencia", JOptionPane.WARNING_MESSAGE);	
+			JOptionPane.showMessageDialog(null, "No has seleccionado ninguno.", "Advertencia", JOptionPane.WARNING_MESSAGE);	
 	}
 
-	private void crearEmpleado() 
+	private void crearEmpleado(String nombre, String puesto) 
 	{
-		String nombre = vPrincipal.txtNombre.getText() + " " + vPrincipal.txtApellido.getText();
-		String puesto = vPrincipal.cBoxPuestos.getSelectedItem().toString();
-		
-		if(!existeEmpleado(nombre)) 
-		{
-			Empleado empleado = new Empleado(nombre, puesto);
-			empleados.add(empleado);
-			
-			vPrincipal.btnEliminar.setEnabled(true);
-		}
-		else
-			JOptionPane.showMessageDialog(null, "El empleado ya existe.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		Empleado empleado = new Empleado(nombre, puesto);
+		empleados.add(empleado);
+	}
+	
+	private void crearEmpleados(int cantidad, String puesto) 
+	{
+		for(int i=0; i < cantidad; i++)
+			crearEmpleado(listaDeNombres.dameUno(), puesto);
 	}
 
 	private void actualizarTablaDeEmpleados() 
@@ -107,18 +141,41 @@ public class CtrlVentanaPrincipal implements ActionListener
 			matriz[i][1] = empleados.get(i).getPuesto();
 		}
 		
-		vPrincipal.tablaEmpleados.setModel(new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"}));
+		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"}) 
+		{
+			@Override //Sobreescribmos este metodo para desactivar la edicion de celdas
+			public boolean isCellEditable(int i, int j) 
+			{
+				return false;
+			}
+		};
+		
+		vPrincipal.tablaEmpleados.setModel(dtm);
 	}
 
 	private void resetearCampos() 
 	{
 		vPrincipal.txtNombre.setText(null);
 		vPrincipal.txtApellido.setText(null);
-		vPrincipal.cBoxPuestos.setSelectedItem(null);
+		vPrincipal.cmboxPuestos.setSelectedItem(null);
 	}
 	
 	
 	//METODOS AUXILIARES
+	private boolean camposEstanLlenos() 
+	{
+		if(vPrincipal.txtNombre.getText().equals(""))
+			return false;
+		
+		if(vPrincipal.txtApellido.getText().equals(""))
+			return false;
+		
+		if(vPrincipal.cmboxPuestos.getSelectedItem() == null)
+			return false;
+		
+		return true;
+	}
+	
 	private boolean existeEmpleado(String nombre) 
 	{
 		for(Empleado empleado : empleados)
@@ -128,20 +185,6 @@ public class CtrlVentanaPrincipal implements ActionListener
 		return false;
 	}
 	
-	private boolean camposEstanLlenos() 
-	{
-		if(vPrincipal.txtNombre.getText().equals(""))
-			return false;
-		
-		if(vPrincipal.txtApellido.getText().equals(""))
-			return false;
-		
-		if(vPrincipal.cBoxPuestos.getSelectedItem() == null)
-			return false;
-		
-		return true;
-	}
-	
 	private boolean seleccionoAlguno() 
 	{
 		int filaSelec = vPrincipal.tablaEmpleados.getSelectedRow();
@@ -149,5 +192,15 @@ public class CtrlVentanaPrincipal implements ActionListener
 		if(filaSelec == -1)
 			return false;
 		return true;
+	}
+	
+	private boolean cantidadEsValida() 
+	{
+		int cantidadAGenerar = (int)vPrincipal.cantLiderDeProyecto.getValue() + (int)vPrincipal.cantArquitecto.getValue() 
+			+ (int)vPrincipal.cantProgramador.getValue() + (int)vPrincipal.cantTester.getValue();
+		
+		if(listaDeNombres.cantidad() >= cantidadAGenerar)
+			return true;
+		return false;
 	}
 }
