@@ -1,6 +1,8 @@
 package controlador;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -29,11 +31,24 @@ public class ListaDeNombres
 		return nombresCompletos;	
 	}
 
-	private ArrayList<String> cargarNombres() 
+	private ArrayList<String> cargarNombres()  
 	{
 		ArrayList<String> nombres = new ArrayList<String>();
 		
-		//FALTA IMPLEMENTAR
+		try 
+		{
+			BufferedReader br = new BufferedReader(new FileReader("./src/archivos/nombres.txt"));
+			
+			String linea;
+			while(!(linea = br.readLine()).equals(""))
+				nombres.add(linea);
+			
+			br.close();
+			
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+		
 		
 		return nombres;
 	}
@@ -41,8 +56,20 @@ public class ListaDeNombres
 	private ArrayList<String> cargarApellidos() 
 	{
 		ArrayList<String> apellidos = new ArrayList<String>();
-
-		//FALTA IMPLEMENTAR
+		
+		try 
+		{
+			BufferedReader br = new BufferedReader(new FileReader("./src/archivos/apellidos.txt"));
+			
+			String linea;
+			while(!(linea = br.readLine()).equals(""))
+				apellidos.add(linea);
+			
+			br.close();
+			
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 		
 		return apellidos;
 	}

@@ -119,22 +119,22 @@ public class VentanaPrincipal extends JFrame
 		panelGenerarEmpleado.add(lblTester);
 		
 		cantProgramador = new JSpinner();
-		cantProgramador.setModel(new SpinnerNumberModel(new Integer(1), new Integer(0), null, new Integer(1)));
+		cantProgramador.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		cantProgramador.setBounds(10, 81, 83, 25);
 		panelGenerarEmpleado.add(cantProgramador);
 		
 		cantLiderDeProyecto = new JSpinner();
-		cantLiderDeProyecto.setModel(new SpinnerNumberModel(new Integer(1), new Integer(0), null, new Integer(1)));
+		cantLiderDeProyecto.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		cantLiderDeProyecto.setBounds(10, 28, 83, 25);
 		panelGenerarEmpleado.add(cantLiderDeProyecto);
 		
 		cantArquitecto = new JSpinner();
-		cantArquitecto.setModel(new SpinnerNumberModel(new Integer(1), new Integer(0), null, new Integer(1)));
+		cantArquitecto.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		cantArquitecto.setBounds(113, 28, 83, 25);
 		panelGenerarEmpleado.add(cantArquitecto);
 		
 		cantTester = new JSpinner();
-		cantTester.setModel(new SpinnerNumberModel(new Integer(1), new Integer(0), null, new Integer(1)));
+		cantTester.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		cantTester.setBounds(113, 81, 83, 25);
 		panelGenerarEmpleado.add(cantTester);
 		

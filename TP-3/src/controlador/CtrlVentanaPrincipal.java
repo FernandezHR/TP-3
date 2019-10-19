@@ -131,7 +131,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 	{
 		actualizarTablaDeEmpleados();
 		resetearCampos();
-		vPrincipal.lblCantNombres.setText("Es posible generar " + listaDeNombres.cantidad() + " empleados.");
+		vPrincipal.lblCantNombres.setToolTipText("Es posible generar " + listaDeNombres.cantidad() + " empleados.");
 		vPrincipal.btnEliminar.setEnabled(true);
 	}
 
@@ -162,10 +162,10 @@ public class CtrlVentanaPrincipal implements ActionListener
 		vPrincipal.txtNombre.setText(null);
 		vPrincipal.txtApellido.setText(null);
 		vPrincipal.cmboxPuestos.setSelectedItem(null);
-		vPrincipal.cantLiderDeProyecto.setValue(1);
-		vPrincipal.cantArquitecto.setValue(1);
-		vPrincipal.cantProgramador.setValue(1);
-		vPrincipal.cantTester.setValue(1);
+		vPrincipal.cantLiderDeProyecto.setValue(0);
+		vPrincipal.cantArquitecto.setValue(0);
+		vPrincipal.cantProgramador.setValue(0);
+		vPrincipal.cantTester.setValue(0);
 	}
 	
 	
