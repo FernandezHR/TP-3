@@ -18,11 +18,11 @@ public class VentanaPrincipal extends JFrame
 	public JTable tablaEmpleados;
 	public JTextField txtNombre, txtApellido;
 	public JComboBox<String> cBoxPuestos;
-	public JButton btnCargar;
+	public JButton btnCargar, btnEliminar;
 
 	public VentanaPrincipal() 
 	{
-		setBounds(100, 100, 600, 477);
+		setBounds(100, 100, 600, 520);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
@@ -85,6 +85,11 @@ public class VentanaPrincipal extends JFrame
 		btnCargar = new JButton("Cargar");
 		btnCargar.setBounds(381, 74, 86, 30);
 		getContentPane().add(btnCargar);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(238, 439, 86, 30);
+		btnEliminar.setEnabled(false);
+		getContentPane().add(btnEliminar);
 		
 	}
 }
