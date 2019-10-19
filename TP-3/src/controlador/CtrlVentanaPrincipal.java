@@ -62,15 +62,13 @@ public class CtrlVentanaPrincipal implements ActionListener
 			if(!existeEmpleado(nombre)) 
 			{
 				crearEmpleado(nombre, puesto);
-				actualizarTablaDeEmpleados();
 				listaDeNombres.eliminarSiExiste(nombre);
 				
-				vPrincipal.btnEliminar.setEnabled(true);
+				actualizarVista();
 			}
 			else
 				JOptionPane.showMessageDialog(null, "El empleado ya existe.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 
-			resetearCampos();	
 		}
 		else
 			JOptionPane.showMessageDialog(null, "Rellene todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -85,9 +83,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 			crearEmpleados((int) vPrincipal.cantProgramador.getValue(), "Programador");
 			crearEmpleados((int) vPrincipal.cantTester.getValue(), "Tester");
 		
-			actualizarTablaDeEmpleados();
-			
-			vPrincipal.btnEliminar.setEnabled(true);
+			actualizarVista();
 		}
 		else
 			JOptionPane.showMessageDialog(null, "No es posible generar esa cantidad de empleados.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -130,6 +126,14 @@ public class CtrlVentanaPrincipal implements ActionListener
 		for(int i=0; i < cantidad; i++)
 			crearEmpleado(listaDeNombres.dameUno(), puesto);
 	}
+	
+	private void actualizarVista() 
+	{
+		actualizarTablaDeEmpleados();
+		resetearCampos();
+		vPrincipal.lblCantNombres.setText("Es posible generar " + listaDeNombres.cantidad() + " empleados.");
+		vPrincipal.btnEliminar.setEnabled(true);
+	}
 
 	private void actualizarTablaDeEmpleados() 
 	{
@@ -158,6 +162,10 @@ public class CtrlVentanaPrincipal implements ActionListener
 		vPrincipal.txtNombre.setText(null);
 		vPrincipal.txtApellido.setText(null);
 		vPrincipal.cmboxPuestos.setSelectedItem(null);
+		vPrincipal.cantLiderDeProyecto.setValue(1);
+		vPrincipal.cantArquitecto.setValue(1);
+		vPrincipal.cantProgramador.setValue(1);
+		vPrincipal.cantTester.setValue(1);
 	}
 	
 	
