@@ -1,5 +1,6 @@
 package controlador;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -30,12 +31,13 @@ public class CtrlVentanaPrincipal implements ActionListener
 		this.vPrincipal.btnCargar.addActionListener(this);
 		this.vPrincipal.btnGenerar.addActionListener(this);
 		this.vPrincipal.btnEliminar.addActionListener(this);
+		this.vPrincipal.btnSiguinte.addActionListener(this);
 	}
 	
 	public void iniciar() 
 	{
-		vPrincipal.setVisible(true);
 		vPrincipal.lblCantNombres.setToolTipText("Es posible generar " + listaDeNombres.cantidad() + " empleados.");
+		vPrincipal.setVisible(true);
 	}
 
 	@Override
@@ -49,6 +51,12 @@ public class CtrlVentanaPrincipal implements ActionListener
 		
 		if(arg0.getSource() == vPrincipal.btnEliminar)
 			eliminarEmpleado();
+		
+		if(arg0.getSource() == vPrincipal.btnSiguinte) 
+		{
+			vPrincipal.getContentPane().add(vPrincipal.segundoPanel, BorderLayout.CENTER);
+			vPrincipal.primerPanel.setVisible(false);
+		}
 		
 	}
 
@@ -132,7 +140,9 @@ public class CtrlVentanaPrincipal implements ActionListener
 		actualizarTablaDeEmpleados();
 		resetearCampos();
 		vPrincipal.lblCantNombres.setToolTipText("Es posible generar " + listaDeNombres.cantidad() + " empleados.");
-		vPrincipal.btnEliminar.setEnabled(true);
+		
+		if(empleados.size() > 0)
+			vPrincipal.btnEliminar.setEnabled(true);
 	}
 
 	private void actualizarTablaDeEmpleados() 

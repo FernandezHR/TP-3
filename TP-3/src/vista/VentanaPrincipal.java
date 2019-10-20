@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.JSpinner;
@@ -19,17 +20,26 @@ import javax.swing.SpinnerNumberModel;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.table.DefaultTableModel;
 
 public class VentanaPrincipal extends JFrame
 {
-	public JTable tablaEmpleados;
+	public JPanel primerPanel;
 	public JTextField txtNombre, txtApellido;
 	public JComboBox<String> cmboxPuestos;
 	public JButton btnCargar, btnEliminar, btnGenerar;
 	public JSpinner cantProgramador, cantLiderDeProyecto, cantArquitecto, cantTester;
 	public JLabel lblCantNombres;
+	public JTable tablaEmpleados;
+	public JButton btnSiguinte;
+	
+	public JPanel segundoPanel;
+	private JTable tabla, tablaIncompatibles;
+	private JTextField txtEmpleado1, txtEMpleado2;
+	private JButton btnRemover1, btnRemover2,  btnAgregar;
 
 	private Color verde, verde2;
+	
 	
 	public VentanaPrincipal() 
 	{
@@ -39,19 +49,26 @@ public class VentanaPrincipal extends JFrame
 		setBounds(100, 100, 750, 546);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		getContentPane().setLayout(null);
+		getContentPane().setLayout(new BorderLayout());
 		getContentPane().setBackground(verde);
 		
-		initialize();
+		inicializarPrimerPanel();
+		inicializarSegundoPanel();
 	}
 
-	private void initialize() 
+	private void inicializarPrimerPanel() 
 	{
+		
+		primerPanel = new JPanel();
+		primerPanel.setLayout(null);
+		primerPanel.setBackground(verde);
+		getContentPane().add(primerPanel, BorderLayout.CENTER);
+
 		JPanel panelCrearEmpleado = new JPanel();
 		panelCrearEmpleado.setBackground(verde2);
 		panelCrearEmpleado.setBounds(10, 22, 218, 178);
 		panelCrearEmpleado.setLayout(null);
-		getContentPane().add(panelCrearEmpleado);
+		primerPanel.add(panelCrearEmpleado);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setFont(new Font("Nirmala UI", Font.BOLD, 11));
@@ -127,7 +144,7 @@ public class VentanaPrincipal extends JFrame
 		panelGenerarEmpleado.setBackground(verde2);
 		panelGenerarEmpleado.setBounds(10, 211, 218, 178);
 		panelGenerarEmpleado.setLayout(null);
-		getContentPane().add(panelGenerarEmpleado);
+		primerPanel.add(panelGenerarEmpleado);
 		
 		JLabel lblLiderDeProyecto = new JLabel("Lider de Proyecto");
 		lblLiderDeProyecto.setFont(new Font("Nirmala UI", Font.BOLD, 11));
@@ -156,21 +173,25 @@ public class VentanaPrincipal extends JFrame
 		cantProgramador = new JSpinner();
 		cantProgramador.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		cantProgramador.setBounds(10, 83, 83, 25);
+		cantProgramador.setEditor(new JSpinner.DefaultEditor(cantProgramador));
 		panelGenerarEmpleado.add(cantProgramador);
 		
 		cantLiderDeProyecto = new JSpinner();
 		cantLiderDeProyecto.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		cantLiderDeProyecto.setBounds(10, 30, 83, 25);
+		cantLiderDeProyecto.setEditor(new JSpinner.DefaultEditor(cantLiderDeProyecto));
 		panelGenerarEmpleado.add(cantLiderDeProyecto);
 		
 		cantArquitecto = new JSpinner();
 		cantArquitecto.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		cantArquitecto.setBounds(125, 30, 83, 25);
+		cantArquitecto.setEditor(new JSpinner.DefaultEditor(cantArquitecto));
 		panelGenerarEmpleado.add(cantArquitecto);
 		
 		cantTester = new JSpinner();
 		cantTester.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		cantTester.setBounds(125, 83, 83, 25);
+		cantTester.setEditor(new JSpinner.DefaultEditor(cantTester));
 		panelGenerarEmpleado.add(cantTester);
 		
 		btnGenerar = new JButton("Generar");
@@ -228,19 +249,89 @@ public class VentanaPrincipal extends JFrame
 			}
 		});
 		btnEliminar.setFont(new Font("Nirmala UI", Font.BOLD, 13));
-		btnEliminar.setBounds(64, 426, 86, 30);
+		btnEliminar.setBounds(76, 400, 86, 30);
 		btnEliminar.setBackground(verde2.darker());
 		btnEliminar.setForeground(Color.WHITE);
 		btnEliminar.setEnabled(false);
 		btnEliminar.setFocusable(false);
-		getContentPane().add(btnEliminar);
+		primerPanel.add(btnEliminar);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(238, 0, 496, 508);
-		getContentPane().add(scrollPane);
+		primerPanel.add(scrollPane);
 		
 		tablaEmpleados = new JTable(new Object[][] {}, new String[] {"Nombre", "Puesto"});
 		scrollPane.setViewportView(tablaEmpleados);
 		
+		btnSiguinte = new JButton("Siguinte");
+		btnSiguinte.setForeground(Color.WHITE);
+		btnSiguinte.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		btnSiguinte.setFocusable(false);
+		btnSiguinte.setBackground(new Color(11, 114, 87));
+		btnSiguinte.setBounds(10, 455, 218, 30);
+		primerPanel.add(btnSiguinte);
+				
+	}
+	
+	private void inicializarSegundoPanel() 
+	{
+		segundoPanel = new JPanel();
+		segundoPanel.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 230, 508);
+		segundoPanel.add(scrollPane);
+		
+		tabla = new JTable();
+		scrollPane.setViewportView(tabla);
+		tabla.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nombre", "Puesto"
+			}
+		));
+		tabla.setBackground(Color.LIGHT_GRAY);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(504, 0, 230, 508);
+		segundoPanel.add(scrollPane_1);
+		
+		tablaIncompatibles = new JTable();
+		tablaIncompatibles.setModel(new DefaultTableModel(
+			new Object[][] {},
+			new String[] {
+				"Empleado 1", "Empleado 2"
+			}
+		));
+		tablaIncompatibles.setBackground(Color.LIGHT_GRAY);
+		scrollPane_1.setViewportView(tablaIncompatibles);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(230, 0, 275, 508);
+		segundoPanel.add(panel);
+		panel.setLayout(null);
+		
+		txtEmpleado1 = new JTextField();
+		txtEmpleado1.setBounds(10, 144, 213, 26);
+		panel.add(txtEmpleado1);
+		txtEmpleado1.setColumns(10);
+		
+		txtEMpleado2 = new JTextField();
+		txtEMpleado2.setBounds(10, 176, 213, 26);
+		panel.add(txtEMpleado2);
+		txtEMpleado2.setColumns(10);
+		
+		btnAgregar = new JButton("Agregar");
+		btnAgregar.setBounds(10, 216, 254, 23);
+		panel.add(btnAgregar);
+		
+		btnRemover1 = new JButton("X");
+		btnRemover1.setBounds(226, 145, 39, 23);
+		panel.add(btnRemover1);
+		
+		btnRemover2 = new JButton("X");
+		btnRemover2.setBounds(226, 177, 39, 23);
+		panel.add(btnRemover2);
 	}
 }
