@@ -121,12 +121,6 @@ public class CtrlVentanaPrincipal implements ActionListener
 		empleados.add(empleado);
 	}
 	
-	private void crearEmpleados(int cantidad, String puesto) 
-	{
-		for(int i=0; i < cantidad; i++)
-			crearEmpleado(listaDeNombres.dameUno(), puesto);
-	}
-	
 	private void actualizarVista() 
 	{
 		actualizarTablaDeEmpleados();
@@ -135,6 +129,12 @@ public class CtrlVentanaPrincipal implements ActionListener
 		
 		if(empleados.size() > 0)
 			vPrincipal.btnEliminar.setEnabled(true);
+	}
+	
+	private void crearEmpleados(int cantidad, String puesto) 
+	{
+		for(int i=0; i < cantidad; i++)
+			crearEmpleado(listaDeNombres.dameUno(), puesto);
 	}
 
 	private void actualizarTablaDeEmpleados() 
