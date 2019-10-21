@@ -1,31 +1,53 @@
 package modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.management.RuntimeErrorException;
 
 public class Modelo 
 {
-	Grafo relaciones;
+	private Grafo relaciones;
+	private Grafo malasRelaciones;
+	private List<Empleado> empleados;
 	
 	public Modelo() 
 	{
+		empleados = new ArrayList<Empleado>();
 	}
 	
-	public void inicializar(int cantidad)
+	public void agregarEmpleado(String nombre, String puesto) 
 	{
-		relaciones = new Grafo(cantidad);
+		if(existeEmpleado(nombre))
+			throw new RuntimeErrorException(null, "El empleado '" + nombre + "' ya existe.");
+		
+		empleados.add(new Empleado(nombre, puesto));
 	}
 	
-	public void agregarBuenaRelacion(int e1, int e2)
+	public void iniMalasRelaciones() 
 	{
-		relaciones.agregarArista(e1,e2);
+		malasRelaciones = new Grafo(empleados.size());
 	}
 	
-	public boolean existeMalaRelacion(int e1, int e2)
-	{		
-		return relaciones.existeArista(e1, e2);
+	public void agregarMalaRelacion(int e1, int e2)
+	{
+		malasRelaciones.agregarArista(e1,e2);
 	}
 
 	
+	//Metodos Auxiliares
+	private boolean existeEmpleado(String nombre) 
+	{
+		for(Empleado empleado : empleados)
+			if(empleado.getNombre().equals(nombre))
+				return true;
+		
+		return false;
+	}
 	
-	
+	public List<Empleado> getEmpleados() 
+	{
+		return empleados;
+	}
 	
 }
