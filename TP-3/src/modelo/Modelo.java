@@ -20,10 +20,12 @@ public class Modelo
 	}
 	
 	public boolean existeMalaRelacion(int e1, int e2)
-	{
+	{		
 		return relaciones.existeArista(e1, e2);
 	}
 
+	
+	
 	
 	
 }
