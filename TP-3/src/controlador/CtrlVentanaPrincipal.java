@@ -73,7 +73,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 		int empleado2 = vPrincipal.cmboxIncompat2.getSelectedIndex();
 		
 		if(empleado1 != empleado2)
-			modelo.agregarConflictoEntre(empleado1,empleado2);		
+			modelo.agregarBuenaRelacion(empleado1,empleado2);		
 		
 		else
 			JOptionPane.showMessageDialog(null, "Seleccione empleados distintos", "Advertencia", JOptionPane.ERROR_MESSAGE);

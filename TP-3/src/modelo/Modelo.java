@@ -14,7 +14,7 @@ public class Modelo
 		relaciones = new Grafo(cantidad);
 	}
 	
-	public void agregarConflictoEntre(int e1, int e2)
+	public void agregarBuenaRelacion(int e1, int e2)
 	{
 		relaciones.agregarArista(e1,e2);
 	}
