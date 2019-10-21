@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
@@ -76,7 +78,6 @@ public class CtrlVentanaPrincipal implements ActionListener
 			}
 			else
 				JOptionPane.showMessageDialog(null, "El empleado ya existe.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-
 		}
 		else
 			JOptionPane.showMessageDialog(null, "Rellene todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -101,21 +102,12 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private void eliminarEmpleado() 
 	{
 		if(seleccionoAlguno()) 
-		{
-			DefaultTableModel dtm = (DefaultTableModel) vPrincipal.tablaEmpleados.getModel();
+		{		
+			for(Empleado empleado : empleadosSeleccionados())
+				empleados.remove(empleado);
 			
-			String nombre = (String) dtm.getValueAt(vPrincipal.tablaEmpleados.getSelectedRow(), 0);
-			for(Empleado empleado : empleados) 
-			{
-				if(empleado.getNombre().equals(nombre)) 
-				{
-					empleados.remove(empleado);
-					break;
-				}
-			}
-			
-			dtm.removeRow(vPrincipal.tablaEmpleados.getSelectedRow());
-			
+			actualizarTablaDeEmpleados();
+		
 			if(empleados.size() == 0)
 				vPrincipal.btnEliminar.setEnabled(false);
 		}
@@ -178,7 +170,6 @@ public class CtrlVentanaPrincipal implements ActionListener
 		vPrincipal.cantTester.setValue(0);
 	}
 	
-	
 	//METODOS AUXILIARES
 	private boolean camposEstanLlenos() 
 	{
@@ -220,5 +211,16 @@ public class CtrlVentanaPrincipal implements ActionListener
 		if(listaDeNombres.cantidad() >= cantidadAGenerar)
 			return true;
 		return false;
+	}
+	
+	private Set<Empleado> empleadosSeleccionados() 
+	{
+		int indices[] = vPrincipal.tablaEmpleados.getSelectedRows();
+		
+		Set<Empleado> empleadosSelec = new HashSet<Empleado>();
+		for(Integer i : indices)
+			empleadosSelec.add(empleados.get(i));
+		
+		return empleadosSelec;
 	}
 }
