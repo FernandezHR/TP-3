@@ -34,10 +34,13 @@ public class VentanaPrincipal extends JFrame
 	public JButton btnSiguinte;
 	
 	public JPanel segundoPanel;
-	private JTable tabla, tablaIncompatibles;
-	private JTextField txtEmpleado1, txtEMpleado2;
-	private JButton btnRemover1, btnRemover2,  btnAgregar;
+	public JTable tabla, tablaIncompatibles;
+	public JButton btnRemover1, btnRemover2,  btnAgregar;
+	
+	public JComboBox<String> cmboxIncompat;
+	public JComboBox<String> cmboxIncompat2;
 
+	
 	private Color verde, verde2;
 	
 	
@@ -263,7 +266,7 @@ public class VentanaPrincipal extends JFrame
 		tablaEmpleados = new JTable(new Object[][] {}, new String[] {"Nombre", "Puesto"});
 		scrollPane.setViewportView(tablaEmpleados);
 		
-		btnSiguinte = new JButton("Siguinte");
+		btnSiguinte = new JButton("Siguiente");
 		btnSiguinte.setForeground(Color.WHITE);
 		btnSiguinte.setFont(new Font("Nirmala UI", Font.BOLD, 13));
 		btnSiguinte.setFocusable(false);
@@ -311,17 +314,15 @@ public class VentanaPrincipal extends JFrame
 		panel.setBounds(230, 0, 275, 508);
 		segundoPanel.add(panel);
 		panel.setLayout(null);
+
+		cmboxIncompat = new JComboBox<String>();
+		cmboxIncompat.setBounds(10, 144, 213, 26);
+		panel.add(cmboxIncompat);
 		
-		txtEmpleado1 = new JTextField();
-		txtEmpleado1.setBounds(10, 144, 213, 26);
-		panel.add(txtEmpleado1);
-		txtEmpleado1.setColumns(10);
-		
-		txtEMpleado2 = new JTextField();
-		txtEMpleado2.setBounds(10, 176, 213, 26);
-		panel.add(txtEMpleado2);
-		txtEMpleado2.setColumns(10);
-		
+		cmboxIncompat2 = new JComboBox<String>();
+		cmboxIncompat2.setBounds(10, 176, 213, 26);
+		panel.add(cmboxIncompat2);
+				
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.setBounds(10, 216, 254, 23);
 		panel.add(btnAgregar);
