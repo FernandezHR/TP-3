@@ -1,17 +1,3 @@
-package controlador;
-
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import modelo.Empleado;
-import modelo.Modelo;
-import vista.VentanaPrincipal;
-
 public class CtrlVentanaPrincipal implements ActionListener
 {
 	private Modelo modelo;
@@ -34,6 +20,8 @@ public class CtrlVentanaPrincipal implements ActionListener
 		this.vPrincipal.btnGenerar.addActionListener(this);
 		this.vPrincipal.btnEliminar.addActionListener(this);
 		this.vPrincipal.btnSiguinte.addActionListener(this);
+		this.vPrincipal.btnAgregar.addActionListener(this);
+
 	}
 	
 	public void iniciar() 
@@ -55,13 +43,27 @@ public class CtrlVentanaPrincipal implements ActionListener
 			eliminarEmpleado();
 		
 		if(arg0.getSource() == vPrincipal.btnSiguinte) 
-		{
-			vPrincipal.getContentPane().add(vPrincipal.segundoPanel, BorderLayout.CENTER);
-			vPrincipal.primerPanel.setVisible(false);
-		}
+			configurarSegundoPanel();
 		
+		if(arg0.getSource() == vPrincipal.btnAgregar)
+			agregarIncompatibles();
 	}
 
+	
+
+	private void agregarIncompatibles() 
+	{
+		int empleado1 = vPrincipal.cmboxIncompat.getSelectedIndex();
+		int empleado2 = vPrincipal.cmboxIncompat2.getSelectedIndex();
+		
+		if(empleado1 != empleado2)
+			modelo.agregarConflictoEntre(empleado1,empleado2);		
+		
+		else
+			JOptionPane.showMessageDialog(null, "Seleccione empleados distintos", "Advertencia", JOptionPane.ERROR_MESSAGE);
+	}
+
+	
 	private void cargarEmpleado() 
 	{
 		if(camposEstanLlenos()) 
@@ -78,6 +80,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 			}
 			else
 				JOptionPane.showMessageDialog(null, "El empleado ya existe.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
 		}
 		else
 			JOptionPane.showMessageDialog(null, "Rellene todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -115,10 +118,17 @@ public class CtrlVentanaPrincipal implements ActionListener
 			JOptionPane.showMessageDialog(null, "No has seleccionado ninguno.", "Advertencia", JOptionPane.WARNING_MESSAGE);	
 	}
 
+
 	private void crearEmpleado(String nombre, String puesto) 
 	{
 		Empleado empleado = new Empleado(nombre, puesto);
 		empleados.add(empleado);
+	}
+	
+	private void crearEmpleados(int cantidad, String puesto) 
+	{
+		for(int i=0; i < cantidad; i++)
+			crearEmpleado(listaDeNombres.dameUno(), puesto);
 	}
 	
 	private void actualizarVista() 
@@ -129,12 +139,6 @@ public class CtrlVentanaPrincipal implements ActionListener
 		
 		if(empleados.size() > 0)
 			vPrincipal.btnEliminar.setEnabled(true);
-	}
-	
-	private void crearEmpleados(int cantidad, String puesto) 
-	{
-		for(int i=0; i < cantidad; i++)
-			crearEmpleado(listaDeNombres.dameUno(), puesto);
 	}
 
 	private void actualizarTablaDeEmpleados() 
@@ -168,6 +172,25 @@ public class CtrlVentanaPrincipal implements ActionListener
 		vPrincipal.cantArquitecto.setValue(0);
 		vPrincipal.cantProgramador.setValue(0);
 		vPrincipal.cantTester.setValue(0);
+	}
+	
+	
+	private void configurarSegundoPanel() 
+	{
+		if(empleados.size() <= 1)
+			JOptionPane.showMessageDialog(null, "Debe cargar mas empleados", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		else
+		{
+			vPrincipal.getContentPane().add(vPrincipal.segundoPanel, BorderLayout.CENTER);
+			vPrincipal.primerPanel.setVisible(false);
+			modelo.inicializar(empleados.size());
+		
+			for(Empleado empleado: empleados)
+			{
+				vPrincipal.cmboxIncompat.addItem(empleado.getNombre());
+				vPrincipal.cmboxIncompat2.addItem(empleado.getNombre());
+			}
+		}
 	}
 	
 	//METODOS AUXILIARES
@@ -222,5 +245,10 @@ public class CtrlVentanaPrincipal implements ActionListener
 			empleadosSelec.add(empleados.get(i));
 		
 		return empleadosSelec;
+	}
+	
+	public ArrayList<Empleado> getEmpleados()
+	{
+		return empleados;
 	}
 }
