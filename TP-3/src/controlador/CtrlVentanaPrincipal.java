@@ -51,9 +51,11 @@ public class CtrlVentanaPrincipal implements ActionListener
 		
 			vPrincipal.getContentPane().add(vPrincipal.panelCargarIncompatibles, BorderLayout.CENTER);
 			vPrincipal.panelCargarEmpleado.setVisible(false);
+			
+			vPrincipal.btnSiguinte.setEnabled(false); //Desactivamos el boton para evitar errores
 		}
 		else
-			JOptionPane.showMessageDialog(null, "Debe cargar almenos un empleado de cada puesto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Debe cargar al menos un empleado de cada puesto", "Advertencia", JOptionPane.WARNING_MESSAGE);
 			
 	}
 

@@ -34,7 +34,6 @@ public class Modelo
 		malasRelaciones.agregarArista(e1,e2);
 	}
 
-	
 	//Metodos Auxiliares
 	private boolean existeEmpleado(String nombre) 
 	{
@@ -48,6 +47,11 @@ public class Modelo
 	public List<Empleado> getEmpleados() 
 	{
 		return empleados;
+	}
+
+	public boolean existeMalaRelacionEntre(int e1, int e2)
+	{
+		return malasRelaciones.existeArista(e1, e2);
 	}
 	
 }
