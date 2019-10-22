@@ -2,7 +2,6 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.JOptionPane;
@@ -118,15 +117,7 @@ public class CtrlCargarEmpleados implements ActionListener
 			matriz[i][1] = modelo.getEmpleados().get(i).getPuesto();
 		}
 		
-		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"}) 
-		{
-			@Override //Sobreescribmos este metodo para desactivar la edicion de celdas
-			public boolean isCellEditable(int i, int j) 
-			{
-				return false;
-			}
-		};
-		
+		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
 		panelCargarEmpleados.tablaEmpleados.setModel(dtm);
 	}
 
@@ -177,4 +168,26 @@ public class CtrlCargarEmpleados implements ActionListener
 		return empleadosSelec;
 	}
 
+	public boolean hayDatosSuficientes()
+	{
+		boolean hayLider, hayArquitecto, hayProgramador, hayTester;
+		hayLider = hayArquitecto = hayProgramador = hayTester = false;
+		
+		for(Empleado empleado : modelo.getEmpleados()) 
+		{
+			if(empleado.getPuesto().equals("Lider de Proyecto"))
+				hayLider = true;
+			
+			if(empleado.getPuesto().equals("Arquitecto"))
+				hayArquitecto = true;
+			
+			if(empleado.getPuesto().equals("Programador"))
+				hayProgramador = true;
+			
+			if(empleado.getPuesto().equals("Tester"))
+				hayTester = true;
+		}
+		
+		return hayLider && hayArquitecto && hayProgramador && hayTester;
+	}
 }

@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 public class CargarEmpleados extends JPanel
 {
@@ -240,7 +241,15 @@ public class CargarEmpleados extends JPanel
 		scrollPane.setBounds(238, 0, 496, 508);
 		add(scrollPane);
 		
-		tablaEmpleados = new JTable(new Object[][] {}, new String[] {"Nombre", "Puesto"});
+	
+		tablaEmpleados = new JTable(new Object[0][0], new String[] {"Nombre","Puesto"}) 
+		{
+			@Override //Sobreescribmos este metodo para desactivar la edicion de celdas
+			public boolean isCellEditable(int i, int j) 
+			{
+				return false;
+			}
+		};	
 		scrollPane.setViewportView(tablaEmpleados);
 	}
 	

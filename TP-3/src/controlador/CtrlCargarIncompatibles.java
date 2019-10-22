@@ -5,9 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
-import com.oracle.webservices.internal.api.databinding.DatabindingModeFeature;
-
 import modelo.Empleado;
 import modelo.Modelo;
 import vista.CargarIncompatibles;

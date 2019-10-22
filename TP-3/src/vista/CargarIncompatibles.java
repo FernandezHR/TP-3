@@ -57,14 +57,15 @@ public class CargarIncompatibles extends JPanel
 		scrollPane.setBounds(238, 0, 496, 508);
 		add(scrollPane);
 		
-		tablaIncompatibles = new JTable();
-		tablaIncompatibles.setModel(new DefaultTableModel(
-			new Object[][] {},
-			new String[] {
-				"Empleado 1", "Empleado 2"
+		DefaultTableModel dtm = new DefaultTableModel(new Object[0][0], new String[] {"Empleado 1", "Empleado 2"})
+		{
+			@Override //Sobreescribmos este metodo para desactivar la edicion de celdas
+			public boolean isCellEditable(int i, int j) 
+			{
+				return false;
 			}
-		));
-		tablaIncompatibles.setBackground(Color.LIGHT_GRAY);
+		};
+		tablaIncompatibles = new JTable(dtm);
 		scrollPane.setViewportView(tablaIncompatibles);
 	}
 }
