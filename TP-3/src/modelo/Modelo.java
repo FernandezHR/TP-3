@@ -54,4 +54,10 @@ public class Modelo
 		return malasRelaciones.existeArista(e1, e2);
 	}
 	
+	public void resolver()
+	{
+		Solver solver = new Solver(malasRelaciones);
+		
+		System.out.println(solver.resolver());
+	}
 }
