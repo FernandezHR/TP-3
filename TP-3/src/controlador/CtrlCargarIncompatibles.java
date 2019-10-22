@@ -46,7 +46,7 @@ public class CtrlCargarIncompatibles implements ActionListener
 		int empleado1 = panelCargarIncompatibles.cmboxEmpleado1.getSelectedIndex();
 		int empleado2 = panelCargarIncompatibles.cmboxEmpleado2.getSelectedIndex();
 		
-		if(empleado1 != empleado2 && !relacionFueAgregada(empleado1,empleado2))
+		if(losEmpleadosSonValidos(empleado1, empleado2))
 		{
 			modelo.agregarMalaRelacion(empleado1, empleado2);
 			actualizarTablaDeIncompatibles();
@@ -56,6 +56,16 @@ public class CtrlCargarIncompatibles implements ActionListener
 			JOptionPane.showMessageDialog(null, "Seleccione empleados distintos y/o no agregados", "Advertencia", JOptionPane.WARNING_MESSAGE);
 	}
 
+	private boolean losEmpleadosSonValidos(int empleado1, int empleado2) 
+	{
+		return empleado1 != empleado2 && !relacionFueAgregada(empleado1,empleado2);
+	}
+
+	private boolean relacionFueAgregada(int e1, int e2)
+	{
+		return modelo.existeMalaRelacionEntre(e1,e2);
+	}
+	
 	private void actualizarTablaDeIncompatibles() 
 	{
 		DefaultTableModel tablaModelo = (DefaultTableModel) panelCargarIncompatibles.tablaIncompatibles.getModel();
@@ -71,8 +81,5 @@ public class CtrlCargarIncompatibles implements ActionListener
 		tablaModelo.addRow(new String[]{nombreE1, puestoE1, nombreE2, puestoE2});
 	}
 
-	private boolean relacionFueAgregada(int e1, int e2)
-	{
-		return modelo.existeMalaRelacionEntre(e1,e2);
-	}
+	
 }
