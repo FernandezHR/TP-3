@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
 public class VentanaPrincipal extends JFrame
@@ -19,7 +20,8 @@ public class VentanaPrincipal extends JFrame
 	{
 		verde = new Color(21, 182, 141);
 		
-		setBounds(100, 100, 750, 546);
+		setBounds(100, 100, 750, 580);
+		setMinimumSize(new Dimension(750,580));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());

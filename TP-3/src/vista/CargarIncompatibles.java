@@ -1,6 +1,9 @@
 package vista;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.border.MatteBorder;
 
 public class CargarIncompatibles extends JPanel
 {
@@ -25,56 +29,74 @@ public class CargarIncompatibles extends JPanel
 		verde2 = new Color(16, 163, 125);
 		
 		setBackground(verde);
-		setLayout(null);
+		setLayout(new BorderLayout());
 		
 		inicializar();
 	}
 	
 	private void inicializar() 
 	{
-		JPanel panel1 = new JPanel();
-		panel1.setBounds(10, 115, 218, 90);
-		panel1.setBackground(verde2);
-		panel1.setLayout(null);
-		add(panel1);
+		JPanel panelIzq = new JPanel();
+		panelIzq.setLayout(new BorderLayout());
+		panelIzq.setPreferredSize(new Dimension(240,0));
+		panelIzq.setBackground(verde);
+		add(panelIzq, BorderLayout.WEST);
+		
+		//INICIALIZACION DEL PANEL IZQ DEL EMPLEADO 1
+		JPanel panelE1 = new JPanel();
+		panelE1.setBorder(new MatteBorder(50, 10, 1, 10, verde));
+		panelE1.setPreferredSize(new Dimension(0,200));
+		panelE1.setBackground(verde2);
+		panelE1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
+		panelIzq.add(panelE1, BorderLayout.NORTH);
 		
 		JLabel lblEmpleado1 = new JLabel("Empleado 1:");
 		lblEmpleado1.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
 		lblEmpleado1.setForeground(Color.WHITE);
-		lblEmpleado1.setBounds(10, 11, 75, 22);
-		panel1.add(lblEmpleado1);
+		lblEmpleado1.setPreferredSize(new Dimension(200,45));
+		panelE1.add(lblEmpleado1);
 
 		cmboxEmpleado1 = new JComboBox<String>();
-		cmboxEmpleado1.setBounds(10, 44, 200, 26);
-		panel1.add(cmboxEmpleado1);
+		cmboxEmpleado1.setPreferredSize(new Dimension(200,45));
+		panelE1.add(cmboxEmpleado1);
 		
-		JPanel panel2 = new JPanel();
-		panel2.setBounds(10, 216, 218, 90);
-		panel2.setBackground(verde2);
-		panel2.setLayout(null);
-		add(panel2);
+		//INICIALIZACION DEL PANEL IZQ DEL EMPLEADO 2
+		JPanel panelE2 = new JPanel();
+		panelE2.setBorder(new MatteBorder(1, 10, 50, 10, verde));
+		panelE2.setPreferredSize(new Dimension(0,200));
+		panelE2.setBackground(verde2);
+		panelE2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
+		panelIzq.add(panelE2, BorderLayout.SOUTH);
 		
 		JLabel lblEmpleado2 = new JLabel("Empleado 2:");
 		lblEmpleado2.setForeground(Color.WHITE);
 		lblEmpleado2.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
-		lblEmpleado2.setBounds(10, 11, 75, 22);
-		panel2.add(lblEmpleado2);
+		lblEmpleado2.setPreferredSize(new Dimension(200,45));
+		panelE2.add(lblEmpleado2);
 
 		cmboxEmpleado2 = new JComboBox<String>();
-		cmboxEmpleado2.setBounds(10, 44, 200, 26);
-		panel2.add(cmboxEmpleado2);
+		cmboxEmpleado2.setPreferredSize(new Dimension(200,45));
+		panelE2.add(cmboxEmpleado2);
+		
+		
+		////INICIALIZACION DEL PANEL IZQ DEL BTN AGREGAR
+		JPanel panelAgregar = new JPanel();
+		panelAgregar.setBorder(new MatteBorder(0, 10, 0, 10, verde));
+		panelAgregar.setBackground(verde);
+		panelAgregar.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 30));
+		panelIzq.add(panelAgregar, BorderLayout.CENTER);
 		
 		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(54, 400, 107, 30);
-		add(btnAgregar);
+		btnAgregar.setPreferredSize(new Dimension(100,50));
 		btnAgregar.setFont(new Font("Nirmala UI", Font.BOLD, 13));
 		btnAgregar.setBackground(verde2.darker());
 		btnAgregar.setForeground(Color.WHITE);
 		btnAgregar.setFocusable(false);
+		panelAgregar.add(btnAgregar, BorderLayout.CENTER);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(238, 0, 496, 508);
-		add(scrollPane);
+		add(scrollPane, BorderLayout.CENTER);
 		
 		tablaIncompatibles = new JTable(new DefaultTableModel(new Object[][] {}, new String[] {"Empleado 1", "Puesto", "Empleado 2", "Puesto"})) 
 		{
