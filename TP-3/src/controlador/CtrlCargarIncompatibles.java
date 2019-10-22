@@ -3,6 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
@@ -24,8 +25,8 @@ public class CtrlCargarIncompatibles implements ActionListener
 	{
 		for(Empleado empleado: modelo.getEmpleados())
 		{
-			panelCargarIncompatibles.cmboxEmpleado1.addItem(empleado.getNombre());
-			panelCargarIncompatibles.cmboxEmpleado2.addItem(empleado.getNombre());
+			panelCargarIncompatibles.cmboxEmpleado1.addItem(empleado.getNombre() + " - " + empleado.getPuesto());
+			panelCargarIncompatibles.cmboxEmpleado2.addItem(empleado.getNombre() + " - " + empleado.getPuesto());
 		}
 		
 		panelCargarIncompatibles.btnAgregar.addActionListener(this);
@@ -58,10 +59,14 @@ public class CtrlCargarIncompatibles implements ActionListener
 	{
 		DefaultTableModel tablaModelo = (DefaultTableModel) panelCargarIncompatibles.tablaIncompatibles.getModel();
 		
-		String empleado1 = (String) panelCargarIncompatibles.cmboxEmpleado1.getSelectedItem();
-		String empleado2 = (String) panelCargarIncompatibles.cmboxEmpleado2.getSelectedItem();
+		int e1 = panelCargarIncompatibles.cmboxEmpleado1.getSelectedIndex();
+		int e2 = panelCargarIncompatibles.cmboxEmpleado2.getSelectedIndex();
 		
-		tablaModelo.addRow(new String[]{empleado1, empleado2});
+		String nombreE1 = modelo.getEmpleados().get(e1).getNombre();
+		String puestoE1 = modelo.getEmpleados().get(e1).getPuesto();
+		String nombreE2 = modelo.getEmpleados().get(e2).getNombre();
+		String puestoE2 = modelo.getEmpleados().get(e2).getPuesto();
+		
+		tablaModelo.addRow(new String[]{nombreE1, puestoE1, nombreE2, puestoE2});
 	}
-
 }

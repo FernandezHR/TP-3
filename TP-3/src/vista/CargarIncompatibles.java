@@ -8,11 +8,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class CargarIncompatibles extends JPanel
 {
-	public JComboBox<String> cmboxEmpleado1;
-	public JComboBox<String> cmboxEmpleado2;
+	public JComboBox<String> cmboxEmpleado1, cmboxEmpleado2;
 	public JButton btnAgregar;
 	public JTable tablaIncompatibles;
 	
@@ -31,41 +32,57 @@ public class CargarIncompatibles extends JPanel
 	
 	private void inicializar() 
 	{
-		JPanel panel = new JPanel();
-		panel.setBounds(10, 150, 218, 170);
-		panel.setBackground(verde2);
-		panel.setLayout(null);
-		add(panel);
+		JPanel panel1 = new JPanel();
+		panel1.setBounds(10, 115, 218, 90);
+		panel1.setBackground(verde2);
+		panel1.setLayout(null);
+		add(panel1);
+		
+		JLabel lblEmpleado1 = new JLabel("Empleado 1:");
+		lblEmpleado1.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
+		lblEmpleado1.setForeground(Color.WHITE);
+		lblEmpleado1.setBounds(10, 11, 75, 22);
+		panel1.add(lblEmpleado1);
 
 		cmboxEmpleado1 = new JComboBox<String>();
-		cmboxEmpleado1.setBounds(10, 23, 200, 26);
-		panel.add(cmboxEmpleado1);
+		cmboxEmpleado1.setBounds(10, 44, 200, 26);
+		panel1.add(cmboxEmpleado1);
 		
+		JPanel panel2 = new JPanel();
+		panel2.setBounds(10, 216, 218, 90);
+		panel2.setBackground(verde2);
+		panel2.setLayout(null);
+		add(panel2);
+		
+		JLabel lblEmpleado2 = new JLabel("Empleado 2:");
+		lblEmpleado2.setForeground(Color.WHITE);
+		lblEmpleado2.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
+		lblEmpleado2.setBounds(10, 11, 75, 22);
+		panel2.add(lblEmpleado2);
+
 		cmboxEmpleado2 = new JComboBox<String>();
-		cmboxEmpleado2.setBounds(10, 60, 200, 26);
-		panel.add(cmboxEmpleado2);
-				
+		cmboxEmpleado2.setBounds(10, 44, 200, 26);
+		panel2.add(cmboxEmpleado2);
+		
 		btnAgregar = new JButton("Agregar");
+		btnAgregar.setBounds(54, 400, 107, 30);
+		add(btnAgregar);
 		btnAgregar.setFont(new Font("Nirmala UI", Font.BOLD, 13));
-		btnAgregar.setBounds(54, 107, 107, 30);
 		btnAgregar.setBackground(verde2.darker());
 		btnAgregar.setForeground(Color.WHITE);
 		btnAgregar.setFocusable(false);
-		panel.add(btnAgregar);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(238, 0, 496, 508);
 		add(scrollPane);
 		
-		DefaultTableModel dtm = new DefaultTableModel(new Object[0][0], new String[] {"Empleado 1", "Empleado 2"})
+		tablaIncompatibles = new JTable(new DefaultTableModel(new Object[][] {}, new String[] {"Empleado 1", "Puesto", "Empleado 2", "Puesto"})) 
 		{
 			@Override //Sobreescribmos este metodo para desactivar la edicion de celdas
 			public boolean isCellEditable(int i, int j) 
 			{
 				return false;
-			}
-		};
-		tablaIncompatibles = new JTable(dtm);
+			}};
 		scrollPane.setViewportView(tablaIncompatibles);
 	}
 }

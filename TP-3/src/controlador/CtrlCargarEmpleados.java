@@ -168,7 +168,7 @@ public class CtrlCargarEmpleados implements ActionListener
 		return empleadosSelec;
 	}
 
-	public boolean hayDatosSuficientes()
+	public boolean tieneDatosSuficientes()
 	{
 		boolean hayLider, hayArquitecto, hayProgramador, hayTester;
 		hayLider = hayArquitecto = hayProgramador = hayTester = false;

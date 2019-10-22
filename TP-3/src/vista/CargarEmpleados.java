@@ -242,7 +242,7 @@ public class CargarEmpleados extends JPanel
 		add(scrollPane);
 		
 	
-		tablaEmpleados = new JTable(new Object[0][0], new String[] {"Nombre","Puesto"}) 
+		tablaEmpleados = new JTable(new Object[][] {}, new String[] {"Nombre","Puesto"}) 
 		{
 			@Override //Sobreescribmos este metodo para desactivar la edicion de celdas
 			public boolean isCellEditable(int i, int j) 

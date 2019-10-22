@@ -15,6 +15,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private VentanaPrincipal vPrincipal;
 	
 	private CtrlCargarEmpleados ctrlCargarEmpleados;
+	private CtrlCargarIncompatibles ctrlCargarIncompatibles;
 	
 	public CtrlVentanaPrincipal(Modelo modelo, VentanaPrincipal vPrincipal) 
 	{
@@ -41,11 +42,11 @@ public class CtrlVentanaPrincipal implements ActionListener
 
 	private void cambiarDePanel() 
 	{
-		if(ctrlCargarEmpleados.hayDatosSuficientes()) 
+		if(ctrlCargarEmpleados.tieneDatosSuficientes()) 
 		{
 			modelo.iniMalasRelaciones();
 		
-			CtrlCargarIncompatibles ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, vPrincipal.panelCargarIncompatibles);
+			ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, vPrincipal.panelCargarIncompatibles);
 			ctrlCargarIncompatibles.iniciar();
 		
 			vPrincipal.getContentPane().add(vPrincipal.panelCargarIncompatibles, BorderLayout.CENTER);
