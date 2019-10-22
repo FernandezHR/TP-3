@@ -15,19 +15,22 @@ public class CtrlCargarIncompatibles implements ActionListener
 {
 	private Modelo modelo;
 	private CargarIncompatibles panelCargarIncompatibles;
+	private JComboBox<String> boxEmpleado1,boxEmpleado2;
 	
 	public CtrlCargarIncompatibles(Modelo modelo, CargarIncompatibles panelCargarIncompatibles) 
 	{
 		this.modelo = modelo;
 		this.panelCargarIncompatibles = panelCargarIncompatibles;	
+		this.boxEmpleado1 = panelCargarIncompatibles.cmboxEmpleado1;
+		this.boxEmpleado2 = panelCargarIncompatibles.cmboxEmpleado2;
 	}
 	
 	public void iniciar() 
 	{
 		for(Empleado empleado: modelo.getEmpleados())
 		{
-			panelCargarIncompatibles.cmboxEmpleado1.addItem(empleado.getNombre() + " - " + empleado.getPuesto());
-			panelCargarIncompatibles.cmboxEmpleado2.addItem(empleado.getNombre() + " - " + empleado.getPuesto());
+			boxEmpleado1.addItem(empleado.getNombre() + " - " + empleado.getPuesto());
+			boxEmpleado2.addItem(empleado.getNombre() + " - " + empleado.getPuesto());
 		}
 		
 		panelCargarIncompatibles.btnAgregar.addActionListener(this);
@@ -43,8 +46,8 @@ public class CtrlCargarIncompatibles implements ActionListener
 	
 	private void agregarIncompatibles() 
 	{
-		int empleado1 = panelCargarIncompatibles.cmboxEmpleado1.getSelectedIndex();
-		int empleado2 = panelCargarIncompatibles.cmboxEmpleado2.getSelectedIndex();
+		int empleado1 = obtenerEmpleadoSeleccionado(boxEmpleado1);
+		int empleado2 = obtenerEmpleadoSeleccionado(boxEmpleado2);
 		
 		if(losEmpleadosSonValidos(empleado1, empleado2))
 		{
@@ -54,6 +57,11 @@ public class CtrlCargarIncompatibles implements ActionListener
 		
 		else
 			JOptionPane.showMessageDialog(null, "Seleccione empleados distintos y/o no agregados", "Advertencia", JOptionPane.WARNING_MESSAGE);
+	}
+	
+	private int obtenerEmpleadoSeleccionado(JComboBox<?> cmBox)
+	{
+		return cmBox.getSelectedIndex();
 	}
 
 	private boolean losEmpleadosSonValidos(int empleado1, int empleado2) 
@@ -70,8 +78,8 @@ public class CtrlCargarIncompatibles implements ActionListener
 	{
 		DefaultTableModel tablaModelo = (DefaultTableModel) panelCargarIncompatibles.tablaIncompatibles.getModel();
 		
-		int e1 = panelCargarIncompatibles.cmboxEmpleado1.getSelectedIndex();
-		int e2 = panelCargarIncompatibles.cmboxEmpleado2.getSelectedIndex();
+		int e1 = obtenerEmpleadoSeleccionado(boxEmpleado1);
+		int e2 = obtenerEmpleadoSeleccionado(boxEmpleado2);
 		
 		String nombreE1 = modelo.getEmpleados().get(e1).getNombre();
 		String puestoE1 = modelo.getEmpleados().get(e1).getPuesto();
