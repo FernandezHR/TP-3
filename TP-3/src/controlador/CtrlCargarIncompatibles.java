@@ -2,6 +2,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -45,14 +46,14 @@ public class CtrlCargarIncompatibles implements ActionListener
 		int empleado1 = panelCargarIncompatibles.cmboxEmpleado1.getSelectedIndex();
 		int empleado2 = panelCargarIncompatibles.cmboxEmpleado2.getSelectedIndex();
 		
-		if(empleado1 != empleado2)
+		if(empleado1 != empleado2 && !relacionFueAgregada(empleado1,empleado2))
 		{
 			modelo.agregarMalaRelacion(empleado1, empleado2);
 			actualizarTablaDeIncompatibles();
 		}	
 		
 		else
-			JOptionPane.showMessageDialog(null, "Seleccione empleados distintos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Seleccione empleados distintos y/o no agregados", "Advertencia", JOptionPane.WARNING_MESSAGE);
 	}
 
 	private void actualizarTablaDeIncompatibles() 
@@ -68,5 +69,10 @@ public class CtrlCargarIncompatibles implements ActionListener
 		String puestoE2 = modelo.getEmpleados().get(e2).getPuesto();
 		
 		tablaModelo.addRow(new String[]{nombreE1, puestoE1, nombreE2, puestoE2});
+	}
+
+	private boolean relacionFueAgregada(int e1, int e2)
+	{
+		return modelo.existeMalaRelacionEntre(e1,e2);
 	}
 }
