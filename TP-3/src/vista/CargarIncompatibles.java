@@ -13,9 +13,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
+import javax.swing.BoxLayout;
 
+@SuppressWarnings("serial")
 public class CargarIncompatibles extends JPanel
 {
 	public JComboBox<String> cmboxEmpleado1, cmboxEmpleado2;
@@ -38,18 +39,18 @@ public class CargarIncompatibles extends JPanel
 	private void inicializar() 
 	{
 		JPanel panelIzq = new JPanel();
-		panelIzq.setLayout(new BorderLayout());
 		panelIzq.setPreferredSize(new Dimension(240,0));
 		panelIzq.setBackground(verde);
+		panelIzq.setLayout(new BoxLayout(panelIzq, BoxLayout.Y_AXIS));
 		add(panelIzq, BorderLayout.WEST);
 		
 		//INICIALIZACION DEL PANEL IZQ DEL EMPLEADO 1
 		JPanel panelE1 = new JPanel();
-		panelE1.setBorder(new MatteBorder(50, 10, 1, 10, verde));
+		panelE1.setBorder(new MatteBorder(10, 10, 10, 10, verde));
 		panelE1.setPreferredSize(new Dimension(0,200));
 		panelE1.setBackground(verde2);
 		panelE1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
-		panelIzq.add(panelE1, BorderLayout.NORTH);
+		panelIzq.add(panelE1);
 		
 		JLabel lblEmpleado1 = new JLabel("Empleado 1:");
 		lblEmpleado1.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
@@ -63,11 +64,11 @@ public class CargarIncompatibles extends JPanel
 		
 		//INICIALIZACION DEL PANEL IZQ DEL EMPLEADO 2
 		JPanel panelE2 = new JPanel();
-		panelE2.setBorder(new MatteBorder(1, 10, 50, 10, verde));
+		panelE2.setBorder(new MatteBorder(10, 10, 10, 10, verde));
 		panelE2.setPreferredSize(new Dimension(0,200));
 		panelE2.setBackground(verde2);
 		panelE2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
-		panelIzq.add(panelE2, BorderLayout.SOUTH);
+		panelIzq.add(panelE2);
 		
 		JLabel lblEmpleado2 = new JLabel("Empleado 2:");
 		lblEmpleado2.setForeground(Color.WHITE);
@@ -82,10 +83,9 @@ public class CargarIncompatibles extends JPanel
 		
 		////INICIALIZACION DEL PANEL IZQ DEL BTN AGREGAR
 		JPanel panelAgregar = new JPanel();
-		panelAgregar.setBorder(new MatteBorder(0, 10, 0, 10, verde));
 		panelAgregar.setBackground(verde);
 		panelAgregar.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 30));
-		panelIzq.add(panelAgregar, BorderLayout.CENTER);
+		panelIzq.add(panelAgregar);
 		
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.setPreferredSize(new Dimension(100,50));

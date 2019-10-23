@@ -1,5 +1,6 @@
 package controlador;
 
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,21 +43,31 @@ public class CtrlVentanaPrincipal implements ActionListener
 
 	private void cambiarDePanel() 
 	{
-		if(ctrlCargarEmpleados.tieneDatosSuficientes()) 
+		if(esPanelCargarEmpleado()) 
 		{
-			modelo.iniMalasRelaciones();
-		
-			ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, vPrincipal.panelCargarIncompatibles);
-			ctrlCargarIncompatibles.iniciar();
-		
-			vPrincipal.getContentPane().add(vPrincipal.panelCargarIncompatibles, BorderLayout.CENTER);
-			vPrincipal.panelCargarEmpleado.setVisible(false);
+			if(ctrlCargarEmpleados.tieneDatosSuficientes()) 
+			{
+				modelo.iniMalasRelaciones();
 			
-			vPrincipal.btnSiguinte.setEnabled(false); //Desactivamos el boton para evitar errores
+				ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, vPrincipal.panelCargarIncompatibles);
+				ctrlCargarIncompatibles.iniciar();
+			
+				vPrincipal.getContentPane().add(vPrincipal.panelCargarIncompatibles, BorderLayout.CENTER);
+				vPrincipal.panelCargarEmpleado.setVisible(false);
+				
+			}
+			else
+				JOptionPane.showMessageDialog(null, "Debe cargar al menos un empleado de cada puesto", "Advertencia", JOptionPane.WARNING_MESSAGE);	
 		}
-		else
-			JOptionPane.showMessageDialog(null, "Debe cargar al menos un empleado de cada puesto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		
 			
+	}
+
+	private boolean esPanelCargarEmpleado() 
+	{
+		if(vPrincipal.panelCargarEmpleado.isVisible())
+			return true;
+		return false;
 	}
 
 }

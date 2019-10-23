@@ -1,6 +1,7 @@
 package vista;
 
 
+
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
@@ -8,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+@SuppressWarnings("serial")
 public class VentanaPrincipal extends JFrame
 {
 	public CargarEmpleados panelCargarEmpleado;

@@ -23,7 +23,9 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
 
+@SuppressWarnings("serial")
 public class CargarEmpleados extends JPanel
 {
 	public JTextField txtNombre, txtApellido;
@@ -37,32 +39,55 @@ public class CargarEmpleados extends JPanel
 	
 	private Color verde, verde2;
 	
+	
 	public CargarEmpleados() 
 	{
 		verde = new Color(21, 182, 141);
 		verde2 = new Color(16, 163, 125);
 		
-		setLayout(new BorderLayout());
-		setBackground(verde);
+		this.setLayout(new BorderLayout());
+		this.setBackground(verde);
 		
 		inicializar();
 	}
-	
+
 	private void inicializar() 
 	{		
-		JPanel panelIzq = new JPanel();
-		panelIzq.setLayout(new BorderLayout());
+		JPanel	panelIzq = new JPanel();
 		panelIzq.setPreferredSize(new Dimension(240,0));
 		panelIzq.setBackground(verde);
+		panelIzq.setLayout(new BoxLayout(panelIzq, BoxLayout.Y_AXIS));
 		add(panelIzq, BorderLayout.WEST);
 		
-		///INICIALIZACION DEL PRIMER PANEL DEL PANEL IZQUIERDO
+		iniPrimerPanelIzq(panelIzq);
+		
+		iniSegundoPanelIzq(panelIzq);
+	
+		iniBotonEliminar(panelIzq);
+			
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setPreferredSize(new Dimension(496, 508));
+		add(scrollPane, BorderLayout.CENTER);
+		
+		tablaEmpleados = new JTable(new Object[][] {}, new String[] {"Nombre","Puesto"}) 
+		{
+			@Override //Sobreescribmos este metodo para desactivar la edicion de celdas
+			public boolean isCellEditable(int i, int j) 
+			{
+				return false;
+			}
+		};	
+		scrollPane.setViewportView(tablaEmpleados);
+	}
+
+	private void iniPrimerPanelIzq(JPanel panelIzq) 
+	{
 		JPanel panelCrearEmpleado = new JPanel();
 		panelCrearEmpleado.setBorder(new MatteBorder(10, 10, 10, 10, verde));
 		panelCrearEmpleado.setBackground(verde2);
-		panelCrearEmpleado.setPreferredSize(new Dimension(0,210));
+		panelCrearEmpleado.setPreferredSize(new Dimension(0,175));
 		panelCrearEmpleado.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
-		panelIzq.add(panelCrearEmpleado, BorderLayout.NORTH);
+		panelIzq.add(panelCrearEmpleado);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setFont(new Font("Nirmala UI", Font.BOLD, 11));
@@ -134,13 +159,16 @@ public class CargarEmpleados extends JPanel
 		btnCargar.setFocusable(false);
 		panelCrearEmpleado.add(btnCargar);
 		
-		
-		///INICIALIZACION DEL SEGUNDO PANEL DEL PANEL IZQUIERDO
+	}
+	
+	private void iniSegundoPanelIzq(JPanel panelIzq) 
+	{
 		JPanel panelGenerarEmpleado = new JPanel();
-		panelGenerarEmpleado.setBorder(new MatteBorder(0, 10, 5, 10, verde));
 		panelGenerarEmpleado.setBackground(verde2);
+		panelGenerarEmpleado.setBorder(new MatteBorder(0, 10, 15, 10, verde));
+		panelGenerarEmpleado.setPreferredSize(new Dimension(0, 220));
 		panelGenerarEmpleado.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
-		panelIzq.add(panelGenerarEmpleado, BorderLayout.CENTER);
+		panelIzq.add(panelGenerarEmpleado);
 		
 		JLabel lblLiderDeProyecto = new JLabel("Lider de Proyecto");
 		lblLiderDeProyecto.setFont(new Font("Nirmala UI", Font.BOLD, 11));
@@ -229,19 +257,19 @@ public class CargarEmpleados extends JPanel
 			}
 		});
 		panelGenerarEmpleado.add(btnGenerar);
-		
-		
-		///INICIALIZACION DEL BOTON ELIMINAR PANEL IZQUIERDO
+	}
+	
+	private void iniBotonEliminar(JPanel panelIzq) 
+	{
 		JPanel panelEliminar = new JPanel();
 		panelEliminar.setBackground(verde);
 		panelEliminar.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
-		panelEliminar.setPreferredSize(new Dimension(0,60));
-		panelIzq.add(panelEliminar, BorderLayout.SOUTH);
+		panelEliminar.setPreferredSize(new Dimension(0, 30));
+		panelIzq.add(panelEliminar);
 		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setPreferredSize(new Dimension(100,30));
 		btnEliminar.setFont(new Font("Nirmala UI", Font.BOLD, 13));
-		btnEliminar.setBounds(76, 423, 86, 30);
 		btnEliminar.setBackground(verde2.darker());
 		btnEliminar.setForeground(Color.WHITE);
 		btnEliminar.setFocusable(false);
@@ -259,20 +287,6 @@ public class CargarEmpleados extends JPanel
 			}
 		});
 		panelEliminar.add(btnEliminar);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setPreferredSize(new Dimension(496, 508));
-		add(scrollPane, BorderLayout.CENTER);
-		
-		tablaEmpleados = new JTable(new Object[][] {}, new String[] {"Nombre","Puesto"}) 
-		{
-			@Override //Sobreescribmos este metodo para desactivar la edicion de celdas
-			public boolean isCellEditable(int i, int j) 
-			{
-				return false;
-			}
-		};	
-		scrollPane.setViewportView(tablaEmpleados);
 	}
 	
 }
