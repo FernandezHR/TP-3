@@ -14,6 +14,7 @@ public class VentanaPrincipal extends JFrame
 {
 	public CargarEmpleados panelCargarEmpleado;
 	public CargarIncompatibles panelCargarIncompatibles;
+	public CargarRequerimientos panelCargarRequerimientos;
 	
 	private Color verde;
 
@@ -37,6 +38,7 @@ public class VentanaPrincipal extends JFrame
 	{
 		panelCargarEmpleado = new CargarEmpleados();
 		panelCargarIncompatibles = new CargarIncompatibles();
+		panelCargarRequerimientos = new CargarRequerimientos();
 		
 		getContentPane().add(panelCargarEmpleado, BorderLayout.CENTER);
 		

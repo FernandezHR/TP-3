@@ -60,6 +60,11 @@ public class CtrlVentanaPrincipal implements ActionListener
 				JOptionPane.showMessageDialog(null, "Debe cargar al menos un empleado de cada puesto", "Advertencia", JOptionPane.WARNING_MESSAGE);	
 		}
 		
+		else if(esPanelCargarIncompatibles()) 
+		{
+			vPrincipal.getContentPane().add(vPrincipal.panelCargarRequerimientos, BorderLayout.CENTER);
+			vPrincipal.panelCargarIncompatibles.setVisible(false);
+		}
 			
 	}
 
@@ -70,4 +75,10 @@ public class CtrlVentanaPrincipal implements ActionListener
 		return false;
 	}
 
+	private boolean esPanelCargarIncompatibles() 
+	{
+		if(vPrincipal.panelCargarIncompatibles.isVisible())
+			return true;
+		return false;
+	}
 }

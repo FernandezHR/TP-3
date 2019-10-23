@@ -2,8 +2,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
@@ -50,21 +49,18 @@ public class CtrlCargarEmpleados implements ActionListener
 	{
 		if(camposEstanLlenos()) 
 		{
-			String nombre = panelCargarEmpleados.txtNombre.getText() + " " + panelCargarEmpleados.txtApellido.getText();
-			String puesto = panelCargarEmpleados.cmboxPuestos.getSelectedItem().toString();
+			String nombre = obtenerNombre();
+			String puesto = obtenerPuesto();
 			
-			try
+			if(!modelo.existeEmpleado(nombre))
 			{
 				modelo.agregarEmpleado(nombre, puesto);
-				listaDeNombres.eliminarSiExiste(nombre);
+				listaDeNombres.eliminar(nombre);
 				
 				actualizarVista();
-	
-			} catch(RuntimeException e) 
-			{
-				JOptionPane.showMessageDialog(null, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-			}			
-
+			}
+			else
+				JOptionPane.showMessageDialog(null, "El empleado '" + nombre + "' ya fue agregado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		}
 		else
 			JOptionPane.showMessageDialog(null, "Rellene todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -88,8 +84,8 @@ public class CtrlCargarEmpleados implements ActionListener
 
 	private void eliminarEmpleados() 
 	{
-		for(Empleado empleado : empleadosSeleccionados())
-			modelo.getEmpleados().remove(empleado);
+		for(String nombre : nombresEmpleadosSelec())
+			modelo.eliminarEmpleado(nombre);
 			
 		actualizarTablaDeEmpleados();
 	}
@@ -157,15 +153,27 @@ public class CtrlCargarEmpleados implements ActionListener
 		return false;
 	}
 	
-	private Set<Empleado> empleadosSeleccionados() 
+	private ArrayList<String> nombresEmpleadosSelec() 
 	{
 		int indices[] = panelCargarEmpleados.tablaEmpleados.getSelectedRows();
 		
-		Set<Empleado> empleadosSelec = new HashSet<Empleado>();
-		for(Integer i : indices)
-			empleadosSelec.add(modelo.getEmpleados().get(i));
+		DefaultTableModel dtm = (DefaultTableModel) panelCargarEmpleados.tablaEmpleados.getModel();
 		
-		return empleadosSelec;
+		ArrayList<String> nombresEmpleadosSelec = new ArrayList<String>();
+		for(Integer i : indices) 
+			nombresEmpleadosSelec.add((String) dtm.getValueAt(i, 0));
+		
+		return nombresEmpleadosSelec;
+	}
+	
+	private String obtenerNombre() 
+	{
+		return panelCargarEmpleados.txtNombre.getText() + " " + panelCargarEmpleados.txtApellido.getText();
+	}
+	
+	private String obtenerPuesto() 
+	{
+		return panelCargarEmpleados.cmboxPuestos.getSelectedItem().toString();
 	}
 
 	public boolean tieneDatosSuficientes()
@@ -186,6 +194,9 @@ public class CtrlCargarEmpleados implements ActionListener
 			
 			if(empleado.getPuesto().equals("Tester"))
 				hayTester = true;
+			
+			if(hayLider && hayArquitecto && hayProgramador && hayTester)
+				return true;
 		}
 		
 		return hayLider && hayArquitecto && hayProgramador && hayTester;

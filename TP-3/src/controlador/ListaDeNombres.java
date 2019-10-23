@@ -10,25 +10,24 @@ import javax.management.RuntimeErrorException;
 
 public class ListaDeNombres 
 {
-	private ArrayList<String> nombres;
+	private ArrayList<String> listaDeNombres;
 	
 	public ListaDeNombres() 
 	{
-		nombres = generarNombres();
+		listaDeNombres = new ArrayList<String>();
+		
+		generarNombres();
 	}
 	
-	private ArrayList<String> generarNombres()
+	private void generarNombres()
 	{
 		ArrayList<String> nombres = cargarNombres();
 		ArrayList<String> apellidos = cargarApellidos();
 		
-		ArrayList<String> nombresCompletos = new ArrayList<String>();
-		
 		for(String nombre : nombres) 
 			for(String apellido : apellidos)
-				nombresCompletos.add(nombre + " " + apellido);
-			
-		return nombresCompletos;	
+				listaDeNombres.add(nombre + " " + apellido);
+				
 	}
 
 	private ArrayList<String> cargarNombres()  
@@ -45,7 +44,9 @@ public class ListaDeNombres
 			
 			br.close();
 			
-		} catch(IOException e){
+		} 
+		catch(IOException e)
+		{
 			e.printStackTrace();
 		}
 		
@@ -67,7 +68,9 @@ public class ListaDeNombres
 			
 			br.close();
 			
-		}catch(IOException e){
+		}
+		catch(IOException e)
+		{
 			e.printStackTrace();
 		}
 		
@@ -79,23 +82,22 @@ public class ListaDeNombres
 		if(cantidad() == 0)
 			throw new RuntimeErrorException(null, "La lista ya no puede dar mas nombres, esta vacia.");
 		
-		Random r = new Random();
-		int i = r.nextInt(nombres.size());
+		int i = new Random().nextInt(listaDeNombres.size());
 		
-		String nombre = nombres.get(i);
+		String nombre = listaDeNombres.get(i);
 		
-		nombres.remove(i);
+		listaDeNombres.remove(i);
 
 		return nombre;
 	}
 	
-	public void eliminarSiExiste(String n)
+	public void eliminar(String n)
 	{
-		for(String nombre : nombres)
+		for(String nombre : listaDeNombres)
 		{
 			if(nombre.equals(n)) 
 			{
-				nombres.remove(nombre);
+				listaDeNombres.remove(nombre);
 				break;
 			}
 		}
@@ -103,7 +105,7 @@ public class ListaDeNombres
 	
 	public int cantidad()
 	{
-		return nombres.size();
+		return listaDeNombres.size();
 	}
 	
 	
