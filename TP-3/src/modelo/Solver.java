@@ -3,7 +3,6 @@ package modelo;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sun.xml.internal.txw2.IllegalAnnotationException;
 
 public class Solver 
 {

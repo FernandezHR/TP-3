@@ -49,11 +49,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 			{
 				modelo.iniMalasRelaciones();
 			
-				ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, vPrincipal.panelCargarIncompatibles);
-				ctrlCargarIncompatibles.iniciar();
-			
-				vPrincipal.getContentPane().add(vPrincipal.panelCargarIncompatibles, BorderLayout.CENTER);
-				vPrincipal.panelCargarEmpleado.setVisible(false);
+				iniciarCargaIncompatibles();
 				
 			}
 			else
@@ -66,6 +62,15 @@ public class CtrlVentanaPrincipal implements ActionListener
 			vPrincipal.panelCargarIncompatibles.setVisible(false);
 		}
 			
+	}
+
+	private void iniciarCargaIncompatibles() 
+	{
+		ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, vPrincipal.panelCargarIncompatibles);
+		ctrlCargarIncompatibles.iniciar();
+
+		vPrincipal.getContentPane().add(vPrincipal.panelCargarIncompatibles, BorderLayout.CENTER);
+		vPrincipal.panelCargarEmpleado.setVisible(false);
 	}
 
 	private boolean esPanelCargarEmpleado() 
