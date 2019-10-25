@@ -2,6 +2,8 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import modelo.Empleado;
@@ -84,7 +86,16 @@ public class CtrlCargarRequerimientos implements ActionListener
 		int min = (int) cargarRequerimientos.minTester.getValue();
 		int max = (int) cargarRequerimientos.maxTester.getValue();
 		
-		modelo.setCondicionTester(min, max);	
+		if(losValoresSonValidos(min,max))
+			modelo.setCondicionTester(min, max);	
+		else
+			JOptionPane.showMessageDialog(null, "El valor de la cota Max debe ser mayor al de la Min!!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+	}
+
+	private boolean losValoresSonValidos(int min, int max)
+	{
+		return max > min;
 	}
 
 	private void cargarCantidadProgramador() 
@@ -92,15 +103,22 @@ public class CtrlCargarRequerimientos implements ActionListener
 		int min = (int) cargarRequerimientos.minProgramador.getValue();
 		int max = (int) cargarRequerimientos.maxProgramador.getValue();
 		
-		modelo.setCondicionProgramador(min, max);
+		if(losValoresSonValidos(min, max))
+			modelo.setCondicionProgramador(min, max);
+		else
+			JOptionPane.showMessageDialog(null, "El valor de la cota Max debe ser mayor al de la Min!!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
 	}
 
 	private void cargarCantidadArquitecto() 
 	{
 		int min = (int) cargarRequerimientos.minArquitecto.getValue();
 		int max = (int) cargarRequerimientos.maxArquitecto.getValue();
-		
-		modelo.setCondicionArquitecto(min, max);
+		if(losValoresSonValidos(min, max))
+			modelo.setCondicionArquitecto(min, max);
+		else
+			JOptionPane.showMessageDialog(null, "El valor de la cota Max debe ser mayor al de la Min!!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
 	}
 
 	public boolean cargoRequerimientos() 
