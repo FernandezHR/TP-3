@@ -92,7 +92,7 @@ public class CtrlCargarRequerimientos implements ActionListener
 		int min = (int) cargarRequerimientos.minProgramador.getValue();
 		int max = (int) cargarRequerimientos.maxProgramador.getValue();
 		
-		modelo.setCondicionTester(min, max);
+		modelo.setCondicionProgramador(min, max);
 	}
 
 	private void cargarCantidadArquitecto() 
@@ -100,7 +100,7 @@ public class CtrlCargarRequerimientos implements ActionListener
 		int min = (int) cargarRequerimientos.minArquitecto.getValue();
 		int max = (int) cargarRequerimientos.maxArquitecto.getValue();
 		
-		modelo.setCondicionTester(min, max);
+		modelo.setCondicionArquitecto(min, max);
 	}
 
 	public boolean cargoRequerimientos() 
