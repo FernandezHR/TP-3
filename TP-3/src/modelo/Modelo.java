@@ -165,6 +165,10 @@ public class Modelo
 	
 	private Instancia armarInstancia() 
 	{
+		System.out.println(minArquitecto + " " + maxArquitecto);
+		System.out.println(minProgramador + " " + maxProgramador);
+		System.out.println(minProgramador + " " + maxTester);
+		
 		Instancia instancia = new Instancia(empleados, malasRelaciones);
 		instancia.setCantidadArquitecto(minArquitecto, maxArquitecto);
 		instancia.setCantidadProgramador(minProgramador, maxProgramador);

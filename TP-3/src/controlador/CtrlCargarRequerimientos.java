@@ -65,7 +65,6 @@ public class CtrlCargarRequerimientos implements ActionListener
 		cargarRequerimientos.maxTester.setEditor(new JSpinner.DefaultEditor(cargarRequerimientos.maxTester));
 		
 		
-		cargarRequerimientos.updateUI();
 	}
 
 	@Override

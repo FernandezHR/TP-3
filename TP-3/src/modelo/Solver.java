@@ -18,6 +18,7 @@ public class Solver
 	
 	public ArrayList<Empleado> resolver()
 	{
+		equipoMasOptimo = new ArrayList<Empleado>();
 		conjuntoActual = new HashSet<Integer>();
 
 		recursion(0);
