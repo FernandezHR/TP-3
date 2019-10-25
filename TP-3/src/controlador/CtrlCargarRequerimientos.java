@@ -95,7 +95,7 @@ public class CtrlCargarRequerimientos implements ActionListener
 
 	private boolean losValoresSonValidos(int min, int max)
 	{
-		return max > min;
+		return max >= min;
 	}
 
 	private void cargarCantidadProgramador() 
