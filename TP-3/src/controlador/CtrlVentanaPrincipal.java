@@ -17,6 +17,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 	
 	private CtrlCargarEmpleados ctrlCargarEmpleados;
 	private CtrlCargarIncompatibles ctrlCargarIncompatibles;
+	private CtrlCargarRequerimientos ctrlCargarRequerimientos;
 	
 	public CtrlVentanaPrincipal(Modelo modelo, VentanaPrincipal vPrincipal) 
 	{
@@ -47,10 +48,9 @@ public class CtrlVentanaPrincipal implements ActionListener
 		{
 			if(ctrlCargarEmpleados.tieneDatosSuficientes()) 
 			{
-				modelo.iniMalasRelaciones();
+				modelo.confirmarListaDeEmpleados();
 			
 				iniciarCargaIncompatibles();
-				
 			}
 			else
 				JOptionPane.showMessageDialog(null, "Debe cargar al menos un empleado de cada puesto", "Advertencia", JOptionPane.WARNING_MESSAGE);	
@@ -58,10 +58,16 @@ public class CtrlVentanaPrincipal implements ActionListener
 		
 		else if(esPanelCargarIncompatibles()) 
 		{
-			vPrincipal.getContentPane().add(vPrincipal.panelCargarRequerimientos, BorderLayout.CENTER);
-			vPrincipal.panelCargarIncompatibles.setVisible(false);
+			iniciarCargarRequerimientos();
 		}
-			
+		
+		else if(esPanelCargarRequerimientos())
+		{
+			if(ctrlCargarRequerimientos.cargoRequerimientos())
+				modelo.resolver();
+			else
+				JOptionPane.showMessageDialog(null, "Presione el boton cargar para continuar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 
 	private void iniciarCargaIncompatibles() 
@@ -71,6 +77,15 @@ public class CtrlVentanaPrincipal implements ActionListener
 
 		vPrincipal.getContentPane().add(vPrincipal.panelCargarIncompatibles, BorderLayout.CENTER);
 		vPrincipal.panelCargarEmpleado.setVisible(false);
+	}
+	
+	private void iniciarCargarRequerimientos() 
+	{
+		ctrlCargarRequerimientos = new CtrlCargarRequerimientos(modelo, vPrincipal.panelCargarRequerimientos);
+		ctrlCargarRequerimientos.iniciar();
+		
+		vPrincipal.getContentPane().add(vPrincipal.panelCargarRequerimientos, BorderLayout.CENTER);
+		vPrincipal.panelCargarIncompatibles.setVisible(false);
 	}
 
 	private boolean esPanelCargarEmpleado() 
@@ -83,6 +98,13 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private boolean esPanelCargarIncompatibles() 
 	{
 		if(vPrincipal.panelCargarIncompatibles.isVisible())
+			return true;
+		return false;
+	}
+	
+	private boolean esPanelCargarRequerimientos() 
+	{
+		if(vPrincipal.panelCargarRequerimientos.isVisible())
 			return true;
 		return false;
 	}

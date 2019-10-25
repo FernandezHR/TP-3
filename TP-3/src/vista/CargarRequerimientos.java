@@ -3,10 +3,10 @@ package vista;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.SpinnerNumberModel;
@@ -14,10 +14,11 @@ import javax.swing.SpinnerNumberModel;
 @SuppressWarnings("serial")
 public class CargarRequerimientos extends JPanel
 {
-	public JSpinner cantMinimaLider, cantMaximaLider;
-	public JSpinner cantMinimaArquitecto, cantMaximaArquitecto;
-	public JSpinner cantMinimaProgramador, cantMaximaProgramador;
-	public JSpinner cantMinimaTester, cantMaximaTester;
+	public JSpinner minArquitecto, maxArquitecto;
+	public JSpinner minProgramador, maxProgramador;
+	public JSpinner minTester, maxTester;
+	
+	public JButton btnCargar;
 	
 	private Color verde, verde2;
 	
@@ -33,54 +34,17 @@ public class CargarRequerimientos extends JPanel
 	
 	private void inicializar() 
 	{
-		iniPanelLider();
-		
 		iniPanelArquitecto();
 		
 		iniPanelProgramador();
 		
 		iniPanelTester();
+		
+		btnCargar = new JButton("Confirmar");
+		add(btnCargar);
 	}
 
-	private void iniPanelLider() 
-	{
-		JPanel panelLider = new JPanel();
-		panelLider.setPreferredSize(new Dimension(250,250));
-		panelLider.setBackground(verde2);
-		add(panelLider);
-		
-		JLabel lblLider = new JLabel("Lider de Proyecto");
-		lblLider.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLider.setPreferredSize(new Dimension(250, 50));
-		lblLider.setForeground(Color.WHITE);
-		lblLider.setFont(new Font("Nirmala UI", Font.BOLD, 13));
-		panelLider.add(lblLider);
-		
-		JLabel lblCotaMinima = new JLabel("Cota Minima:");
-		lblCotaMinima.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCotaMinima.setPreferredSize(new Dimension(90, 50));
-		lblCotaMinima.setForeground(Color.WHITE);
-		lblCotaMinima.setFont(new Font("Nirmala UI", Font.BOLD, 13));
-		panelLider.add(lblCotaMinima);
-		
-		cantMinimaLider = new JSpinner();
-		cantMinimaLider.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		cantMinimaLider.setPreferredSize(new Dimension(60,25));
-		panelLider.add(cantMinimaLider);
-		
-		JLabel lblCotaMaxima = new JLabel("Cota Maxima:");
-		lblCotaMaxima.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCotaMaxima.setPreferredSize(new Dimension(90, 50));
-		lblCotaMaxima.setForeground(Color.WHITE);
-		lblCotaMaxima.setFont(new Font("Nirmala UI", Font.BOLD, 13));
-		panelLider.add(lblCotaMaxima);
-		
-		cantMaximaLider = new JSpinner();
-		cantMaximaLider.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		cantMaximaLider.setPreferredSize(new Dimension(60,25));
-		panelLider.add(cantMaximaLider);
-	}
-	
+
 	private void iniPanelArquitecto() 
 	{
 		JPanel panelArquitecto = new JPanel();
@@ -102,10 +66,10 @@ public class CargarRequerimientos extends JPanel
 		lblCotaMinima.setFont(new Font("Nirmala UI", Font.BOLD, 13));
 		panelArquitecto.add(lblCotaMinima);
 		
-		cantMinimaArquitecto = new JSpinner();
-		cantMinimaArquitecto.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		cantMinimaArquitecto.setPreferredSize(new Dimension(60,25));
-		panelArquitecto.add(cantMinimaArquitecto);
+		minArquitecto = new JSpinner();
+		minArquitecto.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		minArquitecto.setPreferredSize(new Dimension(60,25));
+		panelArquitecto.add(minArquitecto);
 		
 		JLabel lblCotaMaxima = new JLabel("Cota Maxima:");
 		lblCotaMaxima.setHorizontalAlignment(SwingConstants.LEFT);
@@ -114,10 +78,10 @@ public class CargarRequerimientos extends JPanel
 		lblCotaMaxima.setFont(new Font("Nirmala UI", Font.BOLD, 13));
 		panelArquitecto.add(lblCotaMaxima);
 		
-		cantMaximaArquitecto = new JSpinner();
-		cantMaximaArquitecto.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		cantMaximaArquitecto.setPreferredSize(new Dimension(60,25));
-		panelArquitecto.add(cantMaximaArquitecto);
+		maxArquitecto = new JSpinner();
+		maxArquitecto.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		maxArquitecto.setPreferredSize(new Dimension(60,25));
+		panelArquitecto.add(maxArquitecto);
 	}
 	
 	private void iniPanelProgramador() 
@@ -141,10 +105,10 @@ public class CargarRequerimientos extends JPanel
 		lblCotaMinima.setFont(new Font("Nirmala UI", Font.BOLD, 13));
 		panelProgramador.add(lblCotaMinima);
 		
-		cantMinimaProgramador = new JSpinner();
-		cantMinimaProgramador.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		cantMinimaProgramador.setPreferredSize(new Dimension(60,25));
-		panelProgramador.add(cantMinimaProgramador);
+		minProgramador = new JSpinner();
+		minProgramador.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		minProgramador.setPreferredSize(new Dimension(60,25));
+		panelProgramador.add(minProgramador);
 		
 		JLabel lblCotaMaxima = new JLabel("Cota Maxima:");
 		lblCotaMaxima.setHorizontalAlignment(SwingConstants.LEFT);
@@ -153,10 +117,10 @@ public class CargarRequerimientos extends JPanel
 		lblCotaMaxima.setFont(new Font("Nirmala UI", Font.BOLD, 13));
 		panelProgramador.add(lblCotaMaxima);
 		
-		cantMaximaProgramador = new JSpinner();
-		cantMaximaProgramador.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		cantMaximaProgramador.setPreferredSize(new Dimension(60,25));
-		panelProgramador.add(cantMaximaProgramador);
+		maxProgramador = new JSpinner();
+		maxProgramador.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		maxProgramador.setPreferredSize(new Dimension(60,25));
+		panelProgramador.add(maxProgramador);
 	}
 	
 	private void iniPanelTester() 
@@ -180,10 +144,10 @@ public class CargarRequerimientos extends JPanel
 		lblCotaMinima.setFont(new Font("Nirmala UI", Font.BOLD, 13));
 		panelTester.add(lblCotaMinima);
 		
-		cantMinimaTester = new JSpinner();
-		cantMinimaTester.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		cantMinimaTester.setPreferredSize(new Dimension(60,25));
-		panelTester.add(cantMinimaTester);
+		minTester = new JSpinner();
+		minTester.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		minTester.setPreferredSize(new Dimension(60,25));
+		panelTester.add(minTester);
 		
 		JLabel lblCotaMaxima = new JLabel("Cota Maxima:");
 		lblCotaMaxima.setHorizontalAlignment(SwingConstants.LEFT);
@@ -192,9 +156,9 @@ public class CargarRequerimientos extends JPanel
 		lblCotaMaxima.setFont(new Font("Nirmala UI", Font.BOLD, 13));
 		panelTester.add(lblCotaMaxima);
 		
-		cantMaximaTester = new JSpinner();
-		cantMaximaTester.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		cantMaximaTester.setPreferredSize(new Dimension(60,25));
-		panelTester.add(cantMaximaTester);
+		maxTester = new JSpinner();
+		maxTester.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		maxTester.setPreferredSize(new Dimension(60,25));
+		panelTester.add(maxTester);
 	}
 }

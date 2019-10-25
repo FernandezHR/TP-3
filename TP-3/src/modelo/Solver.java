@@ -1,39 +1,43 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-
 public class Solver 
 {
-	private Grafo grafo;
-	private Set<Integer> conjuntoActual, equipoActual;
-
+	private Instancia instancia;
+	private Set<Integer> conjuntoActual;
 	
-	public Solver(Grafo g)
+	private ArrayList<Empleado> equipoMasOptimo;
+	
+	public Solver(Instancia instancia)
 	{
-		grafo = g;
+		this.instancia = instancia;
 	}
 	
-	
-	public Set<Integer> resolver()
+	public ArrayList<Empleado> resolver()
 	{
 		conjuntoActual = new HashSet<Integer>();
-		equipoActual = new HashSet<Integer>();
 
 		recursion(0);
 		
-		return equipoActual;
+		return equipoMasOptimo;
 	}
+	
 	
 	private void recursion(int inicial)
 	{
 		//Caso base
-		if( inicial == grafo.tamano())
+		if( inicial == instancia.getTamanio())
 		{
-			if( conjuntoActualEsEquipo() && conjuntoActual.size() > equipoActual.size())
-				equipoActual = clonarConjuntoActual();
-			
+			if(conjuntoActualPuedeFormarEquipo() && conjuntoActualCumpleMinimos())
+			{
+				ArrayList<Empleado> equipoMaximo = armarMaximoEquipo();
+				
+				if(equipoMaximo.size() > equipoMasOptimo.size())
+					equipoMasOptimo = equipoMaximo;
+			}
 			return;
 		}
 		
@@ -45,25 +49,96 @@ public class Solver
 		recursion(inicial+1);
 	}
 
-	private Set<Integer> clonarConjuntoActual()
+	private ArrayList<Empleado> armarMaximoEquipo() 
 	{
-		Set<Integer> ret = new HashSet<Integer>();
-		for(Integer i: conjuntoActual)
-			ret.add(i);
+		ArrayList<Empleado> equipoMaximo = new ArrayList<Empleado>();
 		
-		return ret;
+		int contLider, contArquitecto, contProgramador, contTester;
+		contLider = contArquitecto = contProgramador = contTester = 0;
+		
+		for(Integer i : conjuntoActual)
+		{
+			if(esLider(i) && contLider < instancia.maxLider())
+			{
+				equipoMaximo.add(instancia.getEmpleados().get(i));
+				contLider++;
+			}
+			
+			if(esArquitecto(i) && contArquitecto < instancia.maxArquitecto())
+			{
+				equipoMaximo.add(instancia.getEmpleados().get(i));
+				contArquitecto++;
+			}
+			
+			if(esProgramador(i) && contProgramador < instancia.maxProgramador())
+			{
+				equipoMaximo.add(instancia.getEmpleados().get(i));
+				contProgramador++;
+			}
+			
+			if(esTester(i) && contTester < instancia.maxTester())
+			{
+				equipoMaximo.add(instancia.getEmpleados().get(i));
+				contTester++;
+			}
+			
+		}
+		
+		return equipoMaximo;
 	}
-	
 
-	private boolean conjuntoActualEsEquipo() 
+	private boolean conjuntoActualPuedeFormarEquipo()
 	{		
 		for (Integer i : conjuntoActual) 
 			for (Integer j : conjuntoActual) 
-				if ( i != j && grafo.existeArista(i, j))
+				if ( i != j && instancia.sonIncompatibles(i, j))
 					return false;
 			
 		return true;
+	}
+	
+	private boolean conjuntoActualCumpleMinimos() 
+	{
+		int contLider, contArquitecto, contProgramador, contTester;
+		contLider = contArquitecto = contProgramador = contTester = 0;
 		
+		for(Integer i : conjuntoActual)
+		{
+			if(esLider(i))
+				contLider++;
+			
+			if(esArquitecto(i))
+				contArquitecto++;
+			
+			if(esProgramador(i))
+				contProgramador++;
+			
+			if(esTester(i))
+				contTester++;
+		}
+		
+		return contLider >= instancia.minLider() && contArquitecto >= instancia.minArquitecto() 
+				&& contProgramador >= instancia.minProgramador() && contTester >= instancia.minTester();
 	}
 
+	private boolean esTester(Integer i) 
+	{
+		return instancia.getEmpleados().get(i).getPuesto().equals("Tester");
+	}
+
+	private boolean esProgramador(Integer i) 
+	{
+		return instancia.getEmpleados().get(i).getPuesto().equals("Programador");
+	}
+
+	private boolean esArquitecto(Integer i) 
+	{
+		return instancia.getEmpleados().get(i).getPuesto().equals("Arquitecto");
+	}
+
+	private boolean esLider(Integer i) 
+	{
+		return instancia.getEmpleados().get(i).getPuesto().equals("Lider de Proyecto");
+	}
+	
 }
