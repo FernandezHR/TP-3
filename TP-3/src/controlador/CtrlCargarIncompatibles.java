@@ -17,6 +17,8 @@ public class CtrlCargarIncompatibles implements ActionListener
 	{
 		this.modelo = modelo;
 		this.panelCargarIncompatibles = panelCargarIncompatibles;	
+		
+		panelCargarIncompatibles.btnAgregar.addActionListener(this);
 	}
 	
 	public void iniciar() 
@@ -26,8 +28,6 @@ public class CtrlCargarIncompatibles implements ActionListener
 			panelCargarIncompatibles.cmboxEmpleado1.addItem(empleado.getNombre() + ", " + empleado.getPuesto());
 			panelCargarIncompatibles.cmboxEmpleado2.addItem(empleado.getNombre() + ", " + empleado.getPuesto());
 		}
-		
-		panelCargarIncompatibles.btnAgregar.addActionListener(this);
 	}
 
 	@Override

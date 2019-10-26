@@ -37,10 +37,10 @@ public class CargarRequerimientos extends JPanel
 		this.setBackground(verde);
 		this.setLayout(new BorderLayout());
 		
-		inicializar(tablaEmpleados, tablaIncompatibles);
+		inicializarComponentes(tablaEmpleados, tablaIncompatibles);
 	}
 	
-	private void inicializar(JTable tablaEmpleados, JTable tablaIncompatibles) 
+	private void inicializarComponentes(JTable tablaEmpleados, JTable tablaIncompatibles) 
 	{
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		this.add(tabbedPane, BorderLayout.CENTER);

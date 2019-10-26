@@ -13,6 +13,8 @@ public class Modelo
 	private int minProgramador, maxProgramador;
 	private int minTester, maxTester;
 	
+	private ArrayList<Empleado> solucion;
+
 	public Modelo() 
 	{
 		empleados = new ArrayList<Empleado>();
@@ -209,6 +211,10 @@ public class Modelo
 		return (ArrayList<Empleado>) empleados.clone();
 	}
 	
+	public ArrayList<Empleado> getSolucion() 
+	{
+		return solucion;
+	}
 	
 	public static void main(String[] args) 
 	{
@@ -236,4 +242,5 @@ public class Modelo
 		
 		modelo.resolver();	
 	}
+
 }

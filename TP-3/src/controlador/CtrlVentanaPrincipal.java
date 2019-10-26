@@ -5,7 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import modelo.Empleado;
 import modelo.Modelo;
+import vista.BuscandoSolucion;
+import vista.CargarIncompatibles;
 import vista.CargarRequerimientos;
 import vista.VentanaPrincipal;
 
@@ -18,12 +22,12 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private CtrlCargarIncompatibles ctrlCargarIncompatibles;
 	private CtrlCargarRequerimientos ctrlCargarRequerimientos;
 	
+	private Thread buscarSolucion;
+	
 	public CtrlVentanaPrincipal(Modelo modelo, VentanaPrincipal vPrincipal) 
 	{
 		this.modelo = modelo;
 		this.vPrincipal = vPrincipal;
-		
-		this.vPrincipal.btnCambiarPanel.addActionListener(this);
 	}
 	
 	public void iniciar() 
@@ -31,6 +35,16 @@ public class CtrlVentanaPrincipal implements ActionListener
 		ctrlCargarEmpleados = new CtrlCargarEmpleados(modelo, vPrincipal.panelCargarEmpleado);
 		ctrlCargarEmpleados.iniciar();
 		
+		buscarSolucion = new Thread() 
+		{
+			public void run() 
+			{
+				modelo.resolver();
+			}
+		};
+		
+		
+		this.vPrincipal.btnCambiarPanel.addActionListener(this);
 		vPrincipal.setVisible(true);
 	}
 
@@ -62,15 +76,47 @@ public class CtrlVentanaPrincipal implements ActionListener
 		
 		else if(actualEs(vPrincipal.panelCargarRequerimientos))
 		{
-			if(ctrlCargarRequerimientos.confirmoCotas())
-				modelo.resolver();
+			if(ctrlCargarRequerimientos.confirmoCotas()) 
+			{
+				iniciarBuscandoSolucion();
+			}
 			else
 				JOptionPane.showMessageDialog(null, "Es posible que no haya confimado las cotas o que haya habido cambios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		}
+		
+		else if(actualEs(vPrincipal.panelBuscandoSolucion)) 
+		{
+			try 
+			{
+				buscarSolucion.wait();
+			}
+			catch(Exception e) 
+			{
+				
+			}
+			
+			for(Empleado empleado : modelo.getSolucion()) 
+			{
+				System.out.println(empleado.getNombre() + ", " + empleado.getPuesto());
+			}
+		}
+	}
+
+	private void iniciarBuscandoSolucion() 
+	{
+		buscarSolucion.start();
+		
+		vPrincipal.panelBuscandoSolucion = new BuscandoSolucion();
+		
+		vPrincipal.getContentPane().add(vPrincipal.panelBuscandoSolucion, BorderLayout.CENTER);
+		vPrincipal.remove(vPrincipal.btnCambiarPanel);
+		vPrincipal.panelCargarRequerimientos.setVisible(false);
 	}
 
 	private void iniciarCargarIncompatibles() 
 	{
+		vPrincipal.panelCargarIncompatibles = new CargarIncompatibles();
+		
 		ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, vPrincipal.panelCargarIncompatibles);
 		ctrlCargarIncompatibles.iniciar();
 
