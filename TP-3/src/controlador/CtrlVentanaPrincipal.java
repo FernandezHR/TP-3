@@ -43,7 +43,6 @@ public class CtrlVentanaPrincipal implements ActionListener
 			}
 		};
 		
-		
 		this.vPrincipal.btnCambiarPanel.addActionListener(this);
 		vPrincipal.setVisible(true);
 	}

@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import rojerusan.componentes.RSProgressCircleAnimatedUno;
 import java.awt.Dimension;
+import javax.swing.JProgressBar;
 
 @SuppressWarnings("serial")
 public class BuscandoSolucion extends JPanel
@@ -30,12 +31,11 @@ public class BuscandoSolucion extends JPanel
 		panelBarraProgreso.setBackground(verde);
 		this.add(panelBarraProgreso, BorderLayout.CENTER);
 		
-		RSProgressCircleAnimatedUno progressCircleAnimatedUno = new RSProgressCircleAnimatedUno();
-		progressCircleAnimatedUno.setPreferredSize(new Dimension(400, 400));
-		progressCircleAnimatedUno.setColorText(Color.WHITE);
-		progressCircleAnimatedUno.setForeground(Color.WHITE);
-		progressCircleAnimatedUno.setString("Buscando Solucion...");
-		panelBarraProgreso.add(progressCircleAnimatedUno);
+		JProgressBar progressBar = new JProgressBar();
+		progressBar.setIndeterminate(true);
+		panelBarraProgreso.add(progressBar);
+		
+		
 		
 		
 		
