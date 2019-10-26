@@ -2,7 +2,6 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -15,20 +14,22 @@ public class CtrlCargarRequerimientos implements ActionListener
 	private Modelo modelo;
 	private CargarRequerimientos cargarRequerimientos;
 	
-	private boolean cargoRequerimientos;
+	private boolean confirmoCotas;
+	int minArq, maxArq, minProg, maxProg, minTest, maxTest;
 	
 	public CtrlCargarRequerimientos(Modelo modelo, CargarRequerimientos cargarRequerimientos) 
 	{
 		this.modelo = modelo;
 		this.cargarRequerimientos = cargarRequerimientos;
 		
-		cargoRequerimientos = false;
+		confirmoCotas = false;
 	}
 
 	public void iniciar() 
 	{
 		configurarLimites();
-		cargarRequerimientos.btnCargar.addActionListener(this);
+		cargarRequerimientos.btnConfirmar.addActionListener(this);
+		System.out.println("inicio");
 	}
 	
 	private void configurarLimites() 
@@ -72,62 +73,97 @@ public class CtrlCargarRequerimientos implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{
-		if(arg0.getSource() == cargarRequerimientos.btnCargar)
+		if(arg0.getSource() == cargarRequerimientos.btnConfirmar)
 		{
-			cargarCantidadArquitecto();
-			cargarCantidadProgramador();
-			cargarCantidadTester();	
-			cargoRequerimientos = true;
+			if(valoresSonValidos()) 
+			{
+				cargarCantidadArquitecto();
+				cargarCantidadProgramador();
+				cargarCantidadTester();	
+				confirmoCotas = true;
+				System.out.println(confirmoCotas);
+			}
+			else
+				JOptionPane.showMessageDialog(null, "Verifique que las cotas minimas no sean mayor a las cotas maximas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		}
-	}
-
-	private void cargarCantidadTester() 
-	{
-		int min = (int) cargarRequerimientos.minTester.getValue();
-		int max = (int) cargarRequerimientos.maxTester.getValue();
-		
-		if(losValoresSonValidos(min,max))
-			modelo.setCondicionTester(min, max);	
-		else
-			JOptionPane.showMessageDialog(null, "El valor de la cota Max debe ser mayor al de la Min!!", "Advertencia", JOptionPane.WARNING_MESSAGE);
-
-	}
-
-	private boolean losValoresSonValidos(int min, int max)
-	{
-		return max >= min;
-	}
-
-	private void cargarCantidadProgramador() 
-	{
-		int min = (int) cargarRequerimientos.minProgramador.getValue();
-		int max = (int) cargarRequerimientos.maxProgramador.getValue();
-		
-		if(losValoresSonValidos(min, max))
-			modelo.setCondicionProgramador(min, max);
-		else
-			JOptionPane.showMessageDialog(null, "El valor de la cota Max debe ser mayor al de la Min!!", "Advertencia", JOptionPane.WARNING_MESSAGE);
-
 	}
 
 	private void cargarCantidadArquitecto() 
 	{
+		minArq = (int) cargarRequerimientos.minArquitecto.getValue();
+		maxArq = (int) cargarRequerimientos.maxArquitecto.getValue();
+		
+		modelo.setCondicionArquitecto(minArq, maxArq);
+	}
+	
+	private void cargarCantidadProgramador() 
+	{
+		minProg = (int) cargarRequerimientos.minProgramador.getValue();
+		maxProg = (int) cargarRequerimientos.maxProgramador.getValue();
+		
+		modelo.setCondicionProgramador(minProg, maxProg);
+	}
+	
+	private void cargarCantidadTester() 
+	{
+		minTest = (int) cargarRequerimientos.minTester.getValue();
+		maxTest = (int) cargarRequerimientos.maxTester.getValue();
+		
+		modelo.setCondicionTester(minTest, maxTest);	
+	}
+	
+	private boolean valoresSonValidos() 
+	{
 		int min = (int) cargarRequerimientos.minArquitecto.getValue();
 		int max = (int) cargarRequerimientos.maxArquitecto.getValue();
-		if(losValoresSonValidos(min, max))
-			modelo.setCondicionArquitecto(min, max);
-		else
-			JOptionPane.showMessageDialog(null, "El valor de la cota Max debe ser mayor al de la Min!!", "Advertencia", JOptionPane.WARNING_MESSAGE);
-
+		
+		if(min > max)
+			return false;
+		
+		min = (int) cargarRequerimientos.minProgramador.getValue();
+		max = (int) cargarRequerimientos.maxProgramador.getValue();
+		
+		if(min > max)
+			return false;
+		
+		min = (int) cargarRequerimientos.minTester.getValue();
+		max = (int) cargarRequerimientos.maxTester.getValue();
+		
+		if(min > max)
+			return false;
+		
+		return true;
 	}
 
-	public boolean cargoRequerimientos() 
+	public boolean confirmoCotas() 
 	{
-		if(cargoRequerimientos)
+		chequearCambios();
+		
+		if(confirmoCotas)
 			return true;
 		return false;
 	}
-	
-	
+
+	private void chequearCambios() 
+	{
+		int min = (int) cargarRequerimientos.minArquitecto.getValue();
+		int max = (int) cargarRequerimientos.maxArquitecto.getValue();
+		
+		if(min != minArq || max != maxArq)
+			confirmoCotas = false;
+		
+		min = (int) cargarRequerimientos.minProgramador.getValue();
+		max = (int) cargarRequerimientos.maxProgramador.getValue();
+		
+		if(min != minProg || max != maxProg)
+			confirmoCotas = false;
+		
+		min = (int) cargarRequerimientos.minTester.getValue();
+		max = (int) cargarRequerimientos.maxTester.getValue();
+		
+		if(min != minTest || max != maxTest)
+			confirmoCotas = false;
+		
+	}
 	
 }

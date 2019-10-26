@@ -6,7 +6,6 @@ import javax.management.RuntimeErrorException;
 
 public class Modelo 
 {
-//	private Grafo relaciones;
 	private Grafo malasRelaciones;
 	private ArrayList<Empleado> empleados;
 	
@@ -19,21 +18,19 @@ public class Modelo
 		empleados = new ArrayList<Empleado>();
 		
 		minArquitecto = minProgramador = minTester = 1;
-		maxArquitecto = maxProgramador = maxTester = 1;
+		maxArquitecto = maxProgramador = maxTester = 0;
 	}
 	
 	public void agregarEmpleado(String nombre, String puesto) 
 	{
-		if(existeEmpleado(nombre))
-			throw new RuntimeErrorException(null, "El empleado '" + nombre + "' ya fue agregado.");
+		verificarAgregacion(nombre, puesto);
 		
 		empleados.add(new Empleado(nombre, puesto));
 	}
-	
+
 	public void eliminarEmpleado(String nombre) 
 	{
-		if(!existeEmpleado(nombre))
-			throw new RuntimeErrorException(null, "El empleado '" + nombre + "' nunca fue agregado.");
+		verificarEliminacion(nombre);
 		
 		for(Empleado empleado : empleados)
 		{
@@ -115,6 +112,27 @@ public class Modelo
 		}
 	}
 	
+	private void verificarAgregacion(String nombre, String puesto) 
+	{
+		if(listaFueConfirmada())
+			throw new RuntimeErrorException(null, "No se puede agregar empleados una vez confirmada la lista.");
+		
+		if(existeEmpleado(nombre))
+			throw new RuntimeErrorException(null, "El empleado '" + nombre + "' ya fue agregado.");
+		
+		if(esValido(puesto))
+			throw new RuntimeErrorException(null, "El puesto '" + puesto + "' no es valido.");
+	}
+	
+	private void verificarEliminacion(String nombre) 
+	{
+		if(listaFueConfirmada())
+			throw new RuntimeErrorException(null, "No se puede eliminar empleados una vez confirmada la lista.");
+		
+		if(!existeEmpleado(nombre))
+			throw new RuntimeErrorException(null, "El empleado '" + nombre + "' nunca fue agregado.");
+	}
+	
 	private void verificarCondicion(int min, int max) 
 	{
 		if(min <= 0 || max <= 0)
@@ -177,6 +195,13 @@ public class Modelo
 		return instancia;
 	}
 
+	private boolean esValido(String puesto) 
+	{
+		if(!puesto.equals("Programador") || !puesto.equals("Lider de Proyecto") || !puesto.equals("Arquitecto") || !puesto.equals("Tester"))
+			return false;
+		return true;
+	}
+	
 	//GETTERS
 	@SuppressWarnings("unchecked")
 	public ArrayList<Empleado> getEmpleados() 

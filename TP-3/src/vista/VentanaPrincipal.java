@@ -1,7 +1,5 @@
 package vista;
 
-
-
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
@@ -18,7 +16,7 @@ public class VentanaPrincipal extends JFrame
 	
 	private Color verde;
 
-	public JButton btnSiguinte;
+	public JButton btnCambiarPanel;
 	
 	public VentanaPrincipal() 
 	{
@@ -38,16 +36,15 @@ public class VentanaPrincipal extends JFrame
 	{
 		panelCargarEmpleado = new CargarEmpleados();
 		panelCargarIncompatibles = new CargarIncompatibles();
-		panelCargarRequerimientos = new CargarRequerimientos();
 		
 		getContentPane().add(panelCargarEmpleado, BorderLayout.CENTER);
 		
-		btnSiguinte = new JButton("Siguiente");
-		btnSiguinte.setForeground(Color.WHITE);
-		btnSiguinte.setFont(new Font("Nirmala UI", Font.BOLD, 13));
-		btnSiguinte.setFocusable(false);
-		btnSiguinte.setBackground(new Color(11, 53, 42));
-		getContentPane().add(btnSiguinte, BorderLayout.SOUTH);
+		btnCambiarPanel = new JButton("Siguiente");
+		btnCambiarPanel.setForeground(Color.WHITE);
+		btnCambiarPanel.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		btnCambiarPanel.setFocusable(false);
+		btnCambiarPanel.setBackground(new Color(11, 53, 42));
+		getContentPane().add(btnCambiarPanel, BorderLayout.SOUTH);
 				
 	}
 }

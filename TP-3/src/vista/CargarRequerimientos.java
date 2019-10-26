@@ -1,15 +1,24 @@
 package vista;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.SwingConstants;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.border.MatteBorder;
 
 @SuppressWarnings("serial")
 public class CargarRequerimientos extends JPanel
@@ -17,40 +26,60 @@ public class CargarRequerimientos extends JPanel
 	public JSpinner minArquitecto, maxArquitecto;
 	public JSpinner minProgramador, maxProgramador;
 	public JSpinner minTester, maxTester;
-	
-	public JButton btnCargar;
-	
+	public JButton btnConfirmar;
 	private Color verde, verde2;
 	
-	public CargarRequerimientos() 
+	public CargarRequerimientos(JTable tablaEmpleados, JTable tablaIncompatibles) 
 	{
 		verde = new Color(21, 182, 141);
 		verde2 = new Color(16, 163, 125);
 		
-		setBackground(verde);
+		this.setBackground(verde);
+		this.setLayout(new BorderLayout());
 		
-		inicializar();
+		inicializar(tablaEmpleados, tablaIncompatibles);
 	}
 	
-	private void inicializar() 
+	private void inicializar(JTable tablaEmpleados, JTable tablaIncompatibles) 
 	{
-		iniPanelArquitecto();
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		this.add(tabbedPane, BorderLayout.CENTER);
 		
-		iniPanelProgramador();
+		JScrollPane scrollPaneTE = new JScrollPane();
+		scrollPaneTE.setPreferredSize(new Dimension(496, 508));
+		scrollPaneTE.setViewportView(tablaEmpleados);
+		tabbedPane.add("Lista de Empleados", scrollPaneTE);
 		
-		iniPanelTester();
+		JScrollPane scrollPaneTI = new JScrollPane();
+		scrollPaneTI.setPreferredSize(new Dimension(496, 508));
+		scrollPaneTI.setViewportView(tablaIncompatibles);
+		tabbedPane.add("Lista de Incompatibles", scrollPaneTI);
 		
-		btnCargar = new JButton("Confirmar");
-		add(btnCargar);
+		
+		//INICIALIZACION DE LOS COMPONENTES DEL PANEL IZQUIERDO
+		JPanel panelIzq = new JPanel();
+		panelIzq.setPreferredSize(new Dimension(240,0));
+		panelIzq.setBackground(verde);
+		panelIzq.setLayout(new BoxLayout(panelIzq, BoxLayout.Y_AXIS));
+		add(panelIzq, BorderLayout.WEST);
+		
+		iniPanelArquitecto(panelIzq);
+		
+		iniPanelProgramador(panelIzq);
+		
+		iniPanelTester(panelIzq);
+		
+		iniBtnConfirmar(panelIzq);
 	}
 
-
-	private void iniPanelArquitecto() 
+	private void iniPanelArquitecto(JPanel panelIzq) 
 	{
 		JPanel panelArquitecto = new JPanel();
+		panelArquitecto.setBorder(new MatteBorder(10, 10, 0, 10, verde));
 		panelArquitecto.setPreferredSize(new Dimension(250,250));
 		panelArquitecto.setBackground(verde2);
-		add(panelArquitecto);
+		panelArquitecto.setLayout(new FlowLayout(FlowLayout.CENTER, 5, -5));
+		panelIzq.add(panelArquitecto);
 		
 		JLabel lblArquitecto = new JLabel("Arquitecto");
 		lblArquitecto.setHorizontalAlignment(SwingConstants.CENTER);
@@ -84,12 +113,14 @@ public class CargarRequerimientos extends JPanel
 		panelArquitecto.add(maxArquitecto);
 	}
 	
-	private void iniPanelProgramador() 
+	private void iniPanelProgramador(JPanel panelIzq) 
 	{
 		JPanel panelProgramador = new JPanel();
+		panelProgramador.setBorder(new MatteBorder(10, 10, 0, 10, verde));
 		panelProgramador.setPreferredSize(new Dimension(250,250));
 		panelProgramador.setBackground(verde2);
-		add(panelProgramador);
+		panelProgramador.setLayout(new FlowLayout(FlowLayout.CENTER, 5, -5));
+		panelIzq.add(panelProgramador);
 		
 		JLabel lblProgramador = new JLabel("Programador");
 		lblProgramador.setHorizontalAlignment(SwingConstants.CENTER);
@@ -123,12 +154,14 @@ public class CargarRequerimientos extends JPanel
 		panelProgramador.add(maxProgramador);
 	}
 	
-	private void iniPanelTester() 
+	private void iniPanelTester(JPanel panelIzq) 
 	{
 		JPanel panelTester = new JPanel();
+		panelTester.setBorder(new MatteBorder(10, 10, 0, 10, verde));
 		panelTester.setPreferredSize(new Dimension(250,250));
 		panelTester.setBackground(verde2);
-		add(panelTester);
+		panelTester.setLayout(new FlowLayout(FlowLayout.CENTER, 5, -5));
+		panelIzq.add(panelTester);
 		
 		JLabel lblTester = new JLabel("Tester");
 		lblTester.setHorizontalAlignment(SwingConstants.CENTER);
@@ -160,5 +193,35 @@ public class CargarRequerimientos extends JPanel
 		maxTester.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		maxTester.setPreferredSize(new Dimension(60,25));
 		panelTester.add(maxTester);
+	}
+	
+	private void iniBtnConfirmar(JPanel panelIzq) 
+	{
+		JPanel panelConfirmar = new JPanel();
+		panelConfirmar.setBackground(verde);
+		panelConfirmar.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
+		panelConfirmar.setPreferredSize(new Dimension(0, 50));
+		panelIzq.add(panelConfirmar);
+		
+		btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setPreferredSize(new Dimension(100,30));
+		btnConfirmar.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		btnConfirmar.setBackground(verde2.darker());
+		btnConfirmar.setForeground(Color.WHITE);
+		btnConfirmar.setFocusable(false);
+		btnConfirmar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) 
+			{
+				btnConfirmar.setFont(new Font("Nirmala UI", Font.BOLD, 12));
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) 
+			{
+				btnConfirmar.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+			}
+		});
+		panelConfirmar.add(btnConfirmar);		
 	}
 }
