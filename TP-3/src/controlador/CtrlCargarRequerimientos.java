@@ -29,7 +29,6 @@ public class CtrlCargarRequerimientos implements ActionListener
 	{
 		configurarLimites();
 		cargarRequerimientos.btnConfirmar.addActionListener(this);
-		System.out.println("inicio");
 	}
 	
 	private void configurarLimites() 
@@ -81,7 +80,6 @@ public class CtrlCargarRequerimientos implements ActionListener
 				cargarCantidadProgramador();
 				cargarCantidadTester();	
 				confirmoCotas = true;
-				System.out.println(confirmoCotas);
 			}
 			else
 				JOptionPane.showMessageDialog(null, "Verifique que las cotas minimas no sean mayor a las cotas maximas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
