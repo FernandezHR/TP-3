@@ -99,7 +99,7 @@ public class CargarIncompatibles extends JPanel
 		scrollPane.setBounds(238, 0, 496, 508);
 		add(scrollPane, BorderLayout.CENTER);
 		
-		tablaIncompatibles = new JTable(new DefaultTableModel(new Object[][] {}, new String[] {"Empleado 1", "Puesto", "Empleado 2", "Puesto"})) 
+		tablaIncompatibles = new JTable(new DefaultTableModel(new Object[][] {}, new String[] {"Empleado 1", "Puesto 1", "Empleado 2", "Puesto 2"})) 
 		{
 			@Override //Sobreescribmos este metodo para desactivar la edicion de celdas
 			public boolean isCellEditable(int i, int j) 

@@ -32,7 +32,7 @@ public class Solver
 		//Caso base
 		if( inicial == instancia.getTamanio())
 		{
-			if(conjuntoActualPuedeFormarEquipo() && conjuntoActualCumpleMinimos())
+			if(conjuntoActualNoTieneIncompatibles() && conjuntoActualCumpleMinimos())
 			{
 				ArrayList<Empleado> equipoMaximo = armarMaximoEquipo();
 				
@@ -88,7 +88,7 @@ public class Solver
 		return equipoMaximo;
 	}
 
-	private boolean conjuntoActualPuedeFormarEquipo()
+	private boolean conjuntoActualNoTieneIncompatibles()
 	{		
 		for (Integer i : conjuntoActual) 
 			for (Integer j : conjuntoActual) 

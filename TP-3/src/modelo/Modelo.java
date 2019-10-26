@@ -18,7 +18,7 @@ public class Modelo
 		empleados = new ArrayList<Empleado>();
 		
 		minArquitecto = minProgramador = minTester = 1;
-		maxArquitecto = maxProgramador = maxTester = 0;
+		maxArquitecto = maxProgramador = maxTester = 1;
 	}
 	
 	public void agregarEmpleado(String nombre, String puesto) 
@@ -120,7 +120,7 @@ public class Modelo
 		if(existeEmpleado(nombre))
 			throw new RuntimeErrorException(null, "El empleado '" + nombre + "' ya fue agregado.");
 		
-		if(esValido(puesto))
+		if(!esValido(puesto))
 			throw new RuntimeErrorException(null, "El puesto '" + puesto + "' no es valido.");
 	}
 	
@@ -197,9 +197,9 @@ public class Modelo
 
 	private boolean esValido(String puesto) 
 	{
-		if(!puesto.equals("Programador") || !puesto.equals("Lider de Proyecto") || !puesto.equals("Arquitecto") || !puesto.equals("Tester"))
-			return false;
-		return true;
+		if(puesto.equals("Programador") || puesto.equals("Lider de Proyecto") || puesto.equals("Arquitecto") || puesto.equals("Tester"))
+			return true;
+		return false;
 	}
 	
 	//GETTERS
@@ -209,4 +209,31 @@ public class Modelo
 		return (ArrayList<Empleado>) empleados.clone();
 	}
 	
+	
+	public static void main(String[] args) 
+	{
+		Modelo modelo = new Modelo();
+		
+		modelo.agregarEmpleado("Lider1", "Lider de Proyecto");
+		
+		modelo.agregarEmpleado("Arq1", "Arquitecto");
+		modelo.agregarEmpleado("Arq2", "Arquitecto");
+		modelo.agregarEmpleado("Arg3", "Arquitecto");
+		
+		modelo.agregarEmpleado("Prog1", "Programador");
+		modelo.agregarEmpleado("Prog2", "Programador");
+		modelo.agregarEmpleado("Prog3", "Programador");
+		
+		modelo.agregarEmpleado("Tester1", "Tester");
+		modelo.agregarEmpleado("Tester2", "Tester");
+		modelo.agregarEmpleado("Tester3", "Tester");
+		
+		modelo.confirmarListaDeEmpleados();
+		
+		modelo.setCondicionArquitecto(1, 3);
+		modelo.setCondicionProgramador(1, 3);
+		modelo.setCondicionTester(1, 3);
+		
+		modelo.resolver();	
+	}
 }
