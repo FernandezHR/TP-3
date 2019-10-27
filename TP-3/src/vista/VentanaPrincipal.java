@@ -13,7 +13,7 @@ public class VentanaPrincipal extends JFrame
 	public CargarEmpleados panelCargarEmpleado;
 	public CargarIncompatibles panelCargarIncompatibles;
 	public CargarRequerimientos panelCargarRequerimientos;
-	public BuscandoSolucion panelBuscandoSolucion;
+	public BuscarSolucion panelBuscarSolucion;
 	
 	private Color verde;
 

@@ -3,12 +3,11 @@ package controlador;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.management.RuntimeErrorException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import modelo.Empleado;
 import modelo.Modelo;
-import vista.BuscandoSolucion;
+import vista.BuscarSolucion;
 import vista.CargarIncompatibles;
 import vista.CargarRequerimientos;
 import vista.VentanaPrincipal;
@@ -21,8 +20,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private CtrlCargarEmpleados ctrlCargarEmpleados;
 	private CtrlCargarIncompatibles ctrlCargarIncompatibles;
 	private CtrlCargarRequerimientos ctrlCargarRequerimientos;
-	
-	private Thread buscarSolucion;
+	private CtrlBuscarSolucion ctrlBuscandoSolucion;
 	
 	public CtrlVentanaPrincipal(Modelo modelo, VentanaPrincipal vPrincipal) 
 	{
@@ -34,14 +32,6 @@ public class CtrlVentanaPrincipal implements ActionListener
 	{
 		ctrlCargarEmpleados = new CtrlCargarEmpleados(modelo, vPrincipal.panelCargarEmpleado);
 		ctrlCargarEmpleados.iniciar();
-		
-		buscarSolucion = new Thread() 
-		{
-			public void run() 
-			{
-				modelo.resolver();
-			}
-		};
 		
 		this.vPrincipal.btnCambiarPanel.addActionListener(this);
 		vPrincipal.setVisible(true);
@@ -76,64 +66,55 @@ public class CtrlVentanaPrincipal implements ActionListener
 		else if(actualEs(vPrincipal.panelCargarRequerimientos))
 		{
 			if(ctrlCargarRequerimientos.confirmoCotas()) 
-			{
-				iniciarBuscandoSolucion();
-			}
+				iniciarBuscarSolucion();
+			
 			else
 				JOptionPane.showMessageDialog(null, "Es posible que no haya confimado las cotas o que haya habido cambios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		}
 		
-		else if(actualEs(vPrincipal.panelBuscandoSolucion)) 
-		{
-			try 
-			{
-				buscarSolucion.wait();
-			}
-			catch(Exception e) 
-			{
-				
-			}
-			
-			for(Empleado empleado : modelo.getSolucion()) 
-			{
-				System.out.println(empleado.getNombre() + ", " + empleado.getPuesto());
-			}
-		}
-	}
-
-	private void iniciarBuscandoSolucion() 
-	{
-		buscarSolucion.start();
-		
-		vPrincipal.panelBuscandoSolucion = new BuscandoSolucion();
-		
-		vPrincipal.getContentPane().add(vPrincipal.panelBuscandoSolucion, BorderLayout.CENTER);
-		vPrincipal.remove(vPrincipal.btnCambiarPanel);
-		vPrincipal.panelCargarRequerimientos.setVisible(false);
 	}
 
 	private void iniciarCargarIncompatibles() 
 	{
+		vPrincipal.panelCargarEmpleado.setVisible(false);
 		vPrincipal.panelCargarIncompatibles = new CargarIncompatibles();
+		vPrincipal.getContentPane().add(vPrincipal.panelCargarIncompatibles, BorderLayout.CENTER);
 		
 		ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, vPrincipal.panelCargarIncompatibles);
 		ctrlCargarIncompatibles.iniciar();
-
-		vPrincipal.getContentPane().add(vPrincipal.panelCargarIncompatibles, BorderLayout.CENTER);
-		vPrincipal.panelCargarEmpleado.setVisible(false);
 	}
 	
 	private void iniciarCargarRequerimientos() 
 	{
+		vPrincipal.panelCargarIncompatibles.setVisible(false);
 		vPrincipal.panelCargarRequerimientos = new CargarRequerimientos(vPrincipal.panelCargarEmpleado.tablaEmpleados, vPrincipal.panelCargarIncompatibles.tablaIncompatibles);
+		vPrincipal.getContentPane().add(vPrincipal.panelCargarRequerimientos, BorderLayout.CENTER);
+		vPrincipal.btnCambiarPanel.setText("Buscar Solucion");
 		
 		ctrlCargarRequerimientos = new CtrlCargarRequerimientos(modelo, vPrincipal.panelCargarRequerimientos);
 		ctrlCargarRequerimientos.iniciar();
-		
-		vPrincipal.getContentPane().add(vPrincipal.panelCargarRequerimientos, BorderLayout.CENTER);
-		vPrincipal.panelCargarIncompatibles.setVisible(false);
-		vPrincipal.btnCambiarPanel.setText("Buscar Solucion");
 	}
+	
+	private void iniciarBuscarSolucion() 
+	{
+		vPrincipal.panelCargarRequerimientos.setVisible(false);
+		vPrincipal.panelBuscarSolucion = new BuscarSolucion();
+		vPrincipal.getContentPane().add(vPrincipal.panelBuscarSolucion, BorderLayout.CENTER);
+		vPrincipal.remove(vPrincipal.btnCambiarPanel);
+		
+		ctrlBuscandoSolucion = new CtrlBuscarSolucion(modelo, vPrincipal.panelBuscarSolucion);
+		ctrlBuscandoSolucion.iniciar();
+		
+//		ctrlBuscandoSolucion.esperar();
+		
+//		iniciarMostrarResultados();	
+	}
+	
+	private void iniciarMostrarResultados() 
+	{
+		throw new RuntimeErrorException(null, "FALTA IMPLEMENTAR Y CREAR LA CLASE VISUAL");
+	}
+	
 
 	private boolean actualEs(JPanel panel)
 	{
