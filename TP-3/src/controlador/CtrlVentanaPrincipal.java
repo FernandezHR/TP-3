@@ -12,6 +12,7 @@ import modelo.Modelo;
 import vista.BuscarSolucion;
 import vista.CargarIncompatibles;
 import vista.CargarRequerimientos;
+import vista.MostrarSolucion;
 import vista.VentanaPrincipal;
 
 public class CtrlVentanaPrincipal implements ActionListener
@@ -23,6 +24,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private CtrlCargarIncompatibles ctrlCargarIncompatibles;
 	private CtrlCargarRequerimientos ctrlCargarRequerimientos;
 	private CtrlBuscarSolucion ctrlBuscarSolucion;
+	private CtrlMostrarSolucion ctrlMostrarSolucion;
 	
 	public CtrlVentanaPrincipal(Modelo modelo, VentanaPrincipal vPrincipal) 
 	{
@@ -73,6 +75,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 			else
 				JOptionPane.showMessageDialog(null, "Es posible que no haya confimado las cotas o que haya habido cambios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		}
+
 		
 	}
 
@@ -116,18 +119,24 @@ public class CtrlVentanaPrincipal implements ActionListener
 					System.out.println(emplead.getNombre() + ", " + emplead.getPuesto());
 				}
 				
-//				iniciarMostrarResultados();	
 			}
 		});
 		
 		buscarSolucion.start();
-	
+		
+		iniciarMostrarResultados();	
+
 		
 	}
 	
 	private void iniciarMostrarResultados() 
 	{
-		throw new RuntimeErrorException(null, "FALTA IMPLEMENTAR Y CREAR LA CLASE VISUAL");
+		vPrincipal.panelBuscarSolucion.setVisible(false);
+		vPrincipal.panelMostrarSolucion = new MostrarSolucion();
+		ctrlMostrarSolucion = new CtrlMostrarSolucion(modelo,vPrincipal.panelMostrarSolucion);
+		ctrlMostrarSolucion.cargarEmpleadosFinales();
+		
+		vPrincipal.getContentPane().add(vPrincipal.panelMostrarSolucion, BorderLayout.CENTER);
 	}
 	
 
