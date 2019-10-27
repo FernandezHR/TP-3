@@ -29,9 +29,10 @@ public class testSolverEquipo
 		esperado.add(new Empleado("Arq2", "Arquitecto"));
 		esperado.add(new Empleado("Progr1", "Programador"));
 		esperado.add(new Empleado("Tester1", "Tester"));
-
-		Assert.iguales(esperado,  modelo.resolver() );	
+		
+		modelo.resolver();
 	
+		Assert.iguales(esperado,  modelo.getSolucion());	
 	}
 	
 	@Test (expected = RuntimeErrorException.class) 
@@ -68,8 +69,9 @@ public class testSolverEquipo
 		modelo.setCondicionProgramador(1, 1);
 		modelo.setCondicionTester(1, 1);
 		
+		modelo.resolver();
 		
-		assertTrue(modelo.resolver().size() == 4);
+		assertTrue(modelo.getSolucion().size() == 4);
 	}
 	
 	@Test //Prueba que en el equipo no este el mal relacionado
@@ -81,7 +83,9 @@ public class testSolverEquipo
 		modelo.agregarMalaRelacion("Lider", "Arq2");
 		Empleado victima = new Empleado("Arq2","Arquitecto");
 		
-		assertFalse(modelo.resolver().contains(victima));
+		modelo.resolver();
+		
+		assertFalse(modelo.getSolucion().contains(victima));
 	}
 	
 	@Test //Prueba que se obtenga el equipo optimo con varias relaciones malas
@@ -109,8 +113,9 @@ public class testSolverEquipo
 		esperado.add(new Empleado("Prog1","Programador"));
 		esperado.add(new Empleado("Tester2","Tester"));
 		
+		modelo.resolver();
 		
-		Assert.iguales(esperado, modelo.resolver());
+		Assert.iguales(esperado, modelo.getSolucion());
 	}
 
 	//Prueba que no exista optimo cuando se pide mas empleados de los cargados

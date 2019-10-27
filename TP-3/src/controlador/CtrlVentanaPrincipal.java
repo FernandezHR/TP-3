@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import javax.management.RuntimeErrorException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import modelo.Empleado;
 import modelo.Modelo;
 import vista.BuscarSolucion;
 import vista.CargarIncompatibles;
@@ -20,7 +22,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private CtrlCargarEmpleados ctrlCargarEmpleados;
 	private CtrlCargarIncompatibles ctrlCargarIncompatibles;
 	private CtrlCargarRequerimientos ctrlCargarRequerimientos;
-	private CtrlBuscarSolucion ctrlBuscandoSolucion;
+	private CtrlBuscarSolucion ctrlBuscarSolucion;
 	
 	public CtrlVentanaPrincipal(Modelo modelo, VentanaPrincipal vPrincipal) 
 	{
@@ -102,12 +104,25 @@ public class CtrlVentanaPrincipal implements ActionListener
 		vPrincipal.getContentPane().add(vPrincipal.panelBuscarSolucion, BorderLayout.CENTER);
 		vPrincipal.remove(vPrincipal.btnCambiarPanel);
 		
-		ctrlBuscandoSolucion = new CtrlBuscarSolucion(modelo, vPrincipal.panelBuscarSolucion);
-		ctrlBuscandoSolucion.iniciar();
+		Thread buscarSolucion = new Thread(new Runnable() {
+			@Override
+			public void run() 
+			{
+				ctrlBuscarSolucion = new CtrlBuscarSolucion(modelo, vPrincipal.panelBuscarSolucion);
+				ctrlBuscarSolucion.iniciar();
+				
+				for(Empleado emplead : modelo.getSolucion())
+				{
+					System.out.println(emplead.getNombre() + ", " + emplead.getPuesto());
+				}
+				
+//				iniciarMostrarResultados();	
+			}
+		});
 		
-//		ctrlBuscandoSolucion.esperar();
+		buscarSolucion.start();
+	
 		
-//		iniciarMostrarResultados();	
 	}
 	
 	private void iniciarMostrarResultados() 

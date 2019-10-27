@@ -25,7 +25,7 @@ public class Empleado
 	public boolean equals(Object obj)
 	{
 		Empleado other = (Empleado) obj;
-	
+
 		return this.nombre.equals(other.nombre) && this.puesto.equals(other.puesto);
 	}
 

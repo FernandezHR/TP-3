@@ -20,7 +20,7 @@ public class Modelo
 		empleados = new ArrayList<Empleado>();
 		
 		minArquitecto = minProgramador = minTester = 1;
-		maxArquitecto = maxProgramador = maxTester = 1;
+		maxArquitecto = maxProgramador = maxTester = 0;
 	}
 	
 	public void agregarEmpleado(String nombre, String puesto) 
@@ -45,10 +45,10 @@ public class Modelo
 	}
 	
 	public void confirmarListaDeEmpleados() 
-	{
+	{	
 		malasRelaciones = new Grafo(empleados.size());
 	}
-	
+
 	public void agregarMalaRelacion(String nombreE1, String nombreE2)
 	{
 		if(!listaFueConfirmada())
@@ -95,23 +95,15 @@ public class Modelo
 		maxTester = max;
 	}
 	
-	public ArrayList<Empleado> resolver()
+	public void resolver()
 	{	
 		Solver solver = new Solver(armarInstancia());
 		
-		ArrayList<Empleado> respuesta = solver.resolver();
+		solucion = solver.resolver();
 		
-		if(respuesta.size() == 0)
+		if(solucion.size() == 0)
 			throw new RuntimeErrorException(null, "No se encontro ningun conjunto que cumpla las condiciones");
-		else
-		{
-			for(Empleado empleado : respuesta) 
-			{
-				System.out.println(empleado.getNombre() + ", " + empleado.getPuesto());
-			}
-		}
-		
-		return respuesta;
+	
 	}
 	
 	private void verificarAgregacion(String nombre, String puesto) 
@@ -184,11 +176,7 @@ public class Modelo
 	}
 	
 	private Instancia armarInstancia() 
-	{
-		System.out.println(minArquitecto + " " + maxArquitecto);
-		System.out.println(minProgramador + " " + maxProgramador);
-		System.out.println(minProgramador + " " + maxTester);
-		
+	{	
 		Instancia instancia = new Instancia(empleados, malasRelaciones);
 		instancia.setCantidadArquitecto(minArquitecto, maxArquitecto);
 		instancia.setCantidadProgramador(minProgramador, maxProgramador);
