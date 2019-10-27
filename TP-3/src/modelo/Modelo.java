@@ -95,16 +95,14 @@ public class Modelo
 		maxTester = max;
 	}
 	
-	public void resolver()
+	public ArrayList<Empleado> resolver()
 	{	
 		Solver solver = new Solver(armarInstancia());
 		
 		ArrayList<Empleado> respuesta = solver.resolver();
 		
 		if(respuesta.size() == 0)
-		{
-			System.out.println("No se encontro ningun conjunto que cumpla esas condiciones");
-		}
+			throw new RuntimeErrorException(null, "No se encontro ningun conjunto que cumpla las condiciones");
 		else
 		{
 			for(Empleado empleado : respuesta) 
@@ -112,6 +110,8 @@ public class Modelo
 				System.out.println(empleado.getNombre() + ", " + empleado.getPuesto());
 			}
 		}
+		
+		return respuesta;
 	}
 	
 	private void verificarAgregacion(String nombre, String puesto) 
@@ -216,31 +216,5 @@ public class Modelo
 		return solucion;
 	}
 	
-	public static void main(String[] args) 
-	{
-		Modelo modelo = new Modelo();
-		
-		modelo.agregarEmpleado("Lider1", "Lider de Proyecto");
-		
-		modelo.agregarEmpleado("Arq1", "Arquitecto");
-		modelo.agregarEmpleado("Arq2", "Arquitecto");
-		modelo.agregarEmpleado("Arg3", "Arquitecto");
-		
-		modelo.agregarEmpleado("Prog1", "Programador");
-		modelo.agregarEmpleado("Prog2", "Programador");
-		modelo.agregarEmpleado("Prog3", "Programador");
-		
-		modelo.agregarEmpleado("Tester1", "Tester");
-		modelo.agregarEmpleado("Tester2", "Tester");
-		modelo.agregarEmpleado("Tester3", "Tester");
-		
-		modelo.confirmarListaDeEmpleados();
-		
-		modelo.setCondicionArquitecto(1, 3);
-		modelo.setCondicionProgramador(1, 3);
-		modelo.setCondicionTester(1, 3);
-		
-		modelo.resolver();	
-	}
 
 }
