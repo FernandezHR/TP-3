@@ -111,19 +111,18 @@ public class CtrlVentanaPrincipal implements ActionListener
 			@Override
 			public void run() 
 			{
+				
 				ctrlBuscarSolucion = new CtrlBuscarSolucion(modelo, vPrincipal.panelBuscarSolucion);
 				ctrlBuscarSolucion.iniciar();
 	
 				//Falta "actualizar" esta ventana para que se muestre
 				iniciarMostrarResultados();	
-
 			}
 			
 		});
 
 		buscarSolucion.start();
 		
-
 
 	}
 	
