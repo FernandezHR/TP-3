@@ -20,5 +20,13 @@ public class Empleado
 	{
 		return puesto;
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		Empleado other = (Empleado) obj;
+	
+		return this.nombre.equals(other.nombre) && this.puesto.equals(other.puesto);
+	}
 
 }
