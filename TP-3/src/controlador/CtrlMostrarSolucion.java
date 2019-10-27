@@ -20,7 +20,7 @@ public class CtrlMostrarSolucion
 	{
 		String matriz[][] = new String[modelo.getSolucion().size()][2];
 		
-		for(int i=0; i < modelo.getSolucion().size(); i++) 
+		for(int i=0; i < modelo.getSolucion().size() ; i++) 
 		{
 			matriz[i][0] = modelo.getSolucion().get(i).getNombre();
 			matriz[i][1] = modelo.getSolucion().get(i).getPuesto();

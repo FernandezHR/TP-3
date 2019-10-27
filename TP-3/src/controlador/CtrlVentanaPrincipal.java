@@ -113,20 +113,18 @@ public class CtrlVentanaPrincipal implements ActionListener
 			{
 				ctrlBuscarSolucion = new CtrlBuscarSolucion(modelo, vPrincipal.panelBuscarSolucion);
 				ctrlBuscarSolucion.iniciar();
-				
-				for(Empleado emplead : modelo.getSolucion())
-				{
-					System.out.println(emplead.getNombre() + ", " + emplead.getPuesto());
-				}
-				
+	
+				//Falta "actualizar" esta ventana para que se muestre
+				iniciarMostrarResultados();	
+
 			}
+			
 		});
-		
+
 		buscarSolucion.start();
 		
-		iniciarMostrarResultados();	
 
-		
+
 	}
 	
 	private void iniciarMostrarResultados() 
