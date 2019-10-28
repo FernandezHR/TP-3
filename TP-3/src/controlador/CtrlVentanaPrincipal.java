@@ -3,11 +3,8 @@ package controlador;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.management.RuntimeErrorException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import modelo.Empleado;
 import modelo.Modelo;
 import vista.BuscarSolucion;
 import vista.CargarIncompatibles;
@@ -110,30 +107,28 @@ public class CtrlVentanaPrincipal implements ActionListener
 		Thread buscarSolucion = new Thread(new Runnable() {
 			@Override
 			public void run() 
-			{
-				
+			{	
 				ctrlBuscarSolucion = new CtrlBuscarSolucion(modelo, vPrincipal.panelBuscarSolucion);
 				ctrlBuscarSolucion.iniciar();
 	
 				//Falta "actualizar" esta ventana para que se muestre
-				iniciarMostrarResultados();	
+				iniciarMostrarResultados();
 			}
 			
 		});
 
 		buscarSolucion.start();
-		
-
 	}
 	
 	private void iniciarMostrarResultados() 
 	{
 		vPrincipal.panelBuscarSolucion.setVisible(false);
 		vPrincipal.panelMostrarSolucion = new MostrarSolucion();
-		ctrlMostrarSolucion = new CtrlMostrarSolucion(modelo,vPrincipal.panelMostrarSolucion);
-		ctrlMostrarSolucion.cargarEmpleadosFinales();
-		
 		vPrincipal.getContentPane().add(vPrincipal.panelMostrarSolucion, BorderLayout.CENTER);
+		vPrincipal.validate();
+		
+		ctrlMostrarSolucion = new CtrlMostrarSolucion(modelo,vPrincipal.panelMostrarSolucion);
+		ctrlMostrarSolucion.cargarEmpleadosFinales();	
 	}
 	
 

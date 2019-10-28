@@ -28,5 +28,6 @@ public class CtrlMostrarSolucion
 		
 		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
 		mostrarSolucion.tablaEquipo.setModel(dtm);
+	
 	}
 }
