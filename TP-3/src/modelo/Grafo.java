@@ -63,18 +63,7 @@ public class Grafo
 		if( i < 0 || i >= tamano() )
 			throw new IllegalArgumentException("El vertice " + i + " no existe!");
 	}
-	
-	public void imprimir()
-	{
-		for (int x=0; x < A.length; x++) {
-			  System.out.print("|");
-			  for (int y=0; y < A[x].length; y++) {
-			    System.out.print (A[x][y]);
-			    if (y!=A[x].length-1) System.out.print("\t");
-			  }
-			  System.out.println("|");
-			}
-	}
+
 }
 
 

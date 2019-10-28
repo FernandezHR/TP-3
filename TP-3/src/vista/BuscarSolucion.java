@@ -2,17 +2,10 @@ package vista;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.border.MatteBorder;
-import com.sun.xml.internal.ws.api.Component;
-import javafx.scene.layout.Border;
 import rojerusan.componentes.RSProgressCircleAnimatedUno;
-import rojerusan.componentes.RSProgressMaterialBeanInfo;
-import java.awt.Dimension;
 import java.awt.Font;
-import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class BuscarSolucion extends JPanel
