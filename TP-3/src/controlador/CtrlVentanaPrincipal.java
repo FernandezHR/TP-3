@@ -20,7 +20,6 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private CtrlCargarEmpleados ctrlCargarEmpleados;
 	private CtrlCargarIncompatibles ctrlCargarIncompatibles;
 	private CtrlCargarRequerimientos ctrlCargarRequerimientos;
-	private CtrlBuscarSolucion ctrlBuscarSolucion;
 	private CtrlMostrarSolucion ctrlMostrarSolucion;
 	
 	public CtrlVentanaPrincipal(Modelo modelo, VentanaPrincipal vPrincipal) 
@@ -47,7 +46,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 
 	private void cambiarDePanel() 
 	{
-		if(actualEs(vPrincipal.panelCargarEmpleado)) 
+		if(panelActualEs(vPrincipal.panelCargarEmpleado)) 
 		{
 			if(ctrlCargarEmpleados.tieneDatosSuficientes()) 
 			{
@@ -59,23 +58,21 @@ public class CtrlVentanaPrincipal implements ActionListener
 				JOptionPane.showMessageDialog(null, "Debe cargar al menos un empleado de cada puesto", "Advertencia", JOptionPane.WARNING_MESSAGE);	
 		}
 		
-		else if(actualEs(vPrincipal.panelCargarIncompatibles)) 
-		{
+		else if(panelActualEs(vPrincipal.panelCargarIncompatibles))
 			iniciarCargarRequerimientos();
-		}
 		
-		else if(actualEs(vPrincipal.panelCargarRequerimientos))
+		else if(panelActualEs(vPrincipal.panelCargarRequerimientos))
 		{
 			if(ctrlCargarRequerimientos.confirmoCotas()) 
 				iniciarBuscarSolucion();
 			
 			else
-				JOptionPane.showMessageDialog(null, "Es posible que no haya confimado las cotas o que haya habido cambios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Es posible que no haya confimado las cotas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		}
-
-		
 	}
 
+	
+	
 	private void iniciarCargarIncompatibles() 
 	{
 		vPrincipal.panelCargarEmpleado.setVisible(false);
@@ -99,23 +96,20 @@ public class CtrlVentanaPrincipal implements ActionListener
 	
 	private void iniciarBuscarSolucion() 
 	{
+		vPrincipal.remove(vPrincipal.btnCambiarPanel);
 		vPrincipal.panelCargarRequerimientos.setVisible(false);
 		vPrincipal.panelBuscarSolucion = new BuscarSolucion();
 		vPrincipal.getContentPane().add(vPrincipal.panelBuscarSolucion, BorderLayout.CENTER);
-		vPrincipal.remove(vPrincipal.btnCambiarPanel);
 		
 		Thread buscarSolucion = new Thread(new Runnable() {
 			@Override
 			public void run() 
-			{	
-				ctrlBuscarSolucion = new CtrlBuscarSolucion(modelo, vPrincipal.panelBuscarSolucion);
-				ctrlBuscarSolucion.iniciar();
-	
+			{
+				modelo.resolver();
+				
 				iniciarMostrarResultados();
 			}
-			
 		});
-
 		buscarSolucion.start();
 	}
 	
@@ -131,7 +125,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 	}
 	
 
-	private boolean actualEs(JPanel panel)
+	private boolean panelActualEs(JPanel panel)
 	{
 		if(panel.isVisible())
 			return true;

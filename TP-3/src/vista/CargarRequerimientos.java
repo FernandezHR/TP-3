@@ -27,6 +27,7 @@ public class CargarRequerimientos extends JPanel
 	public JSpinner minProgramador, maxProgramador;
 	public JSpinner minTester, maxTester;
 	public JButton btnConfirmar;
+	
 	private Color verde, verde2;
 	
 	public CargarRequerimientos(JTable tablaEmpleados, JTable tablaIncompatibles) 

@@ -26,7 +26,6 @@ public class Solver
 		return equipoMasOptimo;
 	}
 	
-	
 	private void recursion(int inicial)
 	{
 		//Caso base
@@ -54,8 +53,7 @@ public class Solver
 	{
 		ArrayList<Empleado> equipoMaximo = new ArrayList<Empleado>();
 		
-		int contLider, contArquitecto, contProgramador, contTester;
-		contLider = contArquitecto = contProgramador = contTester = 0;
+		int contLider = 0, contArquitecto = 0, contProgramador = 0, contTester = 0;
 		
 		for(Integer i : conjuntoActual)
 		{
@@ -81,10 +79,9 @@ public class Solver
 			{
 				equipoMaximo.add(instancia.getEmpleados().get(i));
 				contTester++;
-			}
-			
+			}	
 		}
-		
+	
 		return equipoMaximo;
 	}
 
@@ -100,8 +97,7 @@ public class Solver
 	
 	private boolean conjuntoActualCumpleMinimos() 
 	{
-		int contLider, contArquitecto, contProgramador, contTester;
-		contLider = contArquitecto = contProgramador = contTester = 0;
+		int contLider = 0, contArquitecto = 0, contProgramador = 0, contTester = 0;
 		
 		for(Integer i : conjuntoActual)
 		{

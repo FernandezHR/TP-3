@@ -16,9 +16,9 @@ public class VentanaPrincipal extends JFrame
 	public BuscarSolucion panelBuscarSolucion;
 	public MostrarSolucion panelMostrarSolucion;
 	
-	private Color verde;
-
 	public JButton btnCambiarPanel;
+
+	private Color verde;
 	
 	public VentanaPrincipal() 
 	{
@@ -36,7 +36,6 @@ public class VentanaPrincipal extends JFrame
 	private void inicializar() 
 	{
 		panelCargarEmpleado = new CargarEmpleados();
-		
 		getContentPane().add(panelCargarEmpleado, BorderLayout.CENTER);
 		
 		btnCambiarPanel = new JButton("Siguiente");

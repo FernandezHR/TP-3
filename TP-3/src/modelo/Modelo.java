@@ -103,7 +103,6 @@ public class Modelo
 		
 		if(solucion.size() == 0)
 			throw new RuntimeErrorException(null, "No se encontro ningun conjunto que cumpla las condiciones");
-	
 	}
 	
 	private void verificarAgregacion(String nombre, String puesto) 
@@ -201,6 +200,9 @@ public class Modelo
 	
 	public ArrayList<Empleado> getSolucion() 
 	{
+		if(solucion == null)
+			throw new RuntimeErrorException(null, "Llame primero a la funcion 'resolver'.");
+		
 		return solucion;
 	}
 	

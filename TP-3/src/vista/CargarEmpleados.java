@@ -37,8 +37,7 @@ public class CargarEmpleados extends JPanel
 	public JButton btnEliminar;
 	public JTable tablaEmpleados;
 	
-	private Color verde, verde2;
-	
+	private Color verde, verde2;	
 	
 	public CargarEmpleados() 
 	{
