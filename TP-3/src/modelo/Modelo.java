@@ -25,7 +25,7 @@ public class Modelo
 	
 	public void agregarEmpleado(String nombre, String puesto) 
 	{
-		verificarAgregacion(nombre, puesto);
+		verificarAgregado(nombre, puesto);
 		
 		empleados.add(new Empleado(nombre, puesto));
 	}
@@ -100,12 +100,14 @@ public class Modelo
 		Solver solver = new Solver(armarInstancia());
 		
 		solucion = solver.resolver();
-		
-		if(solucion.size() == 0)
-			throw new RuntimeErrorException(null, "No se encontro ningun conjunto que cumpla las condiciones");
 	}
 	
-	private void verificarAgregacion(String nombre, String puesto) 
+	public boolean existeSolucion()
+	{
+		return !solucion.isEmpty();
+	}
+	
+	private void verificarAgregado(String nombre, String puesto) 
 	{
 		if(listaFueConfirmada())
 			throw new RuntimeErrorException(null, "No se puede agregar empleados una vez confirmada la lista.");
@@ -200,9 +202,6 @@ public class Modelo
 	
 	public ArrayList<Empleado> getSolucion() 
 	{
-		if(solucion == null)
-			throw new RuntimeErrorException(null, "Llame primero a la funcion 'resolver'.");
-		
 		return solucion;
 	}
 	
