@@ -42,6 +42,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 	{
 		if(arg0.getSource() == vPrincipal.btnCambiarPanel) 
 			cambiarDePanel();
+
 	}
 
 	private void cambiarDePanel() 
@@ -71,8 +72,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 			
 			else
 				JOptionPane.showMessageDialog(null, "Es posible que no haya confirmado las cotas o que haya habido cambios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		}
-			
+		}			
 	}
 
 	private void iniciarCargarIncompatibles() 
@@ -131,6 +131,10 @@ public class CtrlVentanaPrincipal implements ActionListener
 		
 			ctrlMostrarSolucion = new CtrlMostrarSolucion(modelo,vPrincipal.panelMostrarSolucion);
 			ctrlMostrarSolucion.cargarEmpleadosFinales();	
+			
+			vPrincipal.panelMostrarSolucion.botonComenzar.addActionListener(this);
+			
+			
 		}
 		
 		else
@@ -142,6 +146,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 		}
 	}
 	
+
 
 	private boolean actualEs(JPanel panel)
 	{

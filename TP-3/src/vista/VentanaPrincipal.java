@@ -18,6 +18,7 @@ public class VentanaPrincipal extends JFrame
 	
 	public JButton btnCambiarPanel;
 
+	
 	private Color verde;
 	
 	public VentanaPrincipal() 

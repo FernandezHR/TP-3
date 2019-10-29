@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.awt.Dimension;
+
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTable;
@@ -17,6 +19,7 @@ public class MostrarSolucion extends JPanel
 	private Color verde;
 	
 	public JTable tablaEquipo;
+	public JButton botonComenzar;
 	
 	public MostrarSolucion() 
 	{
@@ -58,6 +61,13 @@ public class MostrarSolucion extends JPanel
 		lblNewLabel.setForeground(Color.WHITE);
 		panel.add(lblNewLabel);
 	
+		botonComenzar = new JButton("Ingresar otro equipo");
+		botonComenzar.setForeground(Color.WHITE);
+		botonComenzar.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		botonComenzar.setBackground(new Color(11, 53, 42));
+		this.add(botonComenzar, BorderLayout.SOUTH);
+		
+		
 	}
 
 
