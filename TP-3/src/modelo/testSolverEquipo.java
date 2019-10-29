@@ -4,8 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import javax.management.RuntimeErrorException;
-
 import org.junit.Test;
 
 public class testSolverEquipo
@@ -35,7 +33,7 @@ public class testSolverEquipo
 		Assert.iguales(esperado,  modelo.getSolucion());	
 	}
 	
-	@Test (expected = RuntimeErrorException.class) 
+	@Test 
 	public void testTodosIncompatibles()
 	{
 		Modelo modelo = new Modelo();
@@ -44,9 +42,11 @@ public class testSolverEquipo
 		enemistarEmpleados(modelo);
 		
 		modelo.resolver();
+		
+		assertFalse(modelo.existeSolucion());
 	}
 	
-	@Test (expected = RuntimeErrorException.class)
+	@Test 
 	public void testEquipoIncompleto() 
 	{
 		Modelo modelo = new Modelo();
@@ -54,9 +54,9 @@ public class testSolverEquipo
 		modelo.agregarEmpleado("Arq2", "Arquitecto");
 		
 		modelo.confirmarListaDeEmpleados();
-		
 		modelo.resolver();
 		
+		assertFalse(modelo.existeSolucion());
 	}
 	
 	@Test //Prueba que se devuelva un puesto por equipo
@@ -119,19 +119,20 @@ public class testSolverEquipo
 	}
 
 	//Prueba que no exista optimo cuando se pide mas empleados de los cargados
-	@Test (expected = RuntimeErrorException.class) 
+	@Test 
 	public void testMasDeLosDisponibles()
 	{
 		Modelo modelo = new Modelo();
 		cargarPocosEmpleados(modelo);
 		
 		modelo.setCondicionArquitecto(3, 3);
-		
 		modelo.resolver();
+		
+		assertFalse(modelo.existeSolucion());
 	}
 	
 	//Prueba que no exista equipo cuando no se cumplen los requisitos minimos
-	@Test (expected = RuntimeErrorException.class)
+	@Test 
 	public void testNoCumpleRequisitosMinimos()
 	{
 		Modelo modelo = new Modelo();
@@ -140,8 +141,9 @@ public class testSolverEquipo
 		modelo.agregarMalaRelacion("Lider", "Arq1");
 		modelo.agregarMalaRelacion("Lider", "Arq2");
 		modelo.setCondicionArquitecto(1, 2);
-		
 		modelo.resolver();
+		
+		assertFalse(modelo.existeSolucion());
 	}
 
 	//Metodos Auxiliares
