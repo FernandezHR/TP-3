@@ -131,9 +131,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 		
 			ctrlMostrarSolucion = new CtrlMostrarSolucion(modelo,vPrincipal.panelMostrarSolucion);
 			ctrlMostrarSolucion.cargarEmpleadosFinales();	
-			
-			vPrincipal.panelMostrarSolucion.botonComenzar.addActionListener(this);
-			
+						
 			
 		}
 		

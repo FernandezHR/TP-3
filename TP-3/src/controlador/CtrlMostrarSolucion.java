@@ -1,11 +1,15 @@
 package controlador;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Modelo;
 import vista.MostrarSolucion;
+import vista.VentanaPrincipal;
 
-public class CtrlMostrarSolucion 
+public class CtrlMostrarSolucion implements ActionListener
 {
 	private MostrarSolucion mostrarSolucion;
 	private Modelo modelo;
@@ -14,6 +18,8 @@ public class CtrlMostrarSolucion
 	{
 		this.modelo = modelo;
 		this.mostrarSolucion = mtrSolucion;
+		
+		this.mostrarSolucion.botonComenzar.addActionListener(this);
 	}
 	
 	public void cargarEmpleadosFinales()
@@ -29,5 +35,16 @@ public class CtrlMostrarSolucion
 		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
 		mostrarSolucion.tablaEquipo.setModel(dtm);
 	
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) 
+	{
+		if(arg0.getSource() == mostrarSolucion.botonComenzar);
+		{
+			VentanaPrincipal  vPrincipal = new VentanaPrincipal();
+			CtrlVentanaPrincipal ctrl = new CtrlVentanaPrincipal(new Modelo(),vPrincipal);
+			ctrl.iniciar();
+		}
 	}
 }
