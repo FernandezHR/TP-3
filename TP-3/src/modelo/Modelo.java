@@ -70,6 +70,28 @@ public class Modelo
 		
 		malasRelaciones.agregarArista(e1,e2);
 	}
+	
+	public void eliminarMalaRelacion(String nombreE1, String nombreE2)
+	{
+		if(!listaFueConfirmada())
+			throw new RuntimeErrorException(null, "No puede agregar, no confirmo la lista de empleados.");
+		
+		if(!existeEmpleado(nombreE1) || !existeEmpleado(nombreE2))
+			throw new RuntimeErrorException(null, "No se puede agregar, uno o ambos no existen.");
+		
+		int e1 = 0;
+		int e2 = 0;
+		for(int i=0; i < empleados.size(); i++) 
+		{
+			if(empleados.get(i).getNombre().equals(nombreE1))
+				e1 = i;
+			
+			if(empleados.get(i).getNombre().equals(nombreE2))
+				e2 = i;
+		}
+		
+		malasRelaciones.borrarArista(e1,e2);
+	}
 
 	public void setCondicionArquitecto(int min, int max) 
 	{

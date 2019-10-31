@@ -8,7 +8,7 @@ public class Solver
 {
 	private Instancia instancia;
 	private Set<Integer> conjuntoActual;
-	
+	int cont = 1;
 	private ArrayList<Empleado> equipoMasOptimo;
 	
 	public Solver(Instancia instancia)
@@ -31,6 +31,7 @@ public class Solver
 		//Caso base
 		if( inicial == instancia.getTamanio())
 		{
+			System.out.println(cont++);
 			if(conjuntoActualNoTieneIncompatibles() && conjuntoActualCumpleMinimos())
 			{
 				ArrayList<Empleado> equipoMaximo = armarMaximoEquipo();

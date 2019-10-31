@@ -29,6 +29,7 @@ public class CtrlCargarIncompatibles implements ActionListener
 		llenarComboBoxes();
 		
 		this.panelCargarIncompatibles.btnAgregar.addActionListener(this);
+		this.panelCargarIncompatibles.btnEliminar.addActionListener(this);
 	}
 
 	private void llenarComboBoxes() 
@@ -46,8 +47,29 @@ public class CtrlCargarIncompatibles implements ActionListener
 		if(e.getSource() == panelCargarIncompatibles.btnAgregar)
 			agregarIncompatibles();
 		
+		if(e.getSource() == panelCargarIncompatibles.btnEliminar)
+			eliminarIncompatibles();
+		
 	}
 	
+	private void eliminarIncompatibles() 
+	{
+		int cantidad = tablaIncompatibles.getSelectedRowCount();
+		int fila;
+		for(int i=0; i < cantidad; i++)
+		{
+			
+			fila = tablaIncompatibles.getSelectedRow();
+			DefaultTableModel dtm = (DefaultTableModel) tablaIncompatibles.getModel();
+			modelo.eliminarMalaRelacion((String)dtm.getValueAt(fila, 0), (String)dtm.getValueAt(fila, 2));
+			
+			dtm.removeRow(fila);
+			
+
+		}
+		
+	}
+
 	private void agregarIncompatibles() 
 	{
 		if(losEmpleadosSonValidos())

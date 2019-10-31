@@ -15,7 +15,7 @@ import javax.swing.border.MatteBorder;
 public class CargarIncompatibles extends JPanel
 {
 	public JComboBox<String> cmboxEmpleado1, cmboxEmpleado2;
-	public JButton btnAgregar;
+	public JButton btnAgregar, btnEliminar;
 	
 	private Color verde, verde2;
 
@@ -81,5 +81,18 @@ public class CargarIncompatibles extends JPanel
 		btnAgregar.setForeground(Color.WHITE);
 		btnAgregar.setFocusable(false);
 		panelAgregar.add(btnAgregar, BorderLayout.CENTER);
+		
+		JPanel panelEliminar = new JPanel();
+		panelEliminar.setBackground(verde);
+		panelEliminar.setLayout(new BorderLayout());
+		this.add(panelEliminar);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setPreferredSize(new Dimension(100,50));
+		btnEliminar.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		btnEliminar.setBackground(verde2.darker());
+		btnEliminar.setForeground(Color.WHITE);
+		btnEliminar.setFocusable(false);
+		panelEliminar.add(btnEliminar, BorderLayout.CENTER);
 	}
 }
