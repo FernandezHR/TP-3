@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
 import modelo.Modelo;
 import vista.CargarIncompatibles;
-import vista.CargarRequerimientos;
+import vista.CargarDatos;
 
 public class CtrlCargarIncompatibles implements ActionListener
 {
@@ -16,7 +16,7 @@ public class CtrlCargarIncompatibles implements ActionListener
 	private CargarIncompatibles panelCargarIncompatibles;
 	private JTable tablaIncompatibles;
 	
-	public CtrlCargarIncompatibles(Modelo modelo, CargarRequerimientos panelCargarRequerimientos) 
+	public CtrlCargarIncompatibles(Modelo modelo, CargarDatos panelCargarRequerimientos) 
 	{
 		this.modelo = modelo;
 		

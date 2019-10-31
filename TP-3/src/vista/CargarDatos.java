@@ -15,7 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
-public class CargarRequerimientos extends JPanel
+public class CargarDatos extends JPanel
 {
 	public JPanel panelControles;
 	public CargarIncompatibles panelCargarIncompatibles;
@@ -25,7 +25,7 @@ public class CargarRequerimientos extends JPanel
 	
 	private Color verde;
 	
-	public CargarRequerimientos() 
+	public CargarDatos() 
 	{
 		verde = new Color(21, 182, 141);
 

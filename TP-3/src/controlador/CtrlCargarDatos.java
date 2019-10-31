@@ -7,19 +7,19 @@ import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Modelo;
-import vista.CargarRequerimientos;
+import vista.CargarDatos;
 
-public class CtrlCargarRequerimientos implements ActionListener
+public class CtrlCargarDatos implements ActionListener
 {
 	private Modelo modelo;
-	private CargarRequerimientos panelCargarRequerimientos;
+	private CargarDatos panelCargarDatos;
 	private CtrlCargarIncompatibles ctrlCargarIncompatibles;
 	private CtrlCargarCotas ctrlCargarCotas;
 	
-	public CtrlCargarRequerimientos(Modelo modelo, CargarRequerimientos panelCargarRequerimientos) 
+	public CtrlCargarDatos(Modelo modelo, CargarDatos panelCargarRequerimientos) 
 	{
 		this.modelo = modelo;
-		this.panelCargarRequerimientos = panelCargarRequerimientos;
+		this.panelCargarDatos = panelCargarRequerimientos;
 		this.ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, panelCargarRequerimientos);
 		this.ctrlCargarCotas = new CtrlCargarCotas(modelo, panelCargarRequerimientos.panelCargarCotas);
 	}
@@ -31,8 +31,8 @@ public class CtrlCargarRequerimientos implements ActionListener
 		
 		llenarTablaEmpleados();
 		
-		this.panelCargarRequerimientos.btnAnterior.addActionListener(this);
-		this.panelCargarRequerimientos.btnSiguiente.addActionListener(this);
+		this.panelCargarDatos.btnAnterior.addActionListener(this);
+		this.panelCargarDatos.btnSiguiente.addActionListener(this);
 	}
 	
 	private void llenarTablaEmpleados() 
@@ -46,7 +46,7 @@ public class CtrlCargarRequerimientos implements ActionListener
 		}
 		
 		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
-		panelCargarRequerimientos.tablaEmpleados.setModel(dtm);
+		panelCargarDatos.tablaEmpleados.setModel(dtm);
 	}
 
 	public void ejecutar() 
@@ -64,41 +64,41 @@ public class CtrlCargarRequerimientos implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{
-		if(arg0.getSource() == panelCargarRequerimientos.btnSiguiente) 
+		if(arg0.getSource() == panelCargarDatos.btnSiguiente) 
 			cambiarACargarCotas();
 		
-		if(arg0.getSource() == panelCargarRequerimientos.btnAnterior) 
+		if(arg0.getSource() == panelCargarDatos.btnAnterior) 
 			cambiarACargarIncompatibles();
 	}
 	
 	private void cambiarACargarCotas() 
 	{
-		panelCargarRequerimientos.panelCargarIncompatibles.setVisible(false);
-		panelCargarRequerimientos.panelCargarCotas.setVisible(true);
-		panelCargarRequerimientos.panelControles.add(panelCargarRequerimientos.panelCargarCotas, BorderLayout.CENTER);
+		panelCargarDatos.panelCargarIncompatibles.setVisible(false);
+		panelCargarDatos.panelCargarCotas.setVisible(true);
+		panelCargarDatos.panelControles.add(panelCargarDatos.panelCargarCotas, BorderLayout.CENTER);
 		desactivarBotones();
 	}
 	
 	private void cambiarACargarIncompatibles() 
 	{
-		panelCargarRequerimientos.panelCargarCotas.setVisible(false);
-		panelCargarRequerimientos.panelCargarIncompatibles.setVisible(true);
-		panelCargarRequerimientos.panelControles.add(panelCargarRequerimientos.panelCargarIncompatibles, BorderLayout.CENTER);
+		panelCargarDatos.panelCargarCotas.setVisible(false);
+		panelCargarDatos.panelCargarIncompatibles.setVisible(true);
+		panelCargarDatos.panelControles.add(panelCargarDatos.panelCargarIncompatibles, BorderLayout.CENTER);
 		desactivarBotones();
 	}
 	
 	private void desactivarBotones() 
 	{
-		if(panelCargarRequerimientos.panelCargarCotas.isVisible()) 
+		if(panelCargarDatos.panelCargarCotas.isVisible()) 
 		{
-			panelCargarRequerimientos.btnSiguiente.setEnabled(false);
-			panelCargarRequerimientos.btnAnterior.setEnabled(true);
+			panelCargarDatos.btnSiguiente.setEnabled(false);
+			panelCargarDatos.btnAnterior.setEnabled(true);
 		}
 		
-		if(panelCargarRequerimientos.panelCargarIncompatibles.isVisible())
+		if(panelCargarDatos.panelCargarIncompatibles.isVisible())
 		{
-			panelCargarRequerimientos.btnAnterior.setEnabled(false);
-			panelCargarRequerimientos.btnSiguiente.setEnabled(true);
+			panelCargarDatos.btnAnterior.setEnabled(false);
+			panelCargarDatos.btnSiguiente.setEnabled(true);
 		}
 	}
 }

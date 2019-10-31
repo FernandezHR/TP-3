@@ -12,7 +12,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private VentanaPrincipal vPrincipal;
 	
 	private CtrlCargarEmpleados ctrlCargarEmpleados;
-	private CtrlCargarRequerimientos ctrlCargarRequerimientos;
+	private CtrlCargarDatos ctrlCargarDatos;
 	private CtrlMostrarSolucion ctrlMostrarSolucion;
 	
 	public CtrlVentanaPrincipal(Modelo modelo, VentanaPrincipal vPrincipal) 
@@ -21,7 +21,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 		this.vPrincipal = vPrincipal;
 		
 		ctrlCargarEmpleados = new CtrlCargarEmpleados(modelo, vPrincipal.panelCargarEmpleado);
-		ctrlCargarRequerimientos = new CtrlCargarRequerimientos(modelo, vPrincipal.panelCargarRequerimientos);
+		ctrlCargarDatos = new CtrlCargarDatos(modelo, vPrincipal.panelCargarDatos);
 		ctrlMostrarSolucion = new CtrlMostrarSolucion(modelo, vPrincipal.panelMostrarSolucion);
 		
 		this.vPrincipal.btnAvanzar.addActionListener(this);
@@ -48,7 +48,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 			{
 				modelo.confirmarListaDeEmpleados();
 			
-				comenzarCargarRequerimientos();
+				comenzarCargarDatos();
 			}
 			else
 				JOptionPane.showMessageDialog(null, "Debe cargar al menos un empleado de cada puesto", "Advertencia", JOptionPane.WARNING_MESSAGE);	
@@ -56,9 +56,9 @@ public class CtrlVentanaPrincipal implements ActionListener
 		
 		else if(vPrincipal.estaEnCargarRequerimientos())
 		{
-			if(!ctrlCargarRequerimientos.hayInconvenientes())
+			if(!ctrlCargarDatos.hayInconvenientes())
 			{	
-				ctrlCargarRequerimientos.ejecutar();
+				ctrlCargarDatos.ejecutar();
 				comenzarBusquedaDeSolucion();
 			}
 		}
@@ -69,10 +69,10 @@ public class CtrlVentanaPrincipal implements ActionListener
 		}
 	}
 
-	private void comenzarCargarRequerimientos() 
+	private void comenzarCargarDatos() 
 	{
 		vPrincipal.activarVistaCargarRequerimientos();
-		ctrlCargarRequerimientos.iniciar();
+		ctrlCargarDatos.iniciar();
 	}
 	
 	private void comenzarBusquedaDeSolucion() 

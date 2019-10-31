@@ -62,12 +62,12 @@ public class CtrlCargarCotas
 	
 	public void ejecutar() 
 	{
-		cargarCantidadArquitecto();
-		cargarCantidadProgramador();
-		cargarCantidadTester();	
+		cargarCotasArquitecto();
+		cargarCotasProgramador();
+		cargarCotasTester();	
 	}
 	
-	private void cargarCantidadArquitecto() 
+	private void cargarCotasArquitecto() 
 	{
 		int min = (int) panelCargarCotas.minArquitecto.getValue();
 		int max = (int) panelCargarCotas.maxArquitecto.getValue();
@@ -75,7 +75,7 @@ public class CtrlCargarCotas
 		modelo.setCondicionArquitecto(min, max);
 	}
 	
-	private void cargarCantidadProgramador() 
+	private void cargarCotasProgramador() 
 	{
 		int min = (int) panelCargarCotas.minProgramador.getValue();
 		int max = (int) panelCargarCotas.maxProgramador.getValue();
@@ -83,7 +83,7 @@ public class CtrlCargarCotas
 		modelo.setCondicionProgramador(min, max);
 	}
 	
-	private void cargarCantidadTester() 
+	private void cargarCotasTester() 
 	{
 		int min = (int) panelCargarCotas.minTester.getValue();
 		int max = (int) panelCargarCotas.maxTester.getValue();

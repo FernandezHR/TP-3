@@ -11,7 +11,7 @@ import java.awt.Font;
 public class VentanaPrincipal extends JFrame
 {
 	public CargarEmpleados panelCargarEmpleado;
-	public CargarRequerimientos panelCargarRequerimientos;
+	public CargarDatos panelCargarDatos;
 	public BuscarSolucion panelBuscarSolucion;
 	public MostrarSolucion panelMostrarSolucion;
 	
@@ -37,7 +37,7 @@ public class VentanaPrincipal extends JFrame
 		panelCargarEmpleado = new CargarEmpleados();
 		this.getContentPane().add(panelCargarEmpleado, BorderLayout.CENTER);
 		
-		panelCargarRequerimientos = new CargarRequerimientos();
+		panelCargarDatos = new CargarDatos();
 		panelBuscarSolucion = new BuscarSolucion();
 		panelMostrarSolucion = new MostrarSolucion();
 		
@@ -55,8 +55,8 @@ public class VentanaPrincipal extends JFrame
 		panelCargarEmpleado.setVisible(false);
 		panelBuscarSolucion.setVisible(false);
 		panelMostrarSolucion.setVisible(false);
-		panelCargarRequerimientos.setVisible(true);
-		this.getContentPane().add(panelCargarRequerimientos, BorderLayout.CENTER);
+		panelCargarDatos.setVisible(true);
+		this.getContentPane().add(panelCargarDatos, BorderLayout.CENTER);
 		this.validate();
 	}
 	
@@ -64,7 +64,7 @@ public class VentanaPrincipal extends JFrame
 	{
 		btnAvanzar.setVisible(false);
 		panelCargarEmpleado.setVisible(false);
-		panelCargarRequerimientos.setVisible(false);
+		panelCargarDatos.setVisible(false);
 		panelMostrarSolucion.setVisible(false);
 		panelBuscarSolucion.setVisible(true);
 		this.getContentPane().add(panelBuscarSolucion, BorderLayout.CENTER);
@@ -78,7 +78,7 @@ public class VentanaPrincipal extends JFrame
 		this.getContentPane().add(btnAvanzar, BorderLayout.SOUTH);
 		
 		panelCargarEmpleado.setVisible(false);
-		panelCargarRequerimientos.setVisible(false);
+		panelCargarDatos.setVisible(false);
 		panelBuscarSolucion.setVisible(false);
 		panelMostrarSolucion.setVisible(true);
 		this.getContentPane().add(panelMostrarSolucion, BorderLayout.CENTER);
@@ -94,7 +94,7 @@ public class VentanaPrincipal extends JFrame
 	
 	public boolean estaEnCargarRequerimientos() 
 	{
-		if(panelCargarRequerimientos.isVisible())
+		if(panelCargarDatos.isVisible())
 			return true;
 		return false;
 	}
