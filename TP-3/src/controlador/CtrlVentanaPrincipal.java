@@ -1,15 +1,9 @@
 package controlador;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import modelo.Modelo;
-import vista.BuscarSolucion;
-import vista.CargarIncompatibles;
-import vista.CargarRequerimientos;
-import vista.MostrarSolucion;
 import vista.VentanaPrincipal;
 
 public class CtrlVentanaPrincipal implements ActionListener
@@ -18,7 +12,6 @@ public class CtrlVentanaPrincipal implements ActionListener
 	private VentanaPrincipal vPrincipal;
 	
 	private CtrlCargarEmpleados ctrlCargarEmpleados;
-	private CtrlCargarIncompatibles ctrlCargarIncompatibles;
 	private CtrlCargarRequerimientos ctrlCargarRequerimientos;
 	private CtrlMostrarSolucion ctrlMostrarSolucion;
 	
@@ -26,84 +19,65 @@ public class CtrlVentanaPrincipal implements ActionListener
 	{
 		this.modelo = modelo;
 		this.vPrincipal = vPrincipal;
+		
+		ctrlCargarEmpleados = new CtrlCargarEmpleados(modelo, vPrincipal.panelCargarEmpleado);
+		ctrlCargarRequerimientos = new CtrlCargarRequerimientos(modelo, vPrincipal.panelCargarRequerimientos);
+		ctrlMostrarSolucion = new CtrlMostrarSolucion(modelo, vPrincipal.panelMostrarSolucion);
+		
+		this.vPrincipal.btnAvanzar.addActionListener(this);
 	}
 	
 	public void iniciar() 
 	{
-		ctrlCargarEmpleados = new CtrlCargarEmpleados(modelo, vPrincipal.panelCargarEmpleado);
 		ctrlCargarEmpleados.iniciar();
-		
-		this.vPrincipal.btnCambiarPanel.addActionListener(this);
 		vPrincipal.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{
-		if(arg0.getSource() == vPrincipal.btnCambiarPanel) 
+		if(arg0.getSource() == vPrincipal.btnAvanzar) 
 			cambiarDePanel();
-
 	}
 
 	private void cambiarDePanel() 
 	{
-		
-		if(actualEs(vPrincipal.panelCargarEmpleado)) 
+		if(vPrincipal.estaEnCargarEmpleados()) 
 		{
 			if(ctrlCargarEmpleados.tieneDatosSuficientes()) 
 			{
 				modelo.confirmarListaDeEmpleados();
 			
-				iniciarCargarIncompatibles();
+				comenzarCargarRequerimientos();
 			}
 			else
 				JOptionPane.showMessageDialog(null, "Debe cargar al menos un empleado de cada puesto", "Advertencia", JOptionPane.WARNING_MESSAGE);	
 		}
 		
-		else if(actualEs(vPrincipal.panelCargarIncompatibles)) 
+		else if(vPrincipal.estaEnCargarRequerimientos())
 		{
-			iniciarCargarRequerimientos();
+			if(!ctrlCargarRequerimientos.hayInconvenientes())
+			{	
+				ctrlCargarRequerimientos.ejecutar();
+				comenzarBusquedaDeSolucion();
+			}
 		}
 		
-		else if(actualEs(vPrincipal.panelCargarRequerimientos))
+		else if(vPrincipal.estaEnMostrarSolucion())
 		{
-			if(ctrlCargarRequerimientos.confirmoCotas()) 
-				iniciarBuscarSolucion();
-			
-			else
-				JOptionPane.showMessageDialog(null, "Es posible que no haya confirmado las cotas o que haya habido cambios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		}			
+			vPrincipal.activarVistaCargarRequerimientos();
+		}
 	}
 
-	private void iniciarCargarIncompatibles() 
+	private void comenzarCargarRequerimientos() 
 	{
-		vPrincipal.panelCargarEmpleado.setVisible(false);
-		vPrincipal.panelCargarIncompatibles = new CargarIncompatibles();
-		vPrincipal.getContentPane().add(vPrincipal.panelCargarIncompatibles, BorderLayout.CENTER);
-		
-		ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, vPrincipal.panelCargarIncompatibles);
-		ctrlCargarIncompatibles.iniciar();
-	}
-	
-	private void iniciarCargarRequerimientos() 
-	{
-		vPrincipal.panelCargarIncompatibles.setVisible(false);
-		vPrincipal.btnCambiarPanel.setVisible(true);
-
-		vPrincipal.panelCargarRequerimientos = new CargarRequerimientos(vPrincipal.panelCargarEmpleado.tablaEmpleados, vPrincipal.panelCargarIncompatibles.tablaIncompatibles);
-		vPrincipal.getContentPane().add(vPrincipal.panelCargarRequerimientos, BorderLayout.CENTER);
-		vPrincipal.btnCambiarPanel.setText("Buscar Solucion");
-		
-		ctrlCargarRequerimientos = new CtrlCargarRequerimientos(modelo, vPrincipal.panelCargarRequerimientos);
+		vPrincipal.activarVistaCargarRequerimientos();
 		ctrlCargarRequerimientos.iniciar();
 	}
 	
-	private void iniciarBuscarSolucion() 
+	private void comenzarBusquedaDeSolucion() 
 	{
-		vPrincipal.panelCargarRequerimientos.setVisible(false);
-		vPrincipal.panelBuscarSolucion = new BuscarSolucion();
-		vPrincipal.getContentPane().add(vPrincipal.panelBuscarSolucion, BorderLayout.CENTER);
-		vPrincipal.btnCambiarPanel.setVisible(false);
+		vPrincipal.activarVistaBuscarSolucion();
 		
 		Thread buscarSolucion = new Thread(new Runnable() 
 		{
@@ -111,45 +85,17 @@ public class CtrlVentanaPrincipal implements ActionListener
 			public void run() 
 			{	
 				modelo.resolver();
-	
-				iniciarMostrarResultados();
+				
+				comenzarMuestraDeSolucion();
 			}
-			
 		});
-
 		buscarSolucion.start();
 	}
 	
-	private void iniciarMostrarResultados() 
+	private void comenzarMuestraDeSolucion() 
 	{
-		if(modelo.existeSolucion())
-		{
-			vPrincipal.panelBuscarSolucion.setVisible(false);
-			vPrincipal.panelMostrarSolucion = new MostrarSolucion();
-			vPrincipal.getContentPane().add(vPrincipal.panelMostrarSolucion, BorderLayout.CENTER);
-			vPrincipal.validate();
-		
-			ctrlMostrarSolucion = new CtrlMostrarSolucion(modelo,vPrincipal.panelMostrarSolucion);
-			ctrlMostrarSolucion.cargarEmpleadosFinales();	
-						
-			
-		}
-		
-		else
-		{
-			vPrincipal.panelBuscarSolucion.setVisible(false);		
-			iniciarCargarRequerimientos();
-			
-			JOptionPane.showMessageDialog(null, "No es posible formar un equipo con los requerimientos dados", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		}
+		vPrincipal.activarVistaMostrarSolucion();
+		ctrlMostrarSolucion.iniciar();
 	}
-	
 
-
-	private boolean actualEs(JPanel panel)
-	{
-		if(panel.isVisible())
-			return true;
-		return false;
-	}
 }

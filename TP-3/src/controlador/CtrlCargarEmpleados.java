@@ -31,7 +31,7 @@ public class CtrlCargarEmpleados implements ActionListener
 		this.panelCargarEmpleados.btnGenerar.addActionListener(this);
 		this.panelCargarEmpleados.btnEliminar.addActionListener(this);
 	}
-	
+		
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{

@@ -3,25 +3,35 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
 import modelo.Modelo;
 import vista.CargarIncompatibles;
+import vista.CargarRequerimientos;
 
 public class CtrlCargarIncompatibles implements ActionListener
 {
 	private Modelo modelo;
 	private CargarIncompatibles panelCargarIncompatibles;
+	private JTable tablaIncompatibles;
 	
-	public CtrlCargarIncompatibles(Modelo modelo, CargarIncompatibles panelCargarIncompatibles) 
+	public CtrlCargarIncompatibles(Modelo modelo, CargarRequerimientos panelCargarRequerimientos) 
 	{
 		this.modelo = modelo;
-		this.panelCargarIncompatibles = panelCargarIncompatibles;	
 		
-		panelCargarIncompatibles.btnAgregar.addActionListener(this);
+		this.panelCargarIncompatibles = panelCargarRequerimientos.panelCargarIncompatibles;	
+		this.tablaIncompatibles = panelCargarRequerimientos.tablaIncompatibles;	
 	}
 	
 	public void iniciar() 
+	{
+		llenarComboBoxes();
+		
+		this.panelCargarIncompatibles.btnAgregar.addActionListener(this);
+	}
+
+	private void llenarComboBoxes() 
 	{
 		for(Empleado empleado: modelo.getEmpleados())
 		{
@@ -55,11 +65,10 @@ public class CtrlCargarIncompatibles implements ActionListener
 	
 	private void actualizarTablaDeIncompatibles() 
 	{
-		DefaultTableModel tablaModelo = (DefaultTableModel) panelCargarIncompatibles.tablaIncompatibles.getModel();
+		DefaultTableModel tablaModelo = (DefaultTableModel) tablaIncompatibles.getModel();
 		
 		tablaModelo.addRow(new String[] { nombreE1(), puestoE1(), nombreE2(), puestoE2() });
 	}
-	
 	
 	//METODOS AUXILIARES
 	private boolean losEmpleadosSonValidos() 
@@ -99,6 +108,4 @@ public class CtrlCargarIncompatibles implements ActionListener
 		
 		return modelo.getEmpleados().get(i).getPuesto();
 	}
-	
-	
 }

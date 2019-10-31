@@ -1,28 +1,31 @@
 package controlador;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.table.DefaultTableModel;
-
 import modelo.Modelo;
 import vista.MostrarSolucion;
-import vista.VentanaPrincipal;
 
-public class CtrlMostrarSolucion implements ActionListener
+public class CtrlMostrarSolucion
 {
-	private MostrarSolucion mostrarSolucion;
+	private MostrarSolucion panelMostrarSolucion;
 	private Modelo modelo;
 	
 	public CtrlMostrarSolucion(Modelo modelo, MostrarSolucion mtrSolucion )
 	{
 		this.modelo = modelo;
-		this.mostrarSolucion = mtrSolucion;
-		
-		this.mostrarSolucion.botonComenzar.addActionListener(this);
+		this.panelMostrarSolucion = mtrSolucion;
 	}
 	
-	public void cargarEmpleadosFinales()
+	public void iniciar() 
+	{
+		if(seEncontroSolucion()) 
+			panelMostrarSolucion.lblMensajeResultado.setText("Equipo que cumple con los requisitos");
+		else
+			panelMostrarSolucion.lblMensajeResultado.setText("No fue posible formar un equipo con los requerimientos dados");
+		
+		cargarEmpleadosFinales();
+	}
+	
+	private void cargarEmpleadosFinales()
 	{
 		String matriz[][] = new String[modelo.getSolucion().size()][2];
 		
@@ -33,18 +36,14 @@ public class CtrlMostrarSolucion implements ActionListener
 		}
 		
 		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
-		mostrarSolucion.tablaEquipo.setModel(dtm);
+		panelMostrarSolucion.tablaEquipo.setModel(dtm);
 	
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) 
+	
+	private boolean seEncontroSolucion() 
 	{
-		if(arg0.getSource() == mostrarSolucion.botonComenzar);
-		{
-			VentanaPrincipal  vPrincipal = new VentanaPrincipal();
-			CtrlVentanaPrincipal ctrl = new CtrlVentanaPrincipal(new Modelo(),vPrincipal);
-			ctrl.iniciar();
-		}
+		return !modelo.getSolucion().isEmpty();
 	}
+
 }
+

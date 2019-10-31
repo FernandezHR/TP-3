@@ -1,6 +1,5 @@
 package vista;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,19 +8,14 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.border.MatteBorder;
-import javax.swing.BoxLayout;
 
 @SuppressWarnings("serial")
 public class CargarIncompatibles extends JPanel
 {
 	public JComboBox<String> cmboxEmpleado1, cmboxEmpleado2;
 	public JButton btnAgregar;
-	public JTable tablaIncompatibles;
 	
 	private Color verde, verde2;
 
@@ -30,27 +24,21 @@ public class CargarIncompatibles extends JPanel
 		verde = new Color(21, 182, 141);
 		verde2 = new Color(16, 163, 125);
 		
-		setBackground(verde);
-		setLayout(new BorderLayout());
+		this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+		this.setBackground(verde);
 		
 		inicializar();
 	}
 	
 	private void inicializar() 
 	{
-		JPanel panelIzq = new JPanel();
-		panelIzq.setPreferredSize(new Dimension(240,0));
-		panelIzq.setBackground(verde);
-		panelIzq.setLayout(new BoxLayout(panelIzq, BoxLayout.Y_AXIS));
-		add(panelIzq, BorderLayout.WEST);
-		
 		//INICIALIZACION DEL PANEL IZQ DEL EMPLEADO 1
 		JPanel panelE1 = new JPanel();
-		panelE1.setBorder(new MatteBorder(10, 10, 10, 10, verde));
-		panelE1.setPreferredSize(new Dimension(0,200));
+		panelE1.setBorder(new MatteBorder(0, 10, 0, 10, verde));
+		panelE1.setPreferredSize(new Dimension(250,140));
 		panelE1.setBackground(verde2);
 		panelE1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
-		panelIzq.add(panelE1);
+		this.add(panelE1);
 		
 		JLabel lblEmpleado1 = new JLabel("Empleado 1:");
 		lblEmpleado1.setFont(new Font("Nirmala UI", Font.PLAIN, 13));
@@ -59,16 +47,16 @@ public class CargarIncompatibles extends JPanel
 		panelE1.add(lblEmpleado1);
 
 		cmboxEmpleado1 = new JComboBox<String>();
-		cmboxEmpleado1.setPreferredSize(new Dimension(200,45));
+		cmboxEmpleado1.setPreferredSize(new Dimension(200,40));
 		panelE1.add(cmboxEmpleado1);
 		
 		//INICIALIZACION DEL PANEL IZQ DEL EMPLEADO 2
 		JPanel panelE2 = new JPanel();
-		panelE2.setBorder(new MatteBorder(10, 10, 10, 10, verde));
-		panelE2.setPreferredSize(new Dimension(0,200));
+		panelE2.setBorder(new MatteBorder(0, 10, 0, 10, verde));
+		panelE2.setPreferredSize(new Dimension(250,170));
 		panelE2.setBackground(verde2);
 		panelE2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
-		panelIzq.add(panelE2);
+		this.add(panelE2);
 		
 		JLabel lblEmpleado2 = new JLabel("Empleado 2:");
 		lblEmpleado2.setForeground(Color.WHITE);
@@ -77,15 +65,14 @@ public class CargarIncompatibles extends JPanel
 		panelE2.add(lblEmpleado2);
 
 		cmboxEmpleado2 = new JComboBox<String>();
-		cmboxEmpleado2.setPreferredSize(new Dimension(200,45));
+		cmboxEmpleado2.setPreferredSize(new Dimension(200,40));
 		panelE2.add(cmboxEmpleado2);
-		
 		
 		////INICIALIZACION DEL PANEL IZQ DEL BTN AGREGAR
 		JPanel panelAgregar = new JPanel();
 		panelAgregar.setBackground(verde);
-		panelAgregar.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 30));
-		panelIzq.add(panelAgregar);
+		panelAgregar.setLayout(new BorderLayout());
+		this.add(panelAgregar);
 		
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.setPreferredSize(new Dimension(100,50));
@@ -94,18 +81,5 @@ public class CargarIncompatibles extends JPanel
 		btnAgregar.setForeground(Color.WHITE);
 		btnAgregar.setFocusable(false);
 		panelAgregar.add(btnAgregar, BorderLayout.CENTER);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(238, 0, 496, 508);
-		add(scrollPane, BorderLayout.CENTER);
-		
-		tablaIncompatibles = new JTable(new DefaultTableModel(new Object[][] {}, new String[] {"Empleado 1", "Puesto 1", "Empleado 2", "Puesto 2"})) 
-		{
-			@Override //Sobreescribmos este metodo para desactivar la edicion de celdas
-			public boolean isCellEditable(int i, int j) 
-			{
-				return false;
-			}};
-		scrollPane.setViewportView(tablaIncompatibles);
 	}
 }

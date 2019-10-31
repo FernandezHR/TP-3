@@ -21,6 +21,5 @@ public class Principal
 
 		CtrlVentanaPrincipal controlador = new CtrlVentanaPrincipal(modelo, vista);		
 		controlador.iniciar();
-		
 	}
 }

@@ -4,8 +4,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.awt.Dimension;
-
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTable;
@@ -16,11 +14,11 @@ import javax.swing.border.MatteBorder;
 @SuppressWarnings("serial")
 public class MostrarSolucion extends JPanel
 {	
-	private Color verde;
-	
 	public JTable tablaEquipo;
-	public JButton botonComenzar;
+	public JLabel lblMensajeResultado;
 	
+	private Color verde;
+
 	public MostrarSolucion() 
 	{
 		verde = new Color(21, 182, 141);
@@ -29,7 +27,6 @@ public class MostrarSolucion extends JPanel
 		this.setLayout(new BorderLayout());
 		
 		inicializar();
-		
 	}
 
 	private void inicializar() 
@@ -49,26 +46,16 @@ public class MostrarSolucion extends JPanel
 		};
 		scrollPane.setViewportView(tablaEquipo);
 
-		JPanel panel = new JPanel();
-		panel.setBackground(verde);
-		panel.setPreferredSize(new Dimension(496,30));
-		this.add(panel, BorderLayout.NORTH);
+		JPanel panelMsj = new JPanel();
+		panelMsj.setBackground(verde);
+		panelMsj.setPreferredSize(new Dimension(496,30));
+		this.add(panelMsj, BorderLayout.NORTH);
 		
-		JLabel lblNewLabel = new JLabel("Equipo que cumple con los requisitos");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setPreferredSize(new Dimension(400,30));
-		lblNewLabel.setFont(new Font("Nirmala UI", Font.BOLD, 16));
-		lblNewLabel.setForeground(Color.WHITE);
-		panel.add(lblNewLabel);
-	
-		botonComenzar = new JButton("Ingresar otro equipo");
-		botonComenzar.setForeground(Color.WHITE);
-		botonComenzar.setFont(new Font("Nirmala UI", Font.BOLD, 13));
-		botonComenzar.setBackground(new Color(11, 53, 42));
-		this.add(botonComenzar, BorderLayout.SOUTH);
-		
-		
+		lblMensajeResultado = new JLabel("Equipo que cumple con los requisitos");
+		lblMensajeResultado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMensajeResultado.setPreferredSize(new Dimension(480,30));
+		lblMensajeResultado.setFont(new Font("Nirmala UI", Font.BOLD, 16));
+		lblMensajeResultado.setForeground(Color.WHITE);
+		panelMsj.add(lblMensajeResultado);	
 	}
-
-
 }
