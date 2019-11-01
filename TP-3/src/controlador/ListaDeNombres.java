@@ -1,10 +1,14 @@
 package controlador;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import javax.management.RuntimeErrorException;
 
@@ -21,86 +25,48 @@ public class ListaDeNombres
 	
 	private void generarNombres()
 	{
-		ArrayList<String> nombres = cargarNombres();
-		ArrayList<String> apellidos = cargarApellidos();
+		ArrayList<String> nombres = leerFichero("nombres.txt");
+		ArrayList<String> apellidos = leerFichero("apellidos.txt");
 		
-		for(String nombre : nombres) 
-			for(String apellido : apellidos)
-				listaDeNombres.add(nombre + " " + apellido);
-				
-	}
-
-	private ArrayList<String> cargarNombres()  
-	{
-		ArrayList<String> nombres = new ArrayList<String>();
-		
-		try 
-		{
-			BufferedReader br = new BufferedReader(new FileReader("./src/archivos/nombres.txt"));
-			
-			String linea;
-			while(!(linea = br.readLine()).equals(""))
-				nombres.add(linea);
-			
-			br.close();
-			
-		} 
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-		
-		
-		return nombres;
+		nombres.stream().forEach(n ->
+			apellidos.stream().forEach(a -> 
+				listaDeNombres.add(n + " " + a)));				
 	}
 	
-	private ArrayList<String> cargarApellidos() 
+	private ArrayList<String> leerFichero(String fichero) 
 	{
-		ArrayList<String> apellidos = new ArrayList<String>();
+		ArrayList<String> lineas = new ArrayList<String>();
 		
-		try 
-		{
-			BufferedReader br = new BufferedReader(new FileReader("./src/archivos/apellidos.txt"));
-			
-			String linea;
-			while(!(linea = br.readLine()).equals(""))
-				apellidos.add(linea);
-			
-			br.close();
-			
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
+		Path path = Paths.get("src/archivos/" + fichero);
 		
-		return apellidos;
+		try (Stream <String> stream = Files.lines(path, Charset.forName("Cp1252"))) 
+		{
+			stream.filter(x -> !x.isEmpty()).forEach(x -> lineas.add(x));
+		} 
+		catch (IOException e1) 
+		{	
+			e1.printStackTrace();
+		}
+	
+		return lineas;
 	}
+	
 
 	public String dameUno() 
 	{
 		if(cantidad() == 0)
 			throw new RuntimeErrorException(null, "La lista ya no puede dar mas nombres, esta vacia.");
+			
+		String nombre = listaDeNombres.get(new Random().nextInt(listaDeNombres.size()));
 		
-		int i = new Random().nextInt(listaDeNombres.size());
-		
-		String nombre = listaDeNombres.get(i);
-		
-		listaDeNombres.remove(i);
+		listaDeNombres.remove(nombre);
 
 		return nombre;
 	}
 	
 	public void eliminar(String n)
 	{
-		for(String nombre : listaDeNombres)
-		{
-			if(nombre.equals(n)) 
-			{
-				listaDeNombres.remove(nombre);
-				break;
-			}
-		}
+		listaDeNombres.remove(n);
 	}
 	
 	public int cantidad()
