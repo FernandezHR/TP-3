@@ -92,7 +92,7 @@ public class VentanaPrincipal extends JFrame
 		return false;
 	}
 	
-	public boolean estaEnCargarRequerimientos() 
+	public boolean estaEnCargarDatos() 
 	{
 		if(panelCargarDatos.isVisible())
 			return true;

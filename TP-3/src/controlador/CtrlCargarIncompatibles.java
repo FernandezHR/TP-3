@@ -13,6 +13,7 @@ import vista.CargarDatos;
 public class CtrlCargarIncompatibles implements ActionListener
 {
 	private Modelo modelo;
+	
 	private CargarIncompatibles panelCargarIncompatibles;
 	private JTable tablaIncompatibles;
 	
@@ -54,30 +55,29 @@ public class CtrlCargarIncompatibles implements ActionListener
 	
 	private void eliminarIncompatibles() 
 	{
-		int cantidad = tablaIncompatibles.getSelectedRowCount();
+		int cantSelec = tablaIncompatibles.getSelectedRowCount();
 		int fila;
-		for(int i=0; i < cantidad; i++)
+		String empleado;
+		String empleado2;
+		for(int i=0; i < cantSelec; i++)
 		{
-			
 			fila = tablaIncompatibles.getSelectedRow();
+			
 			DefaultTableModel dtm = (DefaultTableModel) tablaIncompatibles.getModel();
-			modelo.eliminarMalaRelacion((String)dtm.getValueAt(fila, 0), (String)dtm.getValueAt(fila, 2));
+			
+			empleado = (String) dtm.getValueAt(fila, 0);
+			empleado2 = (String) dtm.getValueAt(fila, 2);
+			modelo.eliminarMalaRelacion(empleado, empleado2);
 			
 			dtm.removeRow(fila);
-			
-
-		}
-		
+		}		
 	}
 
 	private void agregarIncompatibles() 
 	{
 		if(losEmpleadosSonValidos())
 		{
-			String empleado1 = nombreE1();
-			String empleado2 = nombreE2();
-			
-			modelo.agregarMalaRelacion(empleado1, empleado2);
+			modelo.agregarMalaRelacion(nombreE1(), nombreE2());
 			
 			actualizarTablaDeIncompatibles();
 		}	

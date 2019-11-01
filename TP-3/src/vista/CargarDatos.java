@@ -107,4 +107,27 @@ public class CargarDatos extends JPanel
 		};
 		scrollPaneTE.setViewportView(tablaEmpleados);
 	}
+	
+	public void cambiarPanel() 
+	{
+		if(panelCargarCotas.isVisible()) 
+		{
+			panelCargarCotas.setVisible(false);
+			panelCargarIncompatibles.setVisible(true);
+			panelControles.add(panelCargarIncompatibles, BorderLayout.CENTER);
+			btnSiguiente.setEnabled(true);
+			btnAnterior.setEnabled(false);
+		}
+		
+		else if(panelCargarIncompatibles.isVisible())
+		{
+			panelCargarIncompatibles.setVisible(false);
+			panelCargarCotas.setVisible(true);
+			panelControles.add(panelCargarCotas, BorderLayout.CENTER);
+			btnSiguiente.setEnabled(false);
+			btnAnterior.setEnabled(true);
+			System.out.println("XD");
+		}
+	}
+
 }

@@ -30,7 +30,7 @@ public class CargarCotas extends JPanel
 		
 		iniPanelArquitecto();
 		iniPanelProgramador();
-		iniPanelTester();
+		iniPanelTester();	
 	}
 
 	private void iniPanelArquitecto() 
@@ -154,5 +154,59 @@ public class CargarCotas extends JPanel
 		maxTester.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		maxTester.setPreferredSize(new Dimension(60,25));
 		panelTester.add(maxTester);
+	}
+	
+	public void setSpinnerArquitecto(int max) 
+	{	
+		minArquitecto.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer(max), new Integer(1)));
+		maxArquitecto.setModel(new SpinnerNumberModel(new Integer(max), new Integer(1), new Integer(max), new Integer(1)));
+		minArquitecto.setEditor(new JSpinner.DefaultEditor(minArquitecto));
+		maxArquitecto.setEditor(new JSpinner.DefaultEditor(maxArquitecto));
+	}
+	
+	public void setSpinnerProgramador(int max) 
+	{
+		minProgramador.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer(max), new Integer(1)));
+		maxProgramador.setModel(new SpinnerNumberModel(new Integer(max), new Integer(1), new Integer(max), new Integer(1)));
+		minProgramador.setEditor(new JSpinner.DefaultEditor(minProgramador));
+		maxProgramador.setEditor(new JSpinner.DefaultEditor(maxProgramador));
+	}
+	
+	public void setSpinnerTester(int max) 
+	{
+		minTester.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer(max), new Integer(1)));
+		maxTester.setModel(new SpinnerNumberModel(new Integer(max), new Integer(1), new Integer(max), new Integer(1)));
+		minTester.setEditor(new JSpinner.DefaultEditor(minTester));
+		maxTester.setEditor(new JSpinner.DefaultEditor(maxTester));
+	}
+	
+	public int getMinArquitecto() 
+	{
+		return (int) minArquitecto.getValue();
+	}
+	
+	public int getMaxArquitecto() 
+	{
+		return (int) maxArquitecto.getValue();
+	}
+	
+	public int getMinProgramador() 
+	{
+		return (int) minProgramador.getValue();
+	}
+	
+	public int getMaxProgramador() 
+	{
+		return (int) maxProgramador.getValue();
+	}
+	
+	public int getMinTester() 
+	{
+		return (int) minTester.getValue();
+	}
+	
+	public int getMaxTester() 
+	{
+		return (int) maxTester.getValue();
 	}
 }

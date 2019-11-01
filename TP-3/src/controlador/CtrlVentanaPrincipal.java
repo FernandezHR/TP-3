@@ -54,7 +54,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 				JOptionPane.showMessageDialog(null, "Debe cargar al menos un empleado de cada puesto", "Advertencia", JOptionPane.WARNING_MESSAGE);	
 		}
 		
-		else if(vPrincipal.estaEnCargarRequerimientos())
+		else if(vPrincipal.estaEnCargarDatos())
 		{
 			if(!ctrlCargarDatos.hayInconvenientes())
 			{	
@@ -64,9 +64,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 		}
 		
 		else if(vPrincipal.estaEnMostrarSolucion())
-		{
 			vPrincipal.activarVistaCargarRequerimientos();
-		}
 	}
 
 	private void comenzarCargarDatos() 

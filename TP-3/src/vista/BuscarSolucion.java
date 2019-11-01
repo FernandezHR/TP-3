@@ -28,19 +28,6 @@ public class BuscarSolucion extends JPanel
 
 	private void inicializarComponentes() 
 	{ 
-//		JPanel panelBarraVircular = new JPanel();
-//		panelBarraVircular.setBackground(verde);
-//		panelBarraVircular.setBorder(new MatteBorder(100, 100, 100, 100, verde));
-//		panelBarraVircular.setLayout(new BorderLayout());
-//		this.add(panelBarraVircular, BorderLayout.CENTER);
-//		
-//		RSProgressCircleAnimatedUno barraCicular = new RSProgressCircleAnimatedUno();
-//		barraCicular.setFont(new Font("Nirmala UI", Font.BOLD, 15));
-//		barraCicular.setColorText(Color.WHITE);
-//		barraCicular.setForeground(Color.WHITE);
-//		barraCicular.setString("Buscando Solucion");	
-//		panelBarraVircular.add(barraCicular, BorderLayout.CENTER);
-		
 		JPanel panelBarraProgreso = new JPanel();
 		panelBarraProgreso.setBorder(new MatteBorder(180, 0, 0, 0, verde));
 		panelBarraProgreso.setBackground(verde);

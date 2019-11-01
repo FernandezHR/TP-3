@@ -1,11 +1,8 @@
 package controlador;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.table.DefaultTableModel;
-
 import modelo.Modelo;
 import vista.CargarDatos;
 
@@ -13,6 +10,7 @@ public class CtrlCargarDatos implements ActionListener
 {
 	private Modelo modelo;
 	private CargarDatos panelCargarDatos;
+	
 	private CtrlCargarIncompatibles ctrlCargarIncompatibles;
 	private CtrlCargarCotas ctrlCargarCotas;
 	
@@ -21,7 +19,7 @@ public class CtrlCargarDatos implements ActionListener
 		this.modelo = modelo;
 		this.panelCargarDatos = panelCargarRequerimientos;
 		this.ctrlCargarIncompatibles = new CtrlCargarIncompatibles(modelo, panelCargarRequerimientos);
-		this.ctrlCargarCotas = new CtrlCargarCotas(modelo, panelCargarRequerimientos.panelCargarCotas);
+		this.ctrlCargarCotas = new CtrlCargarCotas(modelo, panelCargarRequerimientos);
 	}
 
 	public void iniciar() 
@@ -65,40 +63,10 @@ public class CtrlCargarDatos implements ActionListener
 	public void actionPerformed(ActionEvent arg0) 
 	{
 		if(arg0.getSource() == panelCargarDatos.btnSiguiente) 
-			cambiarACargarCotas();
+			panelCargarDatos.cambiarPanel();
 		
-		if(arg0.getSource() == panelCargarDatos.btnAnterior) 
-			cambiarACargarIncompatibles();
+		if(arg0.getSource() == panelCargarDatos.btnAnterior)
+			panelCargarDatos.cambiarPanel();
 	}
-	
-	private void cambiarACargarCotas() 
-	{
-		panelCargarDatos.panelCargarIncompatibles.setVisible(false);
-		panelCargarDatos.panelCargarCotas.setVisible(true);
-		panelCargarDatos.panelControles.add(panelCargarDatos.panelCargarCotas, BorderLayout.CENTER);
-		desactivarBotones();
-	}
-	
-	private void cambiarACargarIncompatibles() 
-	{
-		panelCargarDatos.panelCargarCotas.setVisible(false);
-		panelCargarDatos.panelCargarIncompatibles.setVisible(true);
-		panelCargarDatos.panelControles.add(panelCargarDatos.panelCargarIncompatibles, BorderLayout.CENTER);
-		desactivarBotones();
-	}
-	
-	private void desactivarBotones() 
-	{
-		if(panelCargarDatos.panelCargarCotas.isVisible()) 
-		{
-			panelCargarDatos.btnSiguiente.setEnabled(false);
-			panelCargarDatos.btnAnterior.setEnabled(true);
-		}
 		
-		if(panelCargarDatos.panelCargarIncompatibles.isVisible())
-		{
-			panelCargarDatos.btnAnterior.setEnabled(false);
-			panelCargarDatos.btnSiguiente.setEnabled(true);
-		}
-	}
 }
