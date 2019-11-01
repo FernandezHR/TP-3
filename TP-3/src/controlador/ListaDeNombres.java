@@ -1,6 +1,5 @@
 package controlador;
 
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -41,7 +40,9 @@ public class ListaDeNombres
 		
 		try (Stream <String> stream = Files.lines(path, Charset.forName("Cp1252"))) 
 		{
-			stream.filter(x -> !x.isEmpty()).forEach(x -> lineas.add(x));
+			stream.filter(x -> !x.isEmpty())
+			.forEach(x -> 
+				lineas.add(x));
 		} 
 		catch (IOException e1) 
 		{	
@@ -51,7 +52,6 @@ public class ListaDeNombres
 		return lineas;
 	}
 	
-
 	public String dameUno() 
 	{
 		if(cantidad() == 0)
@@ -73,6 +73,4 @@ public class ListaDeNombres
 	{
 		return listaDeNombres.size();
 	}
-	
-	
 }
