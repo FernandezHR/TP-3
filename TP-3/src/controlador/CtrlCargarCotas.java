@@ -1,6 +1,5 @@
 package controlador;
 
-import modelo.Empleado;
 import modelo.Modelo;
 import vista.CargarCotas;
 import vista.CargarDatos;
@@ -23,21 +22,10 @@ public class CtrlCargarCotas
 	
 	private void configurarSpinners() 
 	{
-		int contArquitecto, contProgramador, contTester;
-		contArquitecto = contProgramador = contTester = 0;
-		
-		for(Empleado empleado : modelo.getEmpleados())
-		{	
-			if(empleado.getPuesto().equals("Arquitecto"))
-				contArquitecto++;
-			
-			if(empleado.getPuesto().equals("Programador"))
-				contProgramador++;
-			
-			if(empleado.getPuesto().equals("Tester"))
-				contTester++;
-		}
-		
+		int contArquitecto = (int) modelo.getEmpleados().stream().filter(e -> e.getPuesto().equals("Arquitecto")).count();
+		int contProgramador = (int) modelo.getEmpleados().stream().filter(e -> e.getPuesto().equals("Programador")).count();
+		int contTester = (int) modelo.getEmpleados().stream().filter(e -> e.getPuesto().equals("Tester")).count();
+	
 		panelCargarCotas.setSpinnerArquitecto(contArquitecto);
 		panelCargarCotas.setSpinnerProgramador(contProgramador);
 		panelCargarCotas.setSpinnerTester(contTester);		

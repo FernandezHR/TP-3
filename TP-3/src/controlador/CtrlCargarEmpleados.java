@@ -3,6 +3,8 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.stream.IntStream;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
@@ -84,16 +86,17 @@ public class CtrlCargarEmpleados implements ActionListener
 
 	private void eliminarEmpleados() 
 	{
-		for(String nombre : nombresEmpleadosSelec())
-			modelo.eliminarEmpleado(nombre);
+		nombresEmpleadosSelec()
+		.stream()
+		.forEach(n -> modelo.eliminarEmpleado(n));
 			
 		actualizarTablaDeEmpleados();
 	}
 	
 	private void crearEmpleados(int cantidad, String puesto) 
 	{
-		for(int i=0; i < cantidad; i++)
-			modelo.agregarEmpleado(listaDeNombres.dameUno(), puesto);
+		IntStream.rangeClosed(1, cantidad)
+		.forEach(i -> modelo.agregarEmpleado(listaDeNombres.dameUno(), puesto));
 	}
 	
 	private void actualizarVista() 
@@ -105,13 +108,14 @@ public class CtrlCargarEmpleados implements ActionListener
 
 	private void actualizarTablaDeEmpleados() 
 	{
+		ArrayList<Empleado> empleados = modelo.getEmpleados();
 		String matriz[][] = new String[modelo.getEmpleados().size()][2];
 		
-		for(int i=0; i < modelo.getEmpleados().size(); i++) 
-		{
-			matriz[i][0] = modelo.getEmpleados().get(i).getNombre();
-			matriz[i][1] = modelo.getEmpleados().get(i).getPuesto();
-		}
+		IntStream.range(0, empleados.size())
+		.forEach(i -> {
+			matriz[i][0] = empleados.get(i).getNombre();
+			matriz[i][1] = empleados.get(i).getPuesto();
+		});
 		
 		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
 		panelCargarEmpleados.tablaEmpleados.setModel(dtm);
@@ -154,7 +158,7 @@ public class CtrlCargarEmpleados implements ActionListener
 	}
 	
 	private ArrayList<String> nombresEmpleadosSelec() 
-	{
+	{	
 		int indices[] = panelCargarEmpleados.tablaEmpleados.getSelectedRows();
 		
 		DefaultTableModel dtm = (DefaultTableModel) panelCargarEmpleados.tablaEmpleados.getModel();
@@ -178,27 +182,13 @@ public class CtrlCargarEmpleados implements ActionListener
 
 	public boolean tieneDatosSuficientes()
 	{
-		boolean hayLider, hayArquitecto, hayProgramador, hayTester;
-		hayLider = hayArquitecto = hayProgramador = hayTester = false;
+		ArrayList<Empleado> empleados = modelo.getEmpleados();
 		
-		for(Empleado empleado : modelo.getEmpleados()) 
-		{
-			if(empleado.getPuesto().equals("Lider de Proyecto"))
-				hayLider = true;
-			
-			if(empleado.getPuesto().equals("Arquitecto"))
-				hayArquitecto = true;
-			
-			if(empleado.getPuesto().equals("Programador"))
-				hayProgramador = true;
-			
-			if(empleado.getPuesto().equals("Tester"))
-				hayTester = true;
-			
-			if(hayLider && hayArquitecto && hayProgramador && hayTester)
-				return true;
-		}
+		int cantLider = (int) empleados.stream().filter(e -> e.getPuesto().equals("Lider de Proyecto")).count();
+		int cantArquitecto = (int) empleados.stream().filter(e -> e.getPuesto().equals("Arquitecto")).count();
+		int cantProgramador = (int) empleados.stream().filter(e -> e.getPuesto().equals("Programador")).count();
+		int cantTester = (int) empleados.stream().filter(e -> e.getPuesto().equals("Tester")).count();
 		
-		return hayLider && hayArquitecto && hayProgramador && hayTester;
+		return cantLider >= 1 && cantArquitecto >= 1 && cantProgramador >= 1 && cantTester >= 1;
 	}
 }

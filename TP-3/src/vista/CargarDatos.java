@@ -126,7 +126,6 @@ public class CargarDatos extends JPanel
 			panelControles.add(panelCargarCotas, BorderLayout.CENTER);
 			btnSiguiente.setEnabled(false);
 			btnAnterior.setEnabled(true);
-			System.out.println("XD");
 		}
 	}
 

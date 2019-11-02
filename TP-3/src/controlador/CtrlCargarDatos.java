@@ -2,7 +2,10 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.stream.IntStream;
 import javax.swing.table.DefaultTableModel;
+import modelo.Empleado;
 import modelo.Modelo;
 import vista.CargarDatos;
 
@@ -35,13 +38,15 @@ public class CtrlCargarDatos implements ActionListener
 	
 	private void llenarTablaEmpleados() 
 	{
-		String matriz[][] = new String[modelo.getEmpleados().size()][2];
+		ArrayList<Empleado> empleados = modelo.getEmpleados();
 		
-		for(int i=0; i < modelo.getEmpleados().size() ; i++) 
-		{
-			matriz[i][0] = modelo.getEmpleados().get(i).getNombre();
-			matriz[i][1] = modelo.getEmpleados().get(i).getPuesto();
-		}
+		String matriz[][] = new String[empleados.size()][2];
+		
+		IntStream.range(0, empleados.size())
+		.forEach(i -> {
+			matriz[i][0] = empleados.get(i).getNombre();
+			matriz[i][1] = empleados.get(i).getPuesto();
+		});
 		
 		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
 		panelCargarDatos.tablaEmpleados.setModel(dtm);
@@ -67,6 +72,5 @@ public class CtrlCargarDatos implements ActionListener
 		
 		if(arg0.getSource() == panelCargarDatos.btnAnterior)
 			panelCargarDatos.cambiarPanel();
-	}
-		
+	}		
 }
