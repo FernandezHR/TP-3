@@ -2,10 +2,14 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
 import modelo.Modelo;
@@ -29,6 +33,7 @@ public class CtrlCargarEmpleados implements ActionListener
 	{
 		panelCargarEmpleados.lblCantNombres.setToolTipText("Es posible generar " + listaDeNombres.cantidad() + " empleados.");
 		
+		this.panelCargarEmpleados.btnElegirFoto.addActionListener(this);
 		this.panelCargarEmpleados.btnCargar.addActionListener(this);
 		this.panelCargarEmpleados.btnGenerar.addActionListener(this);
 		this.panelCargarEmpleados.btnEliminar.addActionListener(this);
@@ -37,51 +42,55 @@ public class CtrlCargarEmpleados implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{
-		if(arg0.getSource() == panelCargarEmpleados.btnCargar)
-			cargarEmpleado();
+		if(arg0.getSource() == panelCargarEmpleados.btnElegirFoto)
+			elegirFoto();
+		
+		if(arg0.getSource() == panelCargarEmpleados.btnCargar) 
+			if(esPosibleCargarEmpleado())
+				cargarEmpleado();
 		
 		if(arg0.getSource() == panelCargarEmpleados.btnGenerar)
-			generarEmpleados();
+			if(sePuedeGenerar())
+				generarEmpleados();
 		
 		if(arg0.getSource() == panelCargarEmpleados.btnEliminar)
 			eliminarEmpleados();
 	}
 
+	private void elegirFoto() 
+	{
+		JFileChooser jfc = new JFileChooser();
+		jfc.setFileFilter(new FileNameExtensionFilter("JPG y PNG", "jpg","png"));
+		
+		if(jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+		{
+			String path = jfc.getSelectedFile().toString();
+			panelCargarEmpleados.txtPathFoto.setText(path);
+		}
+	}
+
 	private void cargarEmpleado() 
 	{
-		if(camposEstanLlenos()) 
-		{
-			String nombre = obtenerNombre();
-			String puesto = obtenerPuesto();
-			
-			if(!modelo.existeEmpleado(nombre))
-			{
-				modelo.agregarEmpleado(nombre, puesto);
-				listaDeNombres.eliminar(nombre);
-				
-				actualizarVista();
-			}
-			else
-				JOptionPane.showMessageDialog(null, "El empleado '" + nombre + "' ya fue agregado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		}
-		else
-			JOptionPane.showMessageDialog(null, "Rellene todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-	}
+		String nombre = obtenerNombre();
+		String puesto = obtenerPuesto();
+		String path = obtenerPath();
+		
+		modelo.agregarEmpleado(nombre, puesto);
+		listaDeNombres.eliminar(nombre); //Por si el nombre existe en la lista	
 	
+		FotosDeEmpleados.agregarFoto(nombre, new ImageIcon(path));
+			
+		actualizarVista();
+	}
+
 	private void generarEmpleados() 
 	{
-		if(cantidadEsValida()) 
-		{
-			crearEmpleados((int) panelCargarEmpleados.cantLiderDeProyecto.getValue(), "Lider de Proyecto");
-			crearEmpleados((int) panelCargarEmpleados.cantArquitecto.getValue(), "Arquitecto");
-			crearEmpleados((int) panelCargarEmpleados.cantProgramador.getValue(), "Programador");
-			crearEmpleados((int) panelCargarEmpleados.cantTester.getValue(), "Tester");
-		
-			actualizarVista();
-		}
-		else
-			JOptionPane.showMessageDialog(null, "No es posible generar esa cantidad de empleados.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		
+		crearEmpleados((int) panelCargarEmpleados.cantLiderDeProyecto.getValue(), "Lider de Proyecto");
+		crearEmpleados((int) panelCargarEmpleados.cantArquitecto.getValue(), "Arquitecto");
+		crearEmpleados((int) panelCargarEmpleados.cantProgramador.getValue(), "Programador");
+		crearEmpleados((int) panelCargarEmpleados.cantTester.getValue(), "Tester");
+	
+		actualizarVista();
 	}
 
 	private void eliminarEmpleados() 
@@ -95,8 +104,13 @@ public class CtrlCargarEmpleados implements ActionListener
 	
 	private void crearEmpleados(int cantidad, String puesto) 
 	{
-		IntStream.rangeClosed(1, cantidad)
-		.forEach(i -> modelo.agregarEmpleado(listaDeNombres.dameUno(), puesto));
+		String nombre;
+		for(int i=1; i <= cantidad; i++) 
+		{
+			nombre = listaDeNombres.dameUno();
+			modelo.agregarEmpleado(nombre, puesto);
+			FotosDeEmpleados.agregarFoto(nombre, new ImageIcon("src/iconos/fotoDefault.png"));
+		}
 	}
 	
 	private void actualizarVista() 
@@ -126,13 +140,49 @@ public class CtrlCargarEmpleados implements ActionListener
 		panelCargarEmpleados.txtNombre.setText(null);
 		panelCargarEmpleados.txtApellido.setText(null);
 		panelCargarEmpleados.cmboxPuestos.setSelectedItem(null);
+		panelCargarEmpleados.txtPathFoto.setText("Default");
 		panelCargarEmpleados.cantLiderDeProyecto.setValue(0);
 		panelCargarEmpleados.cantArquitecto.setValue(0);
 		panelCargarEmpleados.cantProgramador.setValue(0);
 		panelCargarEmpleados.cantTester.setValue(0);
 	}
 	
-	//METODOS AUXILIARES
+	
+	//////////////////////
+	//METODOS AUXILIARES//
+	//////////////////////
+	
+	private boolean esPosibleCargarEmpleado() 
+	{
+		if(!camposEstanLlenos())
+		{
+			JOptionPane.showMessageDialog(null, "Rellene todos los campos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		
+		if(modelo.existeEmpleado(obtenerNombre())) 
+		{
+			JOptionPane.showMessageDialog(null, "El empleado '" + obtenerNombre() + "' ya fue agregado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		
+		if(!existeDirectorio())
+		{
+			JOptionPane.showMessageDialog(null, "El direcctorio " + obtenerPath() + " no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+			panelCargarEmpleados.txtPathFoto.setText("Default");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private boolean existeDirectorio() 
+	{
+		if(new File(obtenerPath()).exists())
+			return true;
+		return false;
+	}
+	
 	private boolean camposEstanLlenos() 
 	{
 		if(panelCargarEmpleados.txtNombre.getText().equals(""))
@@ -147,27 +197,31 @@ public class CtrlCargarEmpleados implements ActionListener
 		return true;
 	}
 	
-	private boolean cantidadEsValida() 
+	//Devuelve verdadero si la lista tiene nombres suficientes para la cantidad de empleados a generar
+	private boolean sePuedeGenerar() 
 	{
 		int cantidadAGenerar = (int)panelCargarEmpleados.cantLiderDeProyecto.getValue() + (int)panelCargarEmpleados.cantArquitecto.getValue() 
 			+ (int)panelCargarEmpleados.cantProgramador.getValue() + (int)panelCargarEmpleados.cantTester.getValue();
 		
-		if(listaDeNombres.cantidad() >= cantidadAGenerar)
-			return true;
-		return false;
+		if(listaDeNombres.cantidad() < cantidadAGenerar)
+		{
+			JOptionPane.showMessageDialog(null, "No es posible generar esa cantidad de empleados.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
 	}
-	
-	private ArrayList<String> nombresEmpleadosSelec() 
-	{	
-		int indices[] = panelCargarEmpleados.tablaEmpleados.getSelectedRows();
+
+	//Metodo que devuelve verdadero si se han cargado al menos un empleado de cada puesto
+	public boolean tieneDatosSuficientes()
+	{
+		ArrayList<Empleado> empleados = modelo.getEmpleados();
 		
-		DefaultTableModel dtm = (DefaultTableModel) panelCargarEmpleados.tablaEmpleados.getModel();
+		int cantLider = (int) empleados.stream().filter(e -> e.getPuesto().equals("Lider de Proyecto")).count();
+		int cantArquitecto = (int) empleados.stream().filter(e -> e.getPuesto().equals("Arquitecto")).count();
+		int cantProgramador = (int) empleados.stream().filter(e -> e.getPuesto().equals("Programador")).count();
+		int cantTester = (int) empleados.stream().filter(e -> e.getPuesto().equals("Tester")).count();
 		
-		ArrayList<String> nombresEmpleadosSelec = new ArrayList<String>();
-		for(Integer i : indices) 
-			nombresEmpleadosSelec.add((String) dtm.getValueAt(i, 0));
-		
-		return nombresEmpleadosSelec;
+		return cantLider >= 1 && cantArquitecto >= 1 && cantProgramador >= 1 && cantTester >= 1;
 	}
 	
 	private String obtenerNombre() 
@@ -179,16 +233,26 @@ public class CtrlCargarEmpleados implements ActionListener
 	{
 		return panelCargarEmpleados.cmboxPuestos.getSelectedItem().toString();
 	}
-
-	public boolean tieneDatosSuficientes()
+	
+	private String obtenerPath() 
 	{
-		ArrayList<Empleado> empleados = modelo.getEmpleados();
+		if(panelCargarEmpleados.txtPathFoto.getText().equals("Default"))
+			return "src/iconos/fotoDefault.png";
 		
-		int cantLider = (int) empleados.stream().filter(e -> e.getPuesto().equals("Lider de Proyecto")).count();
-		int cantArquitecto = (int) empleados.stream().filter(e -> e.getPuesto().equals("Arquitecto")).count();
-		int cantProgramador = (int) empleados.stream().filter(e -> e.getPuesto().equals("Programador")).count();
-		int cantTester = (int) empleados.stream().filter(e -> e.getPuesto().equals("Tester")).count();
+		return panelCargarEmpleados.txtPathFoto.getText();
+	}
+	
+	//Devuelve una lista con los nombres de los empleados seleccionados de la tabla
+	private ArrayList<String> nombresEmpleadosSelec() 
+	{	
+		int indices[] = panelCargarEmpleados.tablaEmpleados.getSelectedRows();
 		
-		return cantLider >= 1 && cantArquitecto >= 1 && cantProgramador >= 1 && cantTester >= 1;
+		DefaultTableModel dtm = (DefaultTableModel) panelCargarEmpleados.tablaEmpleados.getModel();
+		
+		ArrayList<String> nombresEmpleadosSelec = new ArrayList<String>();
+		for(Integer i : indices) 
+			nombresEmpleadosSelec.add((String) dtm.getValueAt(i, 0));
+		
+		return nombresEmpleadosSelec;
 	}
 }

@@ -95,4 +95,10 @@ public class CargarIncompatibles extends JPanel
 		btnEliminar.setFocusable(false);
 		panelEliminar.add(btnEliminar, BorderLayout.CENTER);
 	}
+	
+	public void agregarOpcion(String opcion) 
+	{
+		cmboxEmpleado1.addItem(opcion);
+		cmboxEmpleado2.addItem(opcion);
+	}
 }

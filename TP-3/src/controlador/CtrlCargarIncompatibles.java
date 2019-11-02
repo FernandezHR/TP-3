@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import modelo.Empleado;
 import modelo.Modelo;
 import vista.CargarIncompatibles;
 import vista.CargarDatos;
@@ -35,11 +34,9 @@ public class CtrlCargarIncompatibles implements ActionListener
 
 	private void llenarComboBoxes() 
 	{
-		for(Empleado empleado: modelo.getEmpleados())
-		{
-			panelCargarIncompatibles.cmboxEmpleado1.addItem(empleado.getNombre() + ", " + empleado.getPuesto());
-			panelCargarIncompatibles.cmboxEmpleado2.addItem(empleado.getNombre() + ", " + empleado.getPuesto());
-		}
+		modelo.getEmpleados()
+		.stream()
+		.forEach(e -> panelCargarIncompatibles.agregarOpcion(e.getNombre() + ", " + e.getPuesto()));
 	}
 
 	@Override
@@ -70,7 +67,7 @@ public class CtrlCargarIncompatibles implements ActionListener
 			modelo.eliminarMalaRelacion(empleado, empleado2);
 			
 			dtm.removeRow(fila);
-		}		
+		}
 	}
 
 	private void agregarIncompatibles() 

@@ -3,6 +3,7 @@ package modelo;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 public class Solver 
 {
@@ -31,7 +32,6 @@ public class Solver
 		//Caso base
 		if( inicial == instancia.getTamanio())
 		{
-			System.out.println(cont++);
 			if(conjuntoActualNoTieneIncompatibles() && conjuntoActualCumpleMinimos())
 			{
 				ArrayList<Empleado> equipoMaximo = armarMaximoEquipo();
@@ -87,7 +87,7 @@ public class Solver
 	}
 
 	private boolean conjuntoActualNoTieneIncompatibles()
-	{		
+	{	
 		for (Integer i : conjuntoActual) 
 			for (Integer j : conjuntoActual) 
 				if ( i != j && instancia.sonIncompatibles(i, j))
@@ -98,25 +98,13 @@ public class Solver
 	
 	private boolean conjuntoActualCumpleMinimos() 
 	{
-		int contLider = 0, contArquitecto = 0, contProgramador = 0, contTester = 0;
-		
-		for(Integer i : conjuntoActual)
-		{
-			if(esLider(i))
-				contLider++;
-			
-			if(esArquitecto(i))
-				contArquitecto++;
-			
-			if(esProgramador(i))
-				contProgramador++;
-			
-			if(esTester(i))
-				contTester++;
-		}
-		
-		return contLider >= instancia.minLider() && contArquitecto >= instancia.minArquitecto() 
-				&& contProgramador >= instancia.minProgramador() && contTester >= instancia.minTester();
+		int cantLider = (int) conjuntoActual.stream().filter(i -> esLider(i)).count();
+		int cantProg = (int) conjuntoActual.stream().filter(i -> esArquitecto(i)).count();
+		int cantArq = (int) conjuntoActual.stream().filter(i -> esProgramador(i)).count();
+		int cantTest = (int) conjuntoActual.stream().filter(i -> esTester(i)).count();
+	
+		return cantLider >= instancia.minLider() && cantArq >= instancia.minArquitecto() 
+				&& cantProg >= instancia.minProgramador() && cantTest >= instancia.minTester();
 	}
 
 	private boolean esTester(Integer i) 

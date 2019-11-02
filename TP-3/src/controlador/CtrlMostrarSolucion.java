@@ -1,8 +1,7 @@
 package controlador;
 
-import java.util.stream.IntStream;
-
-import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import modelo.Empleado;
 import modelo.Modelo;
 import vista.MostrarSolucion;
 
@@ -24,27 +23,37 @@ public class CtrlMostrarSolucion
 		else
 			panelMostrarSolucion.lblMensajeResultado.setText("No fue posible formar un equipo con los requerimientos dados");
 		
-		cargarEmpleadosFinales();
+		cargarEquipoElegido();
 	}
 	
-	private void cargarEmpleadosFinales()
+	private void cargarEquipoElegido() 
 	{
-		String matriz[][] = new String[modelo.getSolucion().size()][2];
+		panelMostrarSolucion.limpiarFotos();
 		
-		IntStream.range(0, modelo.getSolucion().size())
-		.forEach(i -> {
-			matriz[i][0] = modelo.getSolucion().get(i).getNombre();
-			matriz[i][1] = modelo.getSolucion().get(i).getPuesto();
-		});
+		ArrayList<Empleado> solucion = modelo.getSolucion();
 		
-		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
-		panelMostrarSolucion.tablaEquipo.setModel(dtm);
+		solucion.stream()
+		.filter(e -> e.getPuesto().equals("Lider de Proyecto"))
+		.forEach(e -> panelMostrarSolucion.agregarLider(e.getNombre(), FotosDeEmpleados.getFoto(e.getNombre())));
+		
+		solucion.stream()
+		.filter(e -> e.getPuesto().equals("Arquitecto"))
+		.forEach(e -> panelMostrarSolucion.agregarArquitecto(e.getNombre(), FotosDeEmpleados.getFoto(e.getNombre())));
+		
+		solucion.stream()
+		.filter(e -> e.getPuesto().equals("Programador"))
+		.forEach(e -> panelMostrarSolucion.agregarProgramador(e.getNombre(), FotosDeEmpleados.getFoto(e.getNombre())));
+		
+		solucion.stream()
+		.filter(e -> e.getPuesto().equals("Tester"))
+		.forEach(e -> panelMostrarSolucion.agregarTester(e.getNombre(), FotosDeEmpleados.getFoto(e.getNombre())));
+		
+		panelMostrarSolucion.validate();
 	}
 	
 	private boolean seEncontroSolucion() 
 	{
 		return !modelo.getSolucion().isEmpty();
 	}
-
 }
 

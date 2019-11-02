@@ -1,6 +1,5 @@
 package vista;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,7 +29,8 @@ public class CargarEmpleados extends JPanel
 {
 	public JTextField txtNombre, txtApellido;
 	public JComboBox<String> cmboxPuestos;
-	public JButton btnCargar;
+	public JTextField txtPathFoto;
+	public JButton btnElegirFoto, btnCargar;
 	public JSpinner cantProgramador, cantLiderDeProyecto, cantArquitecto, cantTester;
 	public JButton btnGenerar;
 	public JLabel lblCantNombres;
@@ -85,7 +85,7 @@ public class CargarEmpleados extends JPanel
 		panelCrearEmpleado.setBorder(new MatteBorder(10, 10, 10, 10, verde));
 		panelCrearEmpleado.setBackground(verde2);
 		panelCrearEmpleado.setPreferredSize(new Dimension(0,175));
-		panelCrearEmpleado.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
+		panelCrearEmpleado.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		panelIzq.add(panelCrearEmpleado);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
@@ -131,12 +131,28 @@ public class CargarEmpleados extends JPanel
 		lblPuesto.setFont(new Font("Nirmala UI", Font.BOLD, 11));
 		lblPuesto.setForeground(Color.WHITE);
 		lblPuesto.setPreferredSize(new Dimension(50,30));
-		panelCrearEmpleado.add(lblPuesto);	
+		panelCrearEmpleado.add(lblPuesto);
+
 		
 		cmboxPuestos = new JComboBox<String>();
 		cmboxPuestos.setPreferredSize(new Dimension(131,30));
 		cmboxPuestos.setModel(new DefaultComboBoxModel<String>(new String[] {null, "Lider de Proyecto", "Arquitecto", "Programador", "Tester"}));
 		panelCrearEmpleado.add(cmboxPuestos);
+		
+		JLabel lblFoto = new JLabel("Foto:");
+		lblFoto.setFont(new Font("Nirmala UI", Font.BOLD, 11));
+		lblFoto.setForeground(Color.WHITE);
+		lblFoto.setPreferredSize(new Dimension(50,30));
+		panelCrearEmpleado.add(lblFoto);
+		
+		txtPathFoto = new JTextField("Default");
+		txtPathFoto.setFont(new Font("Nirmala UI", Font.ITALIC, 11));
+		txtPathFoto.setPreferredSize(new Dimension(85,30));
+		txtPathFoto.setEditable(false);
+		panelCrearEmpleado.add(txtPathFoto);
+		
+		btnElegirFoto = new JButton("...");
+		panelCrearEmpleado.add(btnElegirFoto);
 	
 		btnCargar = new JButton("Cargar");
 		btnCargar.addMouseListener(new MouseAdapter() {
