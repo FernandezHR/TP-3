@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -24,25 +25,27 @@ public class ListaDeNombres
 	
 	private void generarNombres()
 	{
-		ArrayList<String> nombres = leerFichero("nombres.txt");
-		ArrayList<String> apellidos = leerFichero("apellidos.txt");
+		List<String> nombres = leerFichero("nombres.txt");
+		List<String> apellidos = leerFichero("apellidos.txt");
 		
-		nombres.stream().forEach(n ->
-			apellidos.stream().forEach(a -> 
-				listaDeNombres.add(n + " " + a)));				
+		nombres.stream()
+		.forEach(n ->
+		apellidos.stream()
+		.forEach(a -> 
+		listaDeNombres.add(n + " " + a)));				
 	}
 	
-	private ArrayList<String> leerFichero(String fichero) 
+	private List<String> leerFichero(String fichero) 
 	{
-		ArrayList<String> lineas = new ArrayList<String>();
+		List<String> lineas = new ArrayList<String>();
 		
 		Path path = Paths.get("src/archivos/" + fichero);
 		
 		try (Stream <String> stream = Files.lines(path, Charset.forName("Cp1252"))) 
 		{
-			stream.filter(x -> !x.isEmpty())
-			.forEach(x -> 
-				lineas.add(x));
+			stream
+			.filter(x -> !x.isEmpty())
+			.forEach(x -> lineas.add(x));
 		} 
 		catch (IOException e1) 
 		{	

@@ -32,11 +32,10 @@ public class CtrlMostrarSolucion
 		String matriz[][] = new String[modelo.getSolucion().size()][2];
 		
 		IntStream.range(0, modelo.getSolucion().size())
-			.forEach(i -> 
-			{
-				matriz[i][0] = modelo.getSolucion().get(i).getNombre();
-				matriz[i][1] = modelo.getSolucion().get(i).getPuesto();
-			});
+		.forEach(i -> {
+			matriz[i][0] = modelo.getSolucion().get(i).getNombre();
+			matriz[i][1] = modelo.getSolucion().get(i).getPuesto();
+		});
 		
 		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
 		panelMostrarSolucion.tablaEquipo.setModel(dtm);
