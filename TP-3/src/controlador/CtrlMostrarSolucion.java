@@ -19,9 +19,9 @@ public class CtrlMostrarSolucion
 	public void iniciar() 
 	{
 		if(seEncontroSolucion()) 
-			panelMostrarSolucion.lblMensajeResultado.setText("Equipo que cumple con los requisitos");
+			panelMostrarSolucion.setMensaje("Equipo que cumple con los requisitos");
 		else
-			panelMostrarSolucion.lblMensajeResultado.setText("No fue posible formar un equipo con los requerimientos dados");
+			panelMostrarSolucion.setMensaje("No fue posible formar un equipo con los requerimientos dados");
 		
 		cargarEquipoElegido();
 	}

@@ -95,6 +95,13 @@ public class MostrarSolucion extends JPanel
 		panelSuperior.add(lblMensajeResultado);	
 	}
 	
+
+	//METODOS
+	public void setMensaje(String mensaje) 
+	{
+		lblMensajeResultado.setText(mensaje);
+	}
+	
 	public void limpiarFotos() 
 	{
 		panelLider.removeAll();
@@ -133,7 +140,7 @@ public class MostrarSolucion extends JPanel
 		
 		JLabel lblImagen = new JLabel();
 		lblImagen.setPreferredSize(new Dimension(70,70));
-		lblImagen.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT)));
+		lblImagen.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH)));
 		panel.add(lblImagen, BorderLayout.CENTER);
 		
 		JLabel lblNombre = new JLabel(recortar(nombre));

@@ -21,19 +21,21 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 
 @SuppressWarnings("serial")
 public class CargarEmpleados extends JPanel
 {
-	public JTextField txtNombre, txtApellido;
-	public JComboBox<String> cmboxPuestos;
-	public JTextField txtPathFoto;
+	private JTextField txtNombre, txtApellido;
+	private JComboBox<String> cmboxPuestos;
+	private JTextField txtPathFoto;
 	public JButton btnElegirFoto, btnCargar;
-	public JSpinner cantProgramador, cantLiderDeProyecto, cantArquitecto, cantTester;
+	private JSpinner cantProgramador, cantLiderDeProyecto, cantArquitecto, cantTester;
 	public JButton btnGenerar;
-	public JLabel lblCantNombres;
+	private JLabel lblCantNombres;
 	public JButton btnEliminar;
 	public JTable tablaEmpleados;
 	
@@ -304,4 +306,79 @@ public class CargarEmpleados extends JPanel
 		panelEliminar.add(btnEliminar);
 	}
 	
+	
+	//METODOS
+	
+	public void resetearCampos() 
+	{
+		txtNombre.setText(null);
+		txtApellido.setText(null);
+		cmboxPuestos.setSelectedItem(null);
+		txtPathFoto.setText("Default");
+		cantLiderDeProyecto.setValue(0);
+		cantArquitecto.setValue(0);
+		cantProgramador.setValue(0);
+		cantTester.setValue(0);
+	}
+
+	public void setTabla(String[][] matriz) 
+	{
+		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
+		tablaEmpleados.setModel(dtm);	
+	}
+
+	public void setCantNombres(int cantidad) 
+	{
+		lblCantNombres.setToolTipText("Es posible generar " + cantidad + " empleados.");
+	}
+
+	public void setPathFoto(String path) 
+	{
+		txtPathFoto.setText(path);
+	}
+	
+	public void resetPath() 
+	{
+		txtPathFoto.setText("Default");
+	}
+
+	public String getNombre() 
+	{
+		return txtNombre.getText();	
+	}
+
+	public String getApellido() 
+	{
+		return txtApellido.getText();
+	}
+
+	public String getPuesto() 
+	{
+		return cmboxPuestos.getSelectedItem().toString();
+	}
+	
+	public String getPathFoto() 
+	{
+		return txtPathFoto.getText();
+	}
+
+	public int getCantLider() 
+	{	
+		return (int) cantLiderDeProyecto.getValue();
+	}
+	
+	public int getCantArquitecto()
+	{
+		return (int) cantArquitecto.getValue();
+	}
+	
+	public int getCantProgramador() 
+	{
+		return (int) cantProgramador.getValue();
+	}
+	
+	public int getCantTester() 
+	{
+		return (int) cantTester.getValue();
+	}
 }

@@ -31,7 +31,7 @@ public class CtrlCargarEmpleados implements ActionListener
 	
 	public void iniciar() 
 	{
-		panelCargarEmpleados.lblCantNombres.setToolTipText("Es posible generar " + listaDeNombres.cantidad() + " empleados.");
+		panelCargarEmpleados.setCantNombres(listaDeNombres.cantidad());;
 		
 		this.panelCargarEmpleados.btnElegirFoto.addActionListener(this);
 		this.panelCargarEmpleados.btnCargar.addActionListener(this);
@@ -65,7 +65,7 @@ public class CtrlCargarEmpleados implements ActionListener
 		if(jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
 		{
 			String path = jfc.getSelectedFile().toString();
-			panelCargarEmpleados.txtPathFoto.setText(path);
+			panelCargarEmpleados.setPathFoto(path);
 		}
 	}
 
@@ -85,10 +85,10 @@ public class CtrlCargarEmpleados implements ActionListener
 
 	private void generarEmpleados() 
 	{
-		crearEmpleados((int) panelCargarEmpleados.cantLiderDeProyecto.getValue(), "Lider de Proyecto");
-		crearEmpleados((int) panelCargarEmpleados.cantArquitecto.getValue(), "Arquitecto");
-		crearEmpleados((int) panelCargarEmpleados.cantProgramador.getValue(), "Programador");
-		crearEmpleados((int) panelCargarEmpleados.cantTester.getValue(), "Tester");
+		crearEmpleados(panelCargarEmpleados.getCantLider(), "Lider de Proyecto");
+		crearEmpleados(panelCargarEmpleados.getCantArquitecto(), "Arquitecto");
+		crearEmpleados(panelCargarEmpleados.getCantProgramador(), "Programador");
+		crearEmpleados(panelCargarEmpleados.getCantTester(), "Tester");
 	
 		actualizarVista();
 	}
@@ -116,8 +116,8 @@ public class CtrlCargarEmpleados implements ActionListener
 	private void actualizarVista() 
 	{
 		actualizarTablaDeEmpleados();
-		resetearCampos();
-		panelCargarEmpleados.lblCantNombres.setToolTipText("Es posible generar " + listaDeNombres.cantidad() + " empleados.");
+		panelCargarEmpleados.resetearCampos();
+		panelCargarEmpleados.setCantNombres(listaDeNombres.cantidad());
 	}
 
 	private void actualizarTablaDeEmpleados() 
@@ -131,23 +131,9 @@ public class CtrlCargarEmpleados implements ActionListener
 			matriz[i][1] = empleados.get(i).getPuesto();
 		});
 		
-		DefaultTableModel dtm = new DefaultTableModel(matriz, new String[] {"Nombre", "Puesto"});
-		panelCargarEmpleados.tablaEmpleados.setModel(dtm);
+		panelCargarEmpleados.setTabla(matriz);
 	}
 
-	private void resetearCampos() 
-	{
-		panelCargarEmpleados.txtNombre.setText(null);
-		panelCargarEmpleados.txtApellido.setText(null);
-		panelCargarEmpleados.cmboxPuestos.setSelectedItem(null);
-		panelCargarEmpleados.txtPathFoto.setText("Default");
-		panelCargarEmpleados.cantLiderDeProyecto.setValue(0);
-		panelCargarEmpleados.cantArquitecto.setValue(0);
-		panelCargarEmpleados.cantProgramador.setValue(0);
-		panelCargarEmpleados.cantTester.setValue(0);
-	}
-	
-	
 	//////////////////////
 	//METODOS AUXILIARES//
 	//////////////////////
@@ -169,7 +155,7 @@ public class CtrlCargarEmpleados implements ActionListener
 		if(!existeDirectorio())
 		{
 			JOptionPane.showMessageDialog(null, "El direcctorio " + obtenerPath() + " no existe.", "Error", JOptionPane.ERROR_MESSAGE);
-			panelCargarEmpleados.txtPathFoto.setText("Default");
+			panelCargarEmpleados.resetPath();
 			return false;
 		}
 		
@@ -185,13 +171,13 @@ public class CtrlCargarEmpleados implements ActionListener
 	
 	private boolean camposEstanLlenos() 
 	{
-		if(panelCargarEmpleados.txtNombre.getText().equals(""))
+		if(panelCargarEmpleados.getNombre().isEmpty())
 			return false;
 		
-		if(panelCargarEmpleados.txtApellido.getText().equals(""))
+		if(panelCargarEmpleados.getApellido().isEmpty())
 			return false;
 		
-		if(panelCargarEmpleados.cmboxPuestos.getSelectedItem() == null)
+		if(panelCargarEmpleados.getPuesto().isEmpty())
 			return false;
 		
 		return true;
@@ -200,8 +186,8 @@ public class CtrlCargarEmpleados implements ActionListener
 	//Devuelve verdadero si la lista tiene nombres suficientes para la cantidad de empleados a generar
 	private boolean sePuedeGenerar() 
 	{
-		int cantidadAGenerar = (int)panelCargarEmpleados.cantLiderDeProyecto.getValue() + (int)panelCargarEmpleados.cantArquitecto.getValue() 
-			+ (int)panelCargarEmpleados.cantProgramador.getValue() + (int)panelCargarEmpleados.cantTester.getValue();
+		int cantidadAGenerar = panelCargarEmpleados.getCantLider() + panelCargarEmpleados.getCantArquitecto() 
+			+ panelCargarEmpleados.getCantProgramador() + panelCargarEmpleados.getCantTester();
 		
 		if(listaDeNombres.cantidad() < cantidadAGenerar)
 		{
@@ -226,20 +212,20 @@ public class CtrlCargarEmpleados implements ActionListener
 	
 	private String obtenerNombre() 
 	{
-		return panelCargarEmpleados.txtNombre.getText() + " " + panelCargarEmpleados.txtApellido.getText();
+		return panelCargarEmpleados.getNombre() + " " + panelCargarEmpleados.getApellido();
 	}
 	
 	private String obtenerPuesto() 
 	{
-		return panelCargarEmpleados.cmboxPuestos.getSelectedItem().toString();
+		return panelCargarEmpleados.getPuesto();
 	}
 	
 	private String obtenerPath() 
 	{
-		if(panelCargarEmpleados.txtPathFoto.getText().equals("Default"))
+		if(panelCargarEmpleados.getPathFoto().equals("Default"))
 			return "src/iconos/fotoDefault.png";
 		
-		return panelCargarEmpleados.txtPathFoto.getText();
+		return panelCargarEmpleados.getPathFoto();
 	}
 	
 	//Devuelve una lista con los nombres de los empleados seleccionados de la tabla

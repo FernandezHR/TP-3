@@ -20,6 +20,7 @@ public class CtrlCargarCotas
 		configurarSpinners();
 	}
 	
+	//Setea los valores maximos de los spiners (cotas) segun los empleados cargados
 	private void configurarSpinners() 
 	{
 		int contArquitecto = (int) modelo.getEmpleados().stream().filter(e -> e.getPuesto().equals("Arquitecto")).count();
@@ -31,6 +32,7 @@ public class CtrlCargarCotas
 		panelCargarCotas.setSpinnerTester(contTester);		
 	}
 	
+	//Pasa a la logica las cotas min/max que tienen actualmente los spinners
 	public void ejecutar() 
 	{
 		int min = panelCargarCotas.getMinArquitecto();
@@ -49,6 +51,7 @@ public class CtrlCargarCotas
 		modelo.setCondicionTester(min, max);
 	}
 	
+	//Devuelve verdadero si la cota minima no supera a la maxima
 	public boolean tieneCotasValidas() 
 	{
 		int min = panelCargarCotas.getMinArquitecto();
