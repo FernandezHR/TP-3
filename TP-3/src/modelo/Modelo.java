@@ -230,5 +230,10 @@ public class Modelo
 		return solucion;
 	}
 	
+	public Grafo getMalasRelaciones()
+	{
+		return malasRelaciones;
+	}
+	
 
 }

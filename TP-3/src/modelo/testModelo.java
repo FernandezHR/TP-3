@@ -163,5 +163,52 @@ public class testModelo
 		assertFalse(modelo.existeMalaRelacionEntre("Jose", "Martin"));
 	}
 	  
+	//Test de funciones auxiliares//
+	@Test
+	public void ConfirmarListaVaciaTest()
+	{
+		Modelo modelo = new Modelo();
+		modelo.confirmarListaDeEmpleados();
+		
+		assertTrue(modelo.getMalasRelaciones().tamano() == modelo.getEmpleados().size());	
+	}
+	
+	@Test
+	public void ConfirmarListaCompletaTest()
+	{
+		Modelo modelo = new Modelo();
+		modelo.agregarEmpleado("Emanuel", "Arquitecto");
+		modelo.confirmarListaDeEmpleados();
+		
+		assertTrue(modelo.getMalasRelaciones().tamano() == modelo.getEmpleados().size());	
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void setCondicionArquitectoNegativo1Test()
+	{
+		Modelo modelo = new Modelo();
+		modelo.setCondicionArquitecto(-1, 2);
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void setCondicionArquitectoNegativo2Test()
+	{
+		Modelo modelo = new Modelo();
+		modelo.setCondicionArquitecto(2, -1);
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void minMayorAlMaxTest()
+	{
+		Modelo modelo = new Modelo();
+		modelo.setCondicionArquitecto(2, 1);
+	}
+	
+	@Test
+	public void setCondicionValidaTest()
+	{
+		Modelo modelo = new Modelo();
+		modelo.setCondicionArquitecto(2, 3);	
+	}
 	
 }
