@@ -162,9 +162,12 @@ public class Modelo
 	//Metodos Auxiliares
 	public boolean existeEmpleado(String nombre) 
 	{
-		for(Empleado empleado : empleados)
-			if(empleado.getNombre().equals(nombre))
-				return true;
+		if(!empleados.isEmpty())
+		{
+			for(Empleado empleado : empleados)
+				if(empleado.getNombre().equals(nombre))
+					return true;
+		}
 		
 		return false;
 	}
