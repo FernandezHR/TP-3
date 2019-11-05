@@ -46,7 +46,7 @@ public class testSolverEquipo
 		assertFalse(modelo.existeSolucion());
 	}
 	
-	@Test 
+	@Test (expected = RuntimeException.class)
 	public void testEquipoIncompleto() 
 	{
 		Modelo modelo = new Modelo();
@@ -54,9 +54,6 @@ public class testSolverEquipo
 		modelo.agregarEmpleado("Arq2", "Arquitecto");
 		
 		modelo.confirmarListaDeEmpleados();
-		modelo.resolver();
-		
-		assertFalse(modelo.existeSolucion());
 	}
 	
 	@Test //Prueba que se devuelva un puesto por equipo
