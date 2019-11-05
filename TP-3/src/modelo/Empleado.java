@@ -38,7 +38,4 @@ public class Empleado
 
 		return false;
 	}
-	
-	
-
 }

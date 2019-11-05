@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
+
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
 import modelo.Modelo;
@@ -60,7 +62,10 @@ public class CtrlCargarDatos implements ActionListener
 	public boolean hayInconvenientes() 
 	{
 		if(!ctrlCargarCotas.tieneCotasValidas())
+		{		
+			JOptionPane.showMessageDialog(null, "Verifique que las cotas minimas no superen las maximas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 			return true;
+		}
 		return false;
 	}
 

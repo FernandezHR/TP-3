@@ -49,7 +49,7 @@ public class VentanaPrincipal extends JFrame
 		this.getContentPane().add(btnAvanzar, BorderLayout.SOUTH);			
 	}
 	
-	public void activarVistaCargarRequerimientos() 
+	public void activarVistaCargarDatos() 
 	{
 		btnAvanzar.setText("BuscarSolucion");
 		panelCargarEmpleado.setVisible(false);

@@ -35,14 +35,7 @@ public class Modelo
 	{
 		verificarEliminacion(nombre);
 		
-		for(Empleado empleado : empleados)
-		{
-			if(empleado.getNombre().equals(nombre))
-			{
-				empleados.remove(empleado);
-				break;
-			}
-		}
+		empleados.removeIf(e -> e.getNombre().equals(nombre));
 	}
 	
 	public void confirmarListaDeEmpleados() 
@@ -54,22 +47,14 @@ public class Modelo
 
 	public void agregarMalaRelacion(String nombreE1, String nombreE2)
 	{
-		if(!listaFueConfirmada())
-			throw new RuntimeErrorException(null, "No puede agregar, no confirmo la lista de empleados.");
-		
-		if(!existeEmpleado(nombreE1) || !existeEmpleado(nombreE2))
-			throw new RuntimeErrorException(null, "No se puede agregar, uno o ambos no existen.");
+		verificarRelacion(nombreE1, nombreE2);
 		
 		malasRelaciones.agregarArista(getIndice(nombreE1), getIndice(nombreE2));
 	}
 	
 	public void eliminarMalaRelacion(String nombreE1, String nombreE2)
 	{
-		if(!listaFueConfirmada())
-			throw new RuntimeErrorException(null, "No puede agregar, no confirmo la lista de empleados.");
-		
-		if(!existeEmpleado(nombreE1) || !existeEmpleado(nombreE2))
-			throw new RuntimeErrorException(null, "No se puede agregar, uno o ambos no existen.");
+		verificarRelacion(nombreE1, nombreE2);
 		
 		malasRelaciones.borrarArista(getIndice(nombreE1), getIndice(nombreE2));
 	}
@@ -133,8 +118,17 @@ public class Modelo
 	
 	private void verificarLista() 
 	{
-		if(!haySuficientesEmpleados())
+		if(!listaEstaCompleta())
 			throw new RuntimeErrorException(null, "La lista debe contener 1 empleado de cada puesto");
+	}
+	
+	private void verificarRelacion(String nombreE1, String nombreE2) 
+	{
+		if(!listaFueConfirmada())
+			throw new RuntimeErrorException(null, "No puede agregar, no confirmo la lista de empleados.");
+		
+		if(!existeEmpleado(nombreE1) || !existeEmpleado(nombreE2))
+			throw new RuntimeErrorException(null, "No se puede agregar, uno o ambos no existen.");
 	}
 
 	private void verificarCondicion(int min, int max) 
@@ -149,28 +143,17 @@ public class Modelo
 	//Metodos Auxiliares
 	public boolean existeEmpleado(String nombre) 
 	{
-		if(!empleados.isEmpty())
-		{
-			for(Empleado empleado : empleados)
-				if(empleado.getNombre().equals(nombre))
-					return true;
-		}
-		
-		return false;
+		return empleados.contains(new Empleado(nombre, "Tester"));
 	}
 
 	public boolean existeMalaRelacionEntre(String nombreE1, String nombreE2)
 	{
-		if(!listaFueConfirmada())
-			throw new RuntimeErrorException(null, "No confirmo la lista de empleados.");
-	
-		if(!existeEmpleado(nombreE1) || !existeEmpleado(nombreE2))
-			throw new RuntimeErrorException(null, "Uno o ambos empleados no existe.");
+		verificarRelacion(nombreE1, nombreE2);
 		
 		return malasRelaciones.existeArista(getIndice(nombreE1), getIndice(nombreE2));
 	}
 	
-	private boolean haySuficientesEmpleados() 
+	private boolean listaEstaCompleta() 
 	{
 		long lideres = empleados.stream().filter(e -> e.getPuesto().equals("Lider de Proyecto")).count();
 		long arquitectos = empleados.stream().filter(e -> e.getPuesto().equals("Arquitecto")).count();
@@ -206,23 +189,16 @@ public class Modelo
 		return instancia;
 	}
 	
+	
 	private int getIndice(String nombre) 
 	{
-		int x = IntStream
+		 return IntStream
 				.range(0, cantEmpleados())
 				.filter(i -> empleados.get(i).getNombre().equals(nombre))
 				.findFirst()
 				.getAsInt();
-		
-		return x;
 	}
 
-	//GETTERS
-	@SuppressWarnings("unchecked")
-	public ArrayList<Empleado> getEmpleados() 
-	{
-		return (ArrayList<Empleado>) empleados.clone();
-	}
 	
 	public int cantEmpleados() 
 	{
@@ -233,11 +209,15 @@ public class Modelo
 	{
 		return solucion;
 	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Empleado> getEmpleados() 
+	{
+		return (ArrayList<Empleado>) empleados.clone();
+	}
 	
 	public Grafo getMalasRelaciones()
 	{
 		return malasRelaciones;
 	}
-	
-	
 }

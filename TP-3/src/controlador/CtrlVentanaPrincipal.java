@@ -64,12 +64,12 @@ public class CtrlVentanaPrincipal implements ActionListener
 		}
 		
 		else if(vPrincipal.estaEnMostrarSolucion())
-			vPrincipal.activarVistaCargarRequerimientos();
+			vPrincipal.activarVistaCargarDatos();
 	}
 
 	private void comenzarCargarDatos() 
 	{
-		vPrincipal.activarVistaCargarRequerimientos();
+		vPrincipal.activarVistaCargarDatos();
 		ctrlCargarDatos.iniciar();
 	}
 	

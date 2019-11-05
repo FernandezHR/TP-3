@@ -60,7 +60,7 @@ public class CtrlCargarCotas
 		if(panelCargarCotas.getMinProgramador() > panelCargarCotas.getMaxProgramador())
 			return false;
 		
-		if(panelCargarCotas.getMinTester() > panelCargarCotas.getMinTester())
+		if(panelCargarCotas.getMinTester() > panelCargarCotas.getMaxTester())
 			return false;
 		
 		return true;
