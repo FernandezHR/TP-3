@@ -92,8 +92,8 @@ public class CtrlVentanaPrincipal implements ActionListener
 	
 	private void comenzarMuestraDeSolucion() 
 	{
-		vPrincipal.activarVistaMostrarSolucion();
 		ctrlMostrarSolucion.iniciar();
+		vPrincipal.activarVistaMostrarSolucion();
 	}
 
 }

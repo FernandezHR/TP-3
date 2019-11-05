@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 import javax.management.RuntimeErrorException;
 
@@ -46,7 +47,9 @@ public class Modelo
 	
 	public void confirmarListaDeEmpleados() 
 	{	
-		malasRelaciones = new Grafo(empleados.size());
+		verificarLista();
+		
+		malasRelaciones = new Grafo(cantEmpleados());
 	}
 
 	public void agregarMalaRelacion(String nombreE1, String nombreE2)
@@ -57,18 +60,7 @@ public class Modelo
 		if(!existeEmpleado(nombreE1) || !existeEmpleado(nombreE2))
 			throw new RuntimeErrorException(null, "No se puede agregar, uno o ambos no existen.");
 		
-		int e1 = 0;
-		int e2 = 0;
-		for(int i=0; i < empleados.size(); i++) 
-		{
-			if(empleados.get(i).getNombre().equals(nombreE1))
-				e1 = i;
-			
-			if(empleados.get(i).getNombre().equals(nombreE2))
-				e2 = i;
-		}
-		
-		malasRelaciones.agregarArista(e1,e2);
+		malasRelaciones.agregarArista(getIndice(nombreE1), getIndice(nombreE2));
 	}
 	
 	public void eliminarMalaRelacion(String nombreE1, String nombreE2)
@@ -79,18 +71,7 @@ public class Modelo
 		if(!existeEmpleado(nombreE1) || !existeEmpleado(nombreE2))
 			throw new RuntimeErrorException(null, "No se puede agregar, uno o ambos no existen.");
 		
-		int e1 = 0;
-		int e2 = 0;
-		for(int i=0; i < empleados.size(); i++) 
-		{
-			if(empleados.get(i).getNombre().equals(nombreE1))
-				e1 = i;
-			
-			if(empleados.get(i).getNombre().equals(nombreE2))
-				e2 = i;
-		}
-		
-		malasRelaciones.borrarArista(e1,e2);
+		malasRelaciones.borrarArista(getIndice(nombreE1), getIndice(nombreE2));
 	}
 
 	public void setCondicionArquitecto(int min, int max) 
@@ -150,6 +131,12 @@ public class Modelo
 			throw new RuntimeErrorException(null, "El empleado '" + nombre + "' nunca fue agregado.");
 	}
 	
+	private void verificarLista() 
+	{
+		if(!haySuficientesEmpleados())
+			throw new RuntimeErrorException(null, "La lista debe contener 1 empleado de cada puesto");
+	}
+
 	private void verificarCondicion(int min, int max) 
 	{
 		if(min <= 0 || max <= 0)
@@ -180,18 +167,19 @@ public class Modelo
 		if(!existeEmpleado(nombreE1) || !existeEmpleado(nombreE2))
 			throw new RuntimeErrorException(null, "Uno o ambos empleados no existe.");
 		
-		int e1 = 0;
-		int e2 = 0;
-		for(int i=0; i < empleados.size(); i++) 
-		{
-			if(empleados.get(i).getNombre().equals(nombreE1))
-				e1 = i;
-			
-			if(empleados.get(i).getNombre().equals(nombreE2))
-				e2 = i;
-		}
+		return malasRelaciones.existeArista(getIndice(nombreE1), getIndice(nombreE2));
+	}
+	
+	private boolean haySuficientesEmpleados() 
+	{
+		long lideres = empleados.stream().filter(e -> e.getPuesto().equals("Lider de Proyecto")).count();
+		long arquitectos = empleados.stream().filter(e -> e.getPuesto().equals("Arquitecto")).count();
+		long programadores = empleados.stream().filter(e -> e.getPuesto().equals("Programador")).count();
+		long testers = empleados.stream().filter(e -> e.getPuesto().equals("Tester")).count();
 		
-		return malasRelaciones.existeArista(e1, e2);
+		if(lideres > 0 && arquitectos > 0 && programadores > 0 && testers > 0)
+			return true;
+		return false;
 	}
 	
 	private boolean listaFueConfirmada() 
@@ -199,6 +187,13 @@ public class Modelo
 		if(malasRelaciones == null)
 			return false;
 		return true;
+	}
+	
+	private boolean esValido(String puesto) 
+	{
+		if(puesto.equals("Programador") || puesto.equals("Lider de Proyecto") || puesto.equals("Arquitecto") || puesto.equals("Tester"))
+			return true;
+		return false;
 	}
 	
 	private Instancia armarInstancia() 
@@ -210,19 +205,28 @@ public class Modelo
 		
 		return instancia;
 	}
-
-	private boolean esValido(String puesto) 
-	{
-		if(puesto.equals("Programador") || puesto.equals("Lider de Proyecto") || puesto.equals("Arquitecto") || puesto.equals("Tester"))
-			return true;
-		return false;
-	}
 	
+	private int getIndice(String nombre) 
+	{
+		int x = IntStream
+				.range(0, cantEmpleados())
+				.filter(i -> empleados.get(i).getNombre().equals(nombre))
+				.findFirst()
+				.getAsInt();
+		
+		return x;
+	}
+
 	//GETTERS
 	@SuppressWarnings("unchecked")
 	public ArrayList<Empleado> getEmpleados() 
 	{
 		return (ArrayList<Empleado>) empleados.clone();
+	}
+	
+	public int cantEmpleados() 
+	{
+		return empleados.size();
 	}
 	
 	public ArrayList<Empleado> getSolucion() 
@@ -235,5 +239,5 @@ public class Modelo
 		return malasRelaciones;
 	}
 	
-
+	
 }

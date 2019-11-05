@@ -32,21 +32,25 @@ public class CtrlMostrarSolucion
 		
 		ArrayList<Empleado> solucion = modelo.getSolucion();
 		
-		solucion.stream()
+		solucion
+		.stream()
 		.filter(e -> e.getPuesto().equals("Lider de Proyecto"))
-		.forEach(e -> panelMostrarSolucion.agregarLider(e.getNombre(), FotosDeEmpleados.getFoto(e.getNombre())));
+		.forEach(e -> panelMostrarSolucion.agregarLider(e.getNombre(), FotosDeEmpleados.get(e.getNombre())));
 		
-		solucion.stream()
+		solucion
+		.stream()
 		.filter(e -> e.getPuesto().equals("Arquitecto"))
-		.forEach(e -> panelMostrarSolucion.agregarArquitecto(e.getNombre(), FotosDeEmpleados.getFoto(e.getNombre())));
+		.forEach(e -> panelMostrarSolucion.agregarArquitecto(e.getNombre(), FotosDeEmpleados.get(e.getNombre())));
 		
-		solucion.stream()
+		solucion
+		.stream()
 		.filter(e -> e.getPuesto().equals("Programador"))
-		.forEach(e -> panelMostrarSolucion.agregarProgramador(e.getNombre(), FotosDeEmpleados.getFoto(e.getNombre())));
+		.forEach(e -> panelMostrarSolucion.agregarProgramador(e.getNombre(), FotosDeEmpleados.get(e.getNombre())));
 		
-		solucion.stream()
+		solucion
+		.stream()
 		.filter(e -> e.getPuesto().equals("Tester"))
-		.forEach(e -> panelMostrarSolucion.agregarTester(e.getNombre(), FotosDeEmpleados.getFoto(e.getNombre())));
+		.forEach(e -> panelMostrarSolucion.agregarTester(e.getNombre(), FotosDeEmpleados.get(e.getNombre())));
 		
 		panelMostrarSolucion.validate();
 	}

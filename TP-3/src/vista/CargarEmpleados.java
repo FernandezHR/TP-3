@@ -138,7 +138,7 @@ public class CargarEmpleados extends JPanel
 		
 		cmboxPuestos = new JComboBox<String>();
 		cmboxPuestos.setPreferredSize(new Dimension(131,30));
-		cmboxPuestos.setModel(new DefaultComboBoxModel<String>(new String[] {null, "Lider de Proyecto", "Arquitecto", "Programador", "Tester"}));
+		cmboxPuestos.setModel(new DefaultComboBoxModel<String>(new String[] {"", "Lider de Proyecto", "Arquitecto", "Programador", "Tester"}));
 		panelCrearEmpleado.add(cmboxPuestos);
 		
 		JLabel lblFoto = new JLabel("Foto:");
@@ -153,7 +153,10 @@ public class CargarEmpleados extends JPanel
 		txtPathFoto.setEditable(false);
 		panelCrearEmpleado.add(txtPathFoto);
 		
-		btnElegirFoto = new JButton("...");
+		btnElegirFoto = new JButton("");
+		btnElegirFoto.setIcon(new ImageIcon(CargarEmpleados.class.getResource("/iconos/subir.png")));
+		btnElegirFoto.setPreferredSize(new Dimension(45, 30));
+		btnElegirFoto.setBackground(verde2.darker());
 		panelCrearEmpleado.add(btnElegirFoto);
 	
 		btnCargar = new JButton("Cargar");
@@ -307,13 +310,13 @@ public class CargarEmpleados extends JPanel
 	}
 	
 	
-	//METODOS
+	//METODOS PUBLICOS
 	
 	public void resetearCampos() 
 	{
 		txtNombre.setText(null);
 		txtApellido.setText(null);
-		cmboxPuestos.setSelectedItem(null);
+		cmboxPuestos.setSelectedItem("");
 		txtPathFoto.setText("Default");
 		cantLiderDeProyecto.setValue(0);
 		cantArquitecto.setValue(0);

@@ -37,14 +37,14 @@ public class Grafo
 		verificarVertice(i);
 		
 		Set<Integer> ret = new HashSet<Integer>();
-		for(int j=0; j<tamano(); ++j) if( i!=j && existeArista(i,j) )
+		for(int j=0; j<tamanio(); ++j) if( i!=j && existeArista(i,j) )
 			ret.add(j);
 		
 		return ret;
 	}
 
 	// Cantidad de vertices
-	public int tamano()
+	public int tamanio()
 	{
 		return A.length;
 	}
@@ -60,7 +60,7 @@ public class Grafo
 	}
 	private void verificarVertice(int i)
 	{
-		if( i < 0 || i >= tamano() )
+		if( i < 0 || i >= tamanio() )
 			throw new IllegalArgumentException("El vertice " + i + " no existe!");
 	}
 

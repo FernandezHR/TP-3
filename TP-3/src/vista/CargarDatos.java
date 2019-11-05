@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 @SuppressWarnings("serial")
 public class CargarDatos extends JPanel
 {
-	public JPanel panelControles;
+	private JPanel panelControles;
 	public CargarIncompatibles panelCargarIncompatibles;
 	public CargarCotas panelCargarCotas;
 	public JTable tablaEmpleados, tablaIncompatibles;
@@ -32,10 +32,10 @@ public class CargarDatos extends JPanel
 		this.setBackground(verde);
 		this.setLayout(new BorderLayout());
 		
-		inicializarComponentes();
+		iniComponentes();
 	}
 	
-	private void inicializarComponentes() 
+	private void iniComponentes() 
 	{
 		iniciarTablas();
 		
@@ -107,6 +107,8 @@ public class CargarDatos extends JPanel
 		};
 		scrollPaneTE.setViewportView(tablaEmpleados);
 	}
+	
+	//METODOS PUBLICOS
 	
 	public void cambiarPanel() 
 	{

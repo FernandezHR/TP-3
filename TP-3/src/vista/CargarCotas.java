@@ -14,9 +14,9 @@ import javax.swing.border.MatteBorder;
 @SuppressWarnings("serial")
 public class CargarCotas extends JPanel
 {
-	public JSpinner minArquitecto, maxArquitecto;
-	public JSpinner minProgramador, maxProgramador;
-	public JSpinner minTester, maxTester;
+	private JSpinner minArquitecto, maxArquitecto;
+	private JSpinner minProgramador, maxProgramador;
+	private JSpinner minTester, maxTester;
 
 	private Color verde, verde2;
 	
@@ -155,6 +155,9 @@ public class CargarCotas extends JPanel
 		maxTester.setPreferredSize(new Dimension(60,25));
 		panelTester.add(maxTester);
 	}
+	
+	
+	//METODOS PUBLICOS 
 	
 	public void setSpinnerArquitecto(int max) 
 	{	

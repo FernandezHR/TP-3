@@ -27,15 +27,15 @@ public class CargarIncompatibles extends JPanel
 		this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
 		this.setBackground(verde);
 		
-		inicializar();
+		iniComponentes();
 	}
 	
-	private void inicializar() 
+	private void iniComponentes() 
 	{
 		//INICIALIZACION DEL PANEL IZQ DEL EMPLEADO 1
 		JPanel panelE1 = new JPanel();
 		panelE1.setBorder(new MatteBorder(0, 10, 0, 10, verde));
-		panelE1.setPreferredSize(new Dimension(250,140));
+		panelE1.setPreferredSize(new Dimension(250,170));
 		panelE1.setBackground(verde2);
 		panelE1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
 		this.add(panelE1);

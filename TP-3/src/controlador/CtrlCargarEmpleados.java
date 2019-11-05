@@ -123,7 +123,8 @@ public class CtrlCargarEmpleados implements ActionListener
 	private void actualizarTablaDeEmpleados() 
 	{
 		ArrayList<Empleado> empleados = modelo.getEmpleados();
-		String matriz[][] = new String[modelo.getEmpleados().size()][2];
+		
+		String matriz[][] = new String[modelo.cantEmpleados()][2];
 		
 		IntStream.range(0, empleados.size())
 		.forEach(i -> {
@@ -236,6 +237,7 @@ public class CtrlCargarEmpleados implements ActionListener
 		DefaultTableModel dtm = (DefaultTableModel) panelCargarEmpleados.tablaEmpleados.getModel();
 		
 		ArrayList<String> nombresEmpleadosSelec = new ArrayList<String>();
+		
 		for(Integer i : indices) 
 			nombresEmpleadosSelec.add((String) dtm.getValueAt(i, 0));
 		

@@ -31,6 +31,7 @@ public class Solver
 		//Caso base
 		if( inicial == instancia.getTamanio())
 		{
+			System.out.println(cont++);
 			if(conjuntoActualNoTieneIncompatibles() && conjuntoActualCumpleMinimos())
 			{
 				ArrayList<Empleado> equipoMaximo = armarMaximoEquipo();

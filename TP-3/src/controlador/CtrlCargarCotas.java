@@ -54,22 +54,13 @@ public class CtrlCargarCotas
 	//Devuelve verdadero si la cota minima no supera a la maxima
 	public boolean tieneCotasValidas() 
 	{
-		int min = panelCargarCotas.getMinArquitecto();
-		int max = panelCargarCotas.getMaxArquitecto();
-		
-		if(min > max)
+		if(panelCargarCotas.getMinArquitecto() > panelCargarCotas.getMaxArquitecto())
 			return false;
 		
-		min = panelCargarCotas.getMinProgramador();
-		max = panelCargarCotas.getMaxProgramador();
-		
-		if(min > max)
+		if(panelCargarCotas.getMinProgramador() > panelCargarCotas.getMaxProgramador())
 			return false;
 		
-		min = panelCargarCotas.getMinTester();
-		max = panelCargarCotas.getMaxTester();
-		
-		if(min > max)
+		if(panelCargarCotas.getMinTester() > panelCargarCotas.getMinTester())
 			return false;
 		
 		return true;

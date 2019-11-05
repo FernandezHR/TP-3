@@ -23,10 +23,10 @@ public class BuscarSolucion extends JPanel
 		this.setLayout(new BorderLayout());
 		this.setBackground(verde);	
 		
-		inicializarComponentes();
+		iniComponentes();
 	}
 
-	private void inicializarComponentes() 
+	private void iniComponentes() 
 	{ 
 		JPanel panelBarraProgreso = new JPanel();
 		panelBarraProgreso.setBorder(new MatteBorder(180, 0, 0, 0, verde));

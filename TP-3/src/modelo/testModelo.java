@@ -7,19 +7,12 @@ import org.junit.Test;
 public class testModelo 
 {
 	//Test sobre agregarEmpleado()//
-	@Test 
-	public void empleadoInexistenteTest()
-	{
-		Modelo modelo = new Modelo();
-		assertFalse(modelo.existeEmpleado("Fernando"));
-	}
-	
 	@Test
 	public void agregarTest()
 	{
 		Modelo modelo = new Modelo();
 		modelo.agregarEmpleado("Luciano", "Arquitecto");
-
+		
 		assertTrue(modelo.existeEmpleado("Luciano"));
 	}
 	
@@ -30,36 +23,117 @@ public class testModelo
 		modelo.agregarEmpleado("Andres", "Tester");
 		modelo.agregarEmpleado("Rodrigo", "Lider de Proyecto");
 		
-		assertEquals(modelo.getEmpleados().size(), 2);
+		assertEquals(modelo.cantEmpleados(), 2);
 	}
 	
 	@Test (expected = RuntimeException.class)
-	public void agregarRepetido()
+	public void agregarNombreRepetidoTest()
 	{
 		Modelo modelo = new Modelo();
 		modelo.agregarEmpleado("Ignacio", "Tester");
-		modelo.agregarEmpleado("Ignacio", "Tester");
+		modelo.agregarEmpleado("Ignacio", "Programador");
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void agregarPuestoInvalidoTest()
+	{
+		Modelo modelo = new Modelo();
+		modelo.agregarEmpleado("Marcos", "Jardinero");
+	}
+	
+	@Test 
+	public void empleadoInexistenteTest()
+	{
+		Modelo modelo = new Modelo();
+		assertFalse(modelo.existeEmpleado("Fernando"));
+	}
+	
+	//Test sobre confirmarLista()//
+	@Test
+	public void confirmarListaCompletaTest()
+	{
+		Modelo modelo = new Modelo();
+		modelo.agregarEmpleado("Brian", "Lider de Proyecto");
+		modelo.agregarEmpleado("Javier", "Arquitecto");
+		modelo.agregarEmpleado("Sandra", "Programador");
+		modelo.agregarEmpleado("Camila", "Tester");
+		
+		modelo.confirmarListaDeEmpleados();
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void confirmarListaSinLider()
+	{
+		Modelo modelo = new Modelo();
+		modelo.agregarEmpleado("Javier", "Arquitecto");
+		modelo.agregarEmpleado("Sandra", "Programador");
+		modelo.agregarEmpleado("Camila", "Tester");
+		
+		modelo.confirmarListaDeEmpleados();
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void confirmarListaSinArquitecto()
+	{
+		Modelo modelo = new Modelo();
+		modelo.agregarEmpleado("Javier", "Lider de Proyecto");
+		modelo.agregarEmpleado("Sandra", "Programador");
+		modelo.agregarEmpleado("Camila", "Tester");
+		
+		modelo.confirmarListaDeEmpleados();
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void confirmarListaSinProgramador()
+	{
+		Modelo modelo = new Modelo();
+		modelo.agregarEmpleado("Javier", "Lider de Proyecto");
+		modelo.agregarEmpleado("Sandra", "Arquitecto");
+		modelo.agregarEmpleado("Camila", "Tester");
+		
+		modelo.confirmarListaDeEmpleados();
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void confirmarListaSinTester()
+	{
+		Modelo modelo = new Modelo();
+		modelo.agregarEmpleado("Javier", "Lider de Proyecto");
+		modelo.agregarEmpleado("Sandra", "Arquitecto");
+		modelo.agregarEmpleado("Camila", "Programador");
+		
+		modelo.confirmarListaDeEmpleados();
 	}
 	
 	@Test (expected = RuntimeException.class)
 	public void agregarConListaConfirmada()
 	{
 		Modelo modelo = new Modelo();
+		modelo.agregarEmpleado("Raul", "Lider de Proyecto");
+		modelo.agregarEmpleado("Nahuel", "Arquitecto");
+		modelo.agregarEmpleado("Marco", "Programador");
+		modelo.agregarEmpleado("Andres", "Tester");
+		
 		modelo.confirmarListaDeEmpleados();
 		
 		modelo.agregarEmpleado("Luciano", "Arquitecto");
 	}
-	
-	@Test (expected = RuntimeException.class)
-	public void AgregarPuestoInvalidoTest()
-	{
-		Modelo modelo = new Modelo();
-		modelo.agregarEmpleado("Marcos", "Jardinero");
-	}
 
 	//Test sobre eliminarEmpleado()//
+	@Test
+	public void eliminarEmpleadoTest()
+	{
+		Modelo modelo = new Modelo();
+		
+		modelo.agregarEmpleado("Luis", "Programador");
+		assertTrue(modelo.existeEmpleado("Luis"));
+		
+		modelo.eliminarEmpleado("Luis");
+		assertFalse(modelo.existeEmpleado("Luis"));
+	}
+	
 	@Test (expected = RuntimeException.class)
-	public void eliminarExistenteTest()
+	public void eliminarInexistenteTest()
 	{
 		Modelo modelo = new Modelo();
 		modelo.eliminarEmpleado("Luis");
@@ -69,41 +143,47 @@ public class testModelo
 	public void eliminarConListaConfirmadaTest()
 	{
 		Modelo modelo = new Modelo();
-		modelo.agregarEmpleado("Luis", "Tester");
+		modelo.agregarEmpleado("Brian", "Lider de Proyecto");
+		modelo.agregarEmpleado("Javier", "Arquitecto");
+		modelo.agregarEmpleado("Sandra", "Programador");
+		modelo.agregarEmpleado("Camila", "Tester");
+		
 		modelo.confirmarListaDeEmpleados();
 		
 		modelo.eliminarEmpleado("Luis");
-	}
-	
-	@Test
-	public void verificarEmpleadoEliminadoTest()
-	{
-		Modelo modelo = new Modelo();
-		modelo.agregarEmpleado("Luis", "Programador");
-		
-		assertTrue(modelo.existeEmpleado("Luis"));
-		
-		modelo.eliminarEmpleado("Luis");
-		assertFalse(modelo.existeEmpleado("Luis"));
 	}
 	
 	//Test sobre agregarMalaRelacion()//
-	@Test (expected = RuntimeException.class)
-	public void relacionConDosInexistentesTest()
+	@Test
+	public void agregarMalaRelacionTest()
 	{
 		Modelo modelo = new Modelo();
+		modelo.agregarEmpleado("Jose", "Lider de Proyecto");
+		modelo.agregarEmpleado("Martin", "Arquitecto");
+		modelo.agregarEmpleado("Arturo", "Programador");
+		modelo.agregarEmpleado("Valentina", "Tester");
+		
 		modelo.confirmarListaDeEmpleados();
-		modelo.agregarMalaRelacion("Luis", "Fernando");
+		
+		modelo.agregarMalaRelacion("Jose", "Martin");
+		
+		assertTrue(modelo.existeMalaRelacionEntre("Jose", "Martin"));
 	}
+	
 	
 	@Test (expected = RuntimeException.class)
 	public void relacionConUnInexistenteTest()
 	{
 		Modelo modelo = new Modelo();
-		modelo.agregarEmpleado("Luis", "Tester");
+	
+		modelo.agregarEmpleado("Brian", "Lider de Proyecto");
+		modelo.agregarEmpleado("Javier", "Arquitecto");
+		modelo.agregarEmpleado("Sandra", "Programador");
+		modelo.agregarEmpleado("Camila", "Tester");
+		
 		modelo.confirmarListaDeEmpleados();
 		
-		modelo.agregarMalaRelacion("Luis", "Fernando");
+		modelo.agregarMalaRelacion("Brian", "Fernando");
 	}
 	
 	@Test (expected = RuntimeException.class)
@@ -112,76 +192,48 @@ public class testModelo
 		Modelo modelo = new Modelo();
 		modelo.agregarMalaRelacion("Luis", "Fernando");
 	}
-
-	@Test
-	public void agregarMalaRelacionTest()
-	{
-		Modelo modelo = new Modelo();
-		modelo.agregarEmpleado("Jose", "Tester");
-		modelo.agregarEmpleado("Martin", "Arquitecto");
-		modelo.confirmarListaDeEmpleados();
-		modelo.agregarMalaRelacion("Jose", "Martin");
-		
-		assertTrue(modelo.existeMalaRelacionEntre("Jose", "Martin"));
-	}
 	  
 	//Test sobre eliminarMalaRelacion()//
-	@Test (expected = RuntimeException.class)
-	public void buenaRelacionDosInvalidosTest()
-	{
-		Modelo modelo = new Modelo();
-		modelo.confirmarListaDeEmpleados();
-		modelo.eliminarMalaRelacion("Luis", "Fernando");
-	}
-	
-	@Test (expected = RuntimeException.class)
-	public void buenaRelacionUnInvalidoTest()
-	{
-		Modelo modelo = new Modelo();
-		modelo.agregarEmpleado("Luis", "Tester");
-		modelo.confirmarListaDeEmpleados();
-		
-		modelo.eliminarMalaRelacion("Luis", "Fernando");
-	}
-	
-	@Test (expected = RuntimeException.class)
-	public void buenaRelacionSinConfirmarListaTest()
-	{
-		Modelo modelo = new Modelo();
-		modelo.eliminarMalaRelacion("Luis", "Fernando");
-	}
-
 	@Test
 	public void eliminarMalaRelacionTest()
 	{
 		Modelo modelo = new Modelo();
-		modelo.agregarEmpleado("Jose", "Tester");
+		modelo.agregarEmpleado("Jose", "Lider de Proyecto");
 		modelo.agregarEmpleado("Martin", "Arquitecto");
-		modelo.confirmarListaDeEmpleados();
-		modelo.eliminarMalaRelacion("Jose", "Martin");
+		modelo.agregarEmpleado("Pedro", "Programador");
+		modelo.agregarEmpleado("Rodrigo", "Tester");
 		
+		modelo.confirmarListaDeEmpleados();
+		
+		modelo.agregarMalaRelacion("Jose", "Martin");
+		assertTrue(modelo.existeMalaRelacionEntre("Jose", "Martin"));
+		
+		modelo.eliminarMalaRelacion("Jose", "Martin");
 		assertFalse(modelo.existeMalaRelacionEntre("Jose", "Martin"));
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void eliminarMalaRelacionConUnInexistenteTest()
+	{
+		Modelo modelo = new Modelo();
+		modelo.agregarEmpleado("Jose", "Lider de Proyecto");
+		modelo.agregarEmpleado("Martin", "Arquitecto");
+		modelo.agregarEmpleado("Pedro", "Programador");
+		modelo.agregarEmpleado("Luis", "Tester");
+		
+		modelo.confirmarListaDeEmpleados();
+		
+		modelo.eliminarMalaRelacion("Luis", "Fernando");
+	}
+	
+	@Test (expected = RuntimeException.class)
+	public void eliminarMalaRelacionSinConfirmarListaTest()
+	{
+		Modelo modelo = new Modelo();
+		modelo.eliminarMalaRelacion("Luis", "Fernando");
 	}
 	  
 	//Test de funciones auxiliares//
-	@Test
-	public void ConfirmarListaVaciaTest()
-	{
-		Modelo modelo = new Modelo();
-		modelo.confirmarListaDeEmpleados();
-		
-		assertTrue(modelo.getMalasRelaciones().tamano() == modelo.getEmpleados().size());	
-	}
-	
-	@Test
-	public void ConfirmarListaCompletaTest()
-	{
-		Modelo modelo = new Modelo();
-		modelo.agregarEmpleado("Emanuel", "Arquitecto");
-		modelo.confirmarListaDeEmpleados();
-		
-		assertTrue(modelo.getMalasRelaciones().tamano() == modelo.getEmpleados().size());	
-	}
 	
 	@Test (expected = RuntimeException.class)
 	public void setCondicionArquitectoNegativo1Test()

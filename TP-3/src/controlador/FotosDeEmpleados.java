@@ -18,7 +18,7 @@ public class FotosDeEmpleados
 		fotosDeEmpleados.remove(nombre);
 	}
 	
-	public static ImageIcon getFoto(String nombre)
+	public static ImageIcon get(String nombre)
 	{
 		return fotosDeEmpleados.get(nombre);
 	}

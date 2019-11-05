@@ -28,10 +28,8 @@ public class ListaDeNombres
 		List<String> nombres = leerFichero("nombres.txt");
 		List<String> apellidos = leerFichero("apellidos.txt");
 		
-		nombres.stream()
-		.forEach(n ->
-		apellidos.stream()
-		.forEach(a -> 
+		nombres.forEach(n -> 
+		apellidos.forEach(a -> 
 		listaDeNombres.add(n + " " + a)));				
 	}
 	
