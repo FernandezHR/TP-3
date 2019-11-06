@@ -8,8 +8,10 @@ public class Solver
 {
 	private Instancia instancia;
 	private Set<Integer> conjuntoActual;
-	int cont = 1;
 	private ArrayList<Empleado> equipoMasOptimo;
+	//Variables de estadistica
+	private int totalIteraciones = 0;
+	private float tiempoTotal = 0;
 	
 	public Solver(Instancia instancia)
 	{
@@ -21,7 +23,12 @@ public class Solver
 		conjuntoActual = new HashSet<Integer>();
 		equipoMasOptimo = new ArrayList<Empleado>();
 
+		long inicio = System.currentTimeMillis();
+		
 		recursion(0);
+		
+		long fin = System.currentTimeMillis();
+		tiempoTotal = ((fin - inicio)/1000);
 		
 		return equipoMasOptimo;
 	}
@@ -31,7 +38,7 @@ public class Solver
 		//Caso base
 		if( inicial == instancia.getTamanio())
 		{
-			System.out.println(cont++);
+			totalIteraciones++;
 			if(conjuntoActualNoTieneIncompatibles() && conjuntoActualCumpleMinimos())
 			{
 				ArrayList<Empleado> equipoMaximo = armarMaximoEquipo();
@@ -127,4 +134,13 @@ public class Solver
 		return instancia.getEmpleados().get(i).getPuesto().equals("Lider de Proyecto");
 	}
 	
+	public int getCantIteraciones() 
+	{
+		return totalIteraciones;
+	}
+	
+	public float getTiempoTotal()
+	{
+		return tiempoTotal;
+	}
 }

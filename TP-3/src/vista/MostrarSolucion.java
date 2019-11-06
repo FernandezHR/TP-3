@@ -20,7 +20,7 @@ public class MostrarSolucion extends JPanel
 {	
 	private JLabel lblMensajeResultado;
 	private JPanel panelLider, panelArquitectos, panelProgramadores, panelTesters;
-	
+	public JButton btnEstadisticas;
 	private Color verde, verde2;
 
 	public MostrarSolucion() 
@@ -87,7 +87,7 @@ public class MostrarSolucion extends JPanel
 		panelSuperior.setLayout(new FlowLayout(FlowLayout.LEADING, 70, 5));
 		this.add(panelSuperior, BorderLayout.NORTH);
 		
-		JButton btnEstadisticas = new JButton("Estadistica");
+		btnEstadisticas = new JButton("Estadistica");
 		btnEstadisticas.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/iconos/estadistica.png")));
 		panelSuperior.add(btnEstadisticas);
 		

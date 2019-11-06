@@ -25,6 +25,7 @@ public class CtrlVentanaPrincipal implements ActionListener
 		ctrlMostrarSolucion = new CtrlMostrarSolucion(modelo, vPrincipal.panelMostrarSolucion);
 		
 		this.vPrincipal.btnAvanzar.addActionListener(this);
+		this.vPrincipal.panelMostrarSolucion.btnEstadisticas.addActionListener(this);
 	}
 	
 	public void iniciar() 
@@ -38,6 +39,13 @@ public class CtrlVentanaPrincipal implements ActionListener
 	{
 		if(arg0.getSource() == vPrincipal.btnAvanzar) 
 			cambiarDePanel();
+		if(arg0.getSource() == vPrincipal.panelMostrarSolucion.btnEstadisticas)
+			mostrarEstadisticas();
+	}
+
+	private void mostrarEstadisticas() 
+	{
+		JOptionPane.showMessageDialog(null, modelo.getEstadisticas(), "Estadisticas",JOptionPane.INFORMATION_MESSAGE);	
 	}
 
 	private void cambiarDePanel() 

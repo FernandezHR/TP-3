@@ -9,6 +9,7 @@ public class Modelo
 {
 	private Grafo malasRelaciones;
 	private ArrayList<Empleado> empleados;
+	private Solver solver;
 	
 	private int minArquitecto, maxArquitecto;
 	private int minProgramador, maxProgramador;
@@ -85,7 +86,7 @@ public class Modelo
 	
 	public void resolver()
 	{	
-		Solver solver = new Solver(armarInstancia());
+		solver = new Solver(armarInstancia());
 		
 		solucion = solver.resolver();
 	}
@@ -208,6 +209,12 @@ public class Modelo
 	public ArrayList<Empleado> getSolucion() 
 	{
 		return solucion;
+	}
+	
+	public String getEstadisticas()
+	{
+		return "Tiempo total de ejecución: " + solver.getTiempoTotal() + "\n"
+				+ "Cantidad de ejecuciones del caso base: " + solver.getCantIteraciones();
 	}
 
 	@SuppressWarnings("unchecked")
