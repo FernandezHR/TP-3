@@ -6,37 +6,13 @@ public class Instancia
 {
 	private Grafo malasRelaciones;
 	private ArrayList<Empleado> empleados;
+	private Requerimiento requerimiento;
 	
-	private int minLider, maxLider;
-	private int minArquitecto, maxArquitecto;
-	private int minProgramador, maxProgramador;
-	private int minTester, maxTester;
-	
-	public Instancia(ArrayList<Empleado> empleados, Grafo malasRelaciones) 
+	public Instancia(ArrayList<Empleado> empleados, Grafo malasRelaciones, Requerimiento requerimiento) 
 	{
 		this.empleados = empleados; 
 		this.malasRelaciones = malasRelaciones;
-		
-		minLider = minArquitecto = minProgramador = minTester = 1;
-		maxLider = maxArquitecto = maxProgramador = maxTester = 1;
-	}
-	
-	public void setCantidadArquitecto(int min, int max) 
-	{
-		minArquitecto = min;
-		maxArquitecto = max;
-	}
-	
-	public void setCantidadProgramador(int min, int max) 
-	{
-		minProgramador = min;
-		maxProgramador = max;
-	}
-	
-	public void setCantidadTester(int min, int max) 
-	{
-		minTester = min;
-		maxTester = max;
+		this.requerimiento = requerimiento;
 	}
 	
 	public boolean sonIncompatibles(int i, int j) 
@@ -44,44 +20,44 @@ public class Instancia
 		return malasRelaciones.existeArista(i, j);
 	}
 	
-	public int maxLider() 
+	public int minLideres() 
 	{
-		return maxLider;
+		return requerimiento.getMinLideres();
 	}
 	
-	public int maxArquitecto() 
+	public int maxLideres() 
 	{
-		return maxArquitecto;
+		return requerimiento.getMaxLideres();
 	}
 	
-	public int maxProgramador() 
+	public int minArquitectos() 
 	{
-		return maxProgramador;
+		return requerimiento.getMinArquitectos();
 	}
 	
-	public int maxTester() 
+	public int maxArquitectos() 
 	{
-		return maxTester;
+		return requerimiento.getMaxArquitectos();
 	}
 	
-	public int minLider() 
+	public int minProgramadores() 
 	{
-		return minLider;
+		return requerimiento.getMinProgramadores();
 	}
 	
-	public int minArquitecto() 
+	public int maxProgramadores() 
 	{
-		return minArquitecto;
+		return requerimiento.getMaxProgramadores();
 	}
 	
-	public int minProgramador() 
+	public int minTesters() 
 	{
-		return minProgramador;
+		return requerimiento.getMinTesters();
 	}
 	
-	public int minTester() 
+	public int maxTesters() 
 	{
-		return minTester;
+		return requerimiento.getMaxTesters();
 	}
 	
 	public ArrayList<Empleado> getEmpleados()

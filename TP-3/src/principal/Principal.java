@@ -1,7 +1,6 @@
 package principal;
 
 import javax.swing.UIManager;
-
 import controlador.CtrlVentanaPrincipal;
 import modelo.Modelo;
 import vista.VentanaPrincipal;

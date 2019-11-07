@@ -1,6 +1,8 @@
 package vista;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,13 +17,16 @@ public class VentanaPrincipal extends JFrame
 	public BuscarSolucion panelBuscarSolucion;
 	public MostrarSolucion panelMostrarSolucion;
 	
-	public JButton btnAvanzar;
+	JPanel panelSur;
+	public JButton btnCambiarPanel, btnNuevo;
 	
-	private Color verde;
+	private Color verde,verde2, naranja;
 	
 	public VentanaPrincipal() 
 	{
 		verde = new Color(21, 182, 141);
+		verde2 = new Color(11, 53, 42);
+		naranja = new Color(140, 95, 5);
 		
 		this.setMinimumSize(new Dimension(750,580));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,17 +46,34 @@ public class VentanaPrincipal extends JFrame
 		panelBuscarSolucion = new BuscarSolucion();
 		panelMostrarSolucion = new MostrarSolucion();
 		
-		btnAvanzar = new JButton("Siguiente");
-		btnAvanzar.setForeground(Color.WHITE);
-		btnAvanzar.setFont(new Font("Nirmala UI", Font.BOLD, 13));
-		btnAvanzar.setFocusable(false);
-		btnAvanzar.setBackground(new Color(11, 53, 42));
-		this.getContentPane().add(btnAvanzar, BorderLayout.SOUTH);			
+		panelSur = new JPanel();
+		panelSur.setLayout(new BorderLayout());
+		panelSur.setBackground(verde);
+		this.getContentPane().add(panelSur, BorderLayout.SOUTH);
+		
+		btnCambiarPanel = new JButton("Siguiente");
+		btnCambiarPanel.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/iconos/flechaDer2.png")));
+		btnCambiarPanel.setPreferredSize(new Dimension(375,30));
+		btnCambiarPanel.setForeground(Color.WHITE);
+		btnCambiarPanel.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		btnCambiarPanel.setFocusable(false);
+		btnCambiarPanel.setBackground(verde2);
+		panelSur.add(btnCambiarPanel, BorderLayout.CENTER);
+		
+		btnNuevo = new JButton("Nuevo");
+		btnNuevo.setForeground(Color.WHITE);
+		btnNuevo.setFont(new Font("Nirmala UI", Font.BOLD, 13));
+		btnNuevo.setFocusable(false);
+		btnNuevo.setBackground(naranja);
 	}
 	
 	public void activarVistaCargarDatos() 
 	{
-		btnAvanzar.setText("BuscarSolucion");
+		btnCambiarPanel.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/iconos/lupa.png")));
+		btnCambiarPanel.setText("Buscar Solucion");
+		panelSur.remove(btnNuevo);
+		panelSur.add(btnCambiarPanel, BorderLayout.CENTER);
+	
 		panelCargarEmpleado.setVisible(false);
 		panelBuscarSolucion.setVisible(false);
 		panelMostrarSolucion.setVisible(false);
@@ -62,7 +84,7 @@ public class VentanaPrincipal extends JFrame
 	
 	public void activarVistaBuscarSolucion() 
 	{
-		btnAvanzar.setVisible(false);
+		panelSur.setVisible(false);
 		panelCargarEmpleado.setVisible(false);
 		panelCargarDatos.setVisible(false);
 		panelMostrarSolucion.setVisible(false);
@@ -73,9 +95,11 @@ public class VentanaPrincipal extends JFrame
 	
 	public void activarVistaMostrarSolucion() 
 	{
-		btnAvanzar.setText("Volver");
-		btnAvanzar.setVisible(true);
-		this.getContentPane().add(btnAvanzar, BorderLayout.SOUTH);
+		btnCambiarPanel.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/iconos/flechaIzq2.png")));
+		btnCambiarPanel.setText("Volver");
+		panelSur.add(btnCambiarPanel, BorderLayout.WEST);
+		panelSur.add(btnNuevo, BorderLayout.CENTER);
+		panelSur.setVisible(true);
 		
 		panelCargarEmpleado.setVisible(false);
 		panelCargarDatos.setVisible(false);

@@ -1,29 +1,37 @@
 package controlador;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import modelo.Empleado;
 import modelo.Modelo;
 import vista.MostrarSolucion;
 
-public class CtrlMostrarSolucion
+public class CtrlMostrarSolucion implements ActionListener
 {
 	private MostrarSolucion panelMostrarSolucion;
 	private Modelo modelo;
 	
-	public CtrlMostrarSolucion(Modelo modelo, MostrarSolucion mtrSolucion )
+	public CtrlMostrarSolucion(Modelo modelo, MostrarSolucion panelMostrarSolucion)
 	{
 		this.modelo = modelo;
-		this.panelMostrarSolucion = mtrSolucion;
+		this.panelMostrarSolucion = panelMostrarSolucion;
+		
+		this.panelMostrarSolucion.btnEstadisticas.addActionListener(this);
 	}
 	
 	public void iniciar() 
 	{
 		if(seEncontroSolucion()) 
-			panelMostrarSolucion.setMensaje("Equipo que cumple con los requisitos");
+		{
+			panelMostrarSolucion.activarVistaConSolucion();
+			cargarEquipoElegido();
+		}
 		else
-			panelMostrarSolucion.setMensaje("No fue posible formar un equipo con los requerimientos dados");
-		
-		cargarEquipoElegido();
+			panelMostrarSolucion.activarVistaSinSolucion();
 	}
 	
 	private void cargarEquipoElegido() 
@@ -59,5 +67,15 @@ public class CtrlMostrarSolucion
 	{
 		return !modelo.getSolucion().isEmpty();
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) 
+	{
+		if(arg0.getSource() == panelMostrarSolucion.btnEstadisticas)
+			JOptionPane.showMessageDialog(null, modelo.getEstadisticas(), "Estadisticas",JOptionPane.INFORMATION_MESSAGE);	
+		
+	}
+	
+	
 }
 

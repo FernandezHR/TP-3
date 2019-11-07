@@ -18,9 +18,12 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class MostrarSolucion extends JPanel
 {	
-	private JLabel lblMensajeResultado;
+	private JPanel panelSinSolucion;
+	
+	private JPanel panelConSolucion;
 	private JPanel panelLider, panelArquitectos, panelProgramadores, panelTesters;
 	public JButton btnEstadisticas;
+	
 	private Color verde, verde2;
 
 	public MostrarSolucion() 
@@ -31,15 +34,37 @@ public class MostrarSolucion extends JPanel
 		this.setBackground(verde);
 		this.setLayout(new BorderLayout());
 		
-		iniComponentes();
+		iniPanelConSolucion();
+		iniPanelSinSolucion();
 	}
 
-	private void iniComponentes() 
+	private void iniPanelSinSolucion() 
+	{	
+		panelSinSolucion = new JPanel();
+		panelSinSolucion.setLayout(new FlowLayout(FlowLayout.CENTER,1000,50));
+		panelSinSolucion.setBackground(verde);
+		
+		JLabel lblImagen = new JLabel();
+		lblImagen.setPreferredSize(new Dimension(300,300));
+		lblImagen.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/iconos/errorBusqueda.png")));
+		panelSinSolucion.add(lblImagen);
+		
+		JLabel lblMensaje = new JLabel("No hay un conjunto que cumpla con las condiciones dadas.");
+		lblMensaje.setFont(new Font("Nirmala UI", Font.BOLD, 25));
+		lblMensaje.setForeground(Color.WHITE);
+		panelSinSolucion.add(lblMensaje);	
+	}
+
+	private void iniPanelConSolucion() 
 	{
+		panelConSolucion = new JPanel();
+		panelConSolucion.setLayout(new BorderLayout());
+		
 		JPanel panelEquipo = new JPanel();
-		panelEquipo.setBorder(new MatteBorder(10, 0, 0, 0, verde));
+		panelEquipo.setBackground(verde);
+		panelEquipo.setBorder(new MatteBorder(0, 0, 0, 0, verde));
 		panelEquipo.setLayout(new BoxLayout(panelEquipo, BoxLayout.Y_AXIS));
-		this.add(panelEquipo, BorderLayout.CENTER);
+		panelConSolucion.add(panelEquipo, BorderLayout.CENTER);
 		
 		//PANEL LIDER
 		JScrollPane scrollLider = new JScrollPane();
@@ -73,35 +98,40 @@ public class MostrarSolucion extends JPanel
 		
 		//PANEL TESTERS
 		JScrollPane scrollTester = new JScrollPane();
-		scrollTester.setBorder(new MatteBorder(0, 0, 0, 0, verde));
+		scrollTester.setBorder(null);
 		panelEquipo.add(scrollTester);
 		
 		panelTesters = new JPanel();
 		panelTesters.setBackground(verde2);
 		panelTesters.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 5));
 		scrollTester.setViewportView(panelTesters);
-
+		
 		JPanel panelSuperior = new JPanel();
 		panelSuperior.setBackground(verde);
 		panelSuperior.setPreferredSize(new Dimension(496,40));
-		panelSuperior.setLayout(new FlowLayout(FlowLayout.LEADING, 70, 5));
-		this.add(panelSuperior, BorderLayout.NORTH);
+		panelSuperior.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panelConSolucion.add(panelSuperior, BorderLayout.NORTH);
 		
 		btnEstadisticas = new JButton("Estadistica");
 		btnEstadisticas.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/iconos/estadistica.png")));
-		panelSuperior.add(btnEstadisticas);
-		
-		lblMensajeResultado = new JLabel("Equipo que cumple con los requisitos");
-		lblMensajeResultado.setFont(new Font("Nirmala UI", Font.BOLD, 16));
-		lblMensajeResultado.setForeground(Color.WHITE);
-		panelSuperior.add(lblMensajeResultado);	
+		btnEstadisticas.setPreferredSize(new Dimension(300,30));
+		panelSuperior.add(btnEstadisticas);	
 	}
 	
 
 	//METODOS PUBLICOS
-	public void setMensaje(String mensaje) 
+	public void activarVistaSinSolucion() 
 	{
-		lblMensajeResultado.setText(mensaje);
+		panelConSolucion.setVisible(false);
+		panelSinSolucion.setVisible(true);
+		this.add(panelSinSolucion, BorderLayout.CENTER);
+	}
+	
+	public void activarVistaConSolucion() 
+	{
+		panelSinSolucion.setVisible(false);
+		panelConSolucion.setVisible(true);
+		this.add(panelConSolucion, BorderLayout.CENTER);
 	}
 	
 	public void limpiarFotos() 

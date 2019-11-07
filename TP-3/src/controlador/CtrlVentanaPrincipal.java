@@ -24,8 +24,8 @@ public class CtrlVentanaPrincipal implements ActionListener
 		ctrlCargarDatos = new CtrlCargarDatos(modelo, vPrincipal.panelCargarDatos);
 		ctrlMostrarSolucion = new CtrlMostrarSolucion(modelo, vPrincipal.panelMostrarSolucion);
 		
-		this.vPrincipal.btnAvanzar.addActionListener(this);
-		this.vPrincipal.panelMostrarSolucion.btnEstadisticas.addActionListener(this);
+		this.vPrincipal.btnCambiarPanel.addActionListener(this);
+		this.vPrincipal.btnNuevo.addActionListener(this);
 	}
 	
 	public void iniciar() 
@@ -37,15 +37,11 @@ public class CtrlVentanaPrincipal implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{
-		if(arg0.getSource() == vPrincipal.btnAvanzar) 
+		if(arg0.getSource() == vPrincipal.btnCambiarPanel) 
 			cambiarDePanel();
-		if(arg0.getSource() == vPrincipal.panelMostrarSolucion.btnEstadisticas)
-			mostrarEstadisticas();
-	}
-
-	private void mostrarEstadisticas() 
-	{
-		JOptionPane.showMessageDialog(null, modelo.getEstadisticas(), "Estadisticas",JOptionPane.INFORMATION_MESSAGE);	
+		
+		if(arg0.getSource() == vPrincipal.btnNuevo) 
+			abrirNuevaVentana();
 	}
 
 	private void cambiarDePanel() 
@@ -104,4 +100,8 @@ public class CtrlVentanaPrincipal implements ActionListener
 		vPrincipal.activarVistaMostrarSolucion();
 	}
 
+	private void abrirNuevaVentana() 
+	{
+		principal.Principal.main(null);
+	}
 }

@@ -7,22 +7,17 @@ import javax.management.RuntimeErrorException;
 
 public class Modelo 
 {
-	private Grafo malasRelaciones;
 	private ArrayList<Empleado> empleados;
-	private Solver solver;
-	
-	private int minArquitecto, maxArquitecto;
-	private int minProgramador, maxProgramador;
-	private int minTester, maxTester;
-	
+	private Grafo malasRelaciones;
+	private Requerimiento requerimiento;
 	private ArrayList<Empleado> solucion;
+	
+	private Solver solver;
 
 	public Modelo() 
 	{
 		empleados = new ArrayList<Empleado>();
-		
-		minArquitecto = minProgramador = minTester = 1;
-		maxArquitecto = maxProgramador = maxTester = 0;
+		requerimiento = new Requerimiento();
 	}
 	
 	public void agregarEmpleado(String nombre, String puesto) 
@@ -64,36 +59,31 @@ public class Modelo
 	{
 		verificarCondicion(min, max);
 		
-		minArquitecto = min;
-		maxArquitecto = max;
+		requerimiento.setMinArquitectos(min); 
+		requerimiento.setMaxArquitectos(max);
 	}
 
 	public void setCondicionProgramador(int min, int max) 
 	{
 		verificarCondicion(min, max);
 		
-		minProgramador = min;
-		maxProgramador = max;
+		requerimiento.setMinProgramadores(min);
+		requerimiento.setMaxProgramadores(max);
 	}
 	
 	public void setCondicionTester(int min, int max) 
 	{
 		verificarCondicion(min, max);
 		
-		minTester = min;
-		maxTester = max;
+		requerimiento.setMinTesters(min);
+		requerimiento.setMaxTesters(max);
 	}
 	
 	public void resolver()
 	{	
-		solver = new Solver(armarInstancia());
+		solver = new Solver(new Instancia(empleados, malasRelaciones, requerimiento));
 		
 		solucion = solver.resolver();
-	}
-	
-	public boolean existeSolucion()
-	{
-		return !solucion.isEmpty();
 	}
 	
 	private void verificarAgregado(String nombre, String puesto) 
@@ -135,10 +125,10 @@ public class Modelo
 	private void verificarCondicion(int min, int max) 
 	{
 		if(min <= 0 || max <= 0)
-			throw new RuntimeErrorException(null, "No puede agregar un minimo o maximo menor/igual a cero");
+			throw new IllegalArgumentException("No puede agregar un minimo o maximo menor/igual a cero");
 		
 		if(min > max)
-			throw new RuntimeErrorException(null, "El minimo no puede ser mayor al maximo");
+			throw new IllegalArgumentException("El minimo no puede ser mayor al maximo");
 	}
 	
 	//Metodos Auxiliares
@@ -180,16 +170,10 @@ public class Modelo
 		return false;
 	}
 	
-	private Instancia armarInstancia() 
-	{	
-		Instancia instancia = new Instancia(empleados, malasRelaciones);
-		instancia.setCantidadArquitecto(minArquitecto, maxArquitecto);
-		instancia.setCantidadProgramador(minProgramador, maxProgramador);
-		instancia.setCantidadTester(minTester, maxTester);
-		
-		return instancia;
+	public boolean existeSolucion()
+	{
+		return !solucion.isEmpty();
 	}
-	
 	
 	private int getIndice(String nombre) 
 	{
@@ -199,7 +183,6 @@ public class Modelo
 				.findFirst()
 				.getAsInt();
 	}
-
 	
 	public int cantEmpleados() 
 	{
@@ -208,12 +191,15 @@ public class Modelo
 	
 	public ArrayList<Empleado> getSolucion() 
 	{
+		if(solucion == null)
+			throw new RuntimeErrorException(null, "Llame primero a la funcion resolver()");
+		
 		return solucion;
 	}
 	
 	public String getEstadisticas()
 	{
-		return "Tiempo total de ejecución: " + solver.getTiempoTotal() + "\n"
+		return "Tiempo total de ejecución: " + solver.getTiempoTotal() + " seg"+ "\n"
 				+ "Cantidad de ejecuciones del caso base: " + solver.getCantIteraciones();
 	}
 

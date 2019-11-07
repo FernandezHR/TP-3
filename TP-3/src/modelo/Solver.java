@@ -9,9 +9,10 @@ public class Solver
 	private Instancia instancia;
 	private Set<Integer> conjuntoActual;
 	private ArrayList<Empleado> equipoMasOptimo;
+	
 	//Variables de estadistica
 	private int totalIteraciones = 0;
-	private float tiempoTotal = 0;
+	private double tiempoTotal = 0;
 	
 	public Solver(Instancia instancia)
 	{
@@ -28,7 +29,7 @@ public class Solver
 		recursion(0);
 		
 		long fin = System.currentTimeMillis();
-		tiempoTotal = ((fin - inicio)/1000);
+		tiempoTotal = (double) (fin - inicio)/1000;
 		
 		return equipoMasOptimo;
 	}
@@ -65,25 +66,25 @@ public class Solver
 		
 		for(Integer i : conjuntoActual)
 		{
-			if(esLider(i) && contLider < instancia.maxLider())
+			if(esLider(i) && contLider < instancia.maxLideres())
 			{
 				equipoMaximo.add(instancia.getEmpleados().get(i));
 				contLider++;
 			}
 			
-			if(esArquitecto(i) && contArquitecto < instancia.maxArquitecto())
+			if(esArquitecto(i) && contArquitecto < instancia.maxArquitectos())
 			{
 				equipoMaximo.add(instancia.getEmpleados().get(i));
 				contArquitecto++;
 			}
 			
-			if(esProgramador(i) && contProgramador < instancia.maxProgramador())
+			if(esProgramador(i) && contProgramador < instancia.maxProgramadores())
 			{
 				equipoMaximo.add(instancia.getEmpleados().get(i));
 				contProgramador++;
 			}
 			
-			if(esTester(i) && contTester < instancia.maxTester())
+			if(esTester(i) && contTester < instancia.maxTesters())
 			{
 				equipoMaximo.add(instancia.getEmpleados().get(i));
 				contTester++;
@@ -110,8 +111,8 @@ public class Solver
 		int cantArq = (int) conjuntoActual.stream().filter(i -> esProgramador(i)).count();
 		int cantTest = (int) conjuntoActual.stream().filter(i -> esTester(i)).count();
 	
-		return cantLider >= instancia.minLider() && cantArq >= instancia.minArquitecto() 
-				&& cantProg >= instancia.minProgramador() && cantTest >= instancia.minTester();
+		return cantLider >= instancia.minLideres() && cantArq >= instancia.minArquitectos() 
+				&& cantProg >= instancia.minProgramadores() && cantTest >= instancia.minTesters();
 	}
 
 	private boolean esTester(Integer i) 
@@ -139,7 +140,7 @@ public class Solver
 		return totalIteraciones;
 	}
 	
-	public float getTiempoTotal()
+	public double getTiempoTotal()
 	{
 		return tiempoTotal;
 	}

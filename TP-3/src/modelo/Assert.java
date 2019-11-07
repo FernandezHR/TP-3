@@ -12,6 +12,6 @@ public class Assert
 		assertEquals(expected.size(), obtained.size());
 		
 		for(Empleado empleado: expected)
-			assertTrue( obtained.contains(empleado) );
+			assertTrue( obtained.contains(empleado));
 	}
 }
